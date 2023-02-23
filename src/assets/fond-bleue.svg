@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" width="41" height="41">
+	<title>Nouveau projet</title>
+	<defs>
+		<image  width="41" height="41" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAMAAACfvvDEAAAAAXNSR0IB2cksfwAAADNQTFRFAAAAhdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/hdT/26dF+gAAABF0Uk5TACBfn7/v/4/fMGCgkMDw4FDxci62AAAAz0lEQVR4nLWV2xKDIAxEA4VUUoP+/9dW7Ngql7J0pvt8JrtJJBJdZOzNeWb27m4NtWUdn+Vsi5s411Rjgyu4vW7IQfFVcEssGdjgkgQFL+h38ISGVsZ31qOtetdnOcz7418OvNSElnwV7adM2pIaCGQ2oHmyf4DkTAqSSr39HPIEgsx/ISMIxoHe8XniO8L3DgbVoe+TFgBcBt8RkFSP997bU3yf0p7/+sNdGrh1G9rKGlfKFOoT0Np/QcoVLFLhdvZaV1tckpFZU+Kos2S+T4iTIUWcSDbyAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+	</style>
+	<use id="Calque 1" style="opacity: .2" href="#img1" x="0" y="0"/>
+</svg>

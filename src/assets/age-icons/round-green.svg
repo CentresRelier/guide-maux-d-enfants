@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+	<title>round-green-svg</title>
+	<defs>
+		<image  width="41" height="41" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApBAMAAABaTh3FAAAAAXNSR0IB2cksfwAAACFQTFRFAAAAYMCJYcCJYMCHX8CJXr+JW76GXL6IYbyMY76NYb6NLlUt2gAAAAt0Uk5TAAD/AAAAAAAAAADYV6q0AAAAc0lEQVR4nO2SUQqAMAxDa1HPMfIlfolH8yieWCjTdWsm+G8+H2kKbURMA0xJvHbcclAf6NwjQDAqxXlnBoh5amkiAZm20CLmSDcSYBGcHpGCLftpoRrh8u3q/Judz3PKG9VpH29qbS5lVwZFzjDv3au86QIbO1n3YfByiQAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="img1" style="opacity: .3" href="#img1" x="0" y="0"/>
+</svg>
