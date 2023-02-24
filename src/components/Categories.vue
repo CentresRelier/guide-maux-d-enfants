@@ -11,7 +11,7 @@
         :buttonTexte="'Discrimination'"
         :urlIcon="discriminationUrl"/>
       <FilterButton
-        :buttonTexte="'Harcélement'"
+        :buttonTexte="'Harcèlement'"
         :urlIcon="harasmentUrl"/>
       <FilterButton
         :buttonTexte="'Santé mentale'"
