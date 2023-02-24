@@ -70,6 +70,8 @@ module.exports = {
     
     'prefer-promise-reject-errors': 'off',
 
+    "linebreak-style": ["error", (process.platform === "win32" ? "windows" : "unix")], // https://stackoverflow.com/q/39114446/2771889
+
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
