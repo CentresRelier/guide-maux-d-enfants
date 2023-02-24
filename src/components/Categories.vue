@@ -35,11 +35,11 @@ import FilterButton from 'components/FilterButton.vue';
 import { ref } from 'vue';
 
 const addictionUrl = ref('src/assets/thematique-icons/addiction.png');
-const violenceUrl = ref('src/assets/thematique-icons/discrimination.png');
-const discriminationUrl = ref('src/assets/thematique-icons/harcèlement.png');
-const harasmentUrl = ref('src/assets/thematique-icons/santémentale.png');
-const mentalHealthUrl = ref('src/assets/thematique-icons/sexualité.png');
-const sexualityUrl = ref('src/assets/thematique-icons/violence.png');
+const violenceUrl = ref('src/assets/thematique-icons/violence.png');
+const discriminationUrl = ref('src/assets/thematique-icons/discrimination.png');
+const harasmentUrl = ref('src/assets/thematique-icons/harcèlement.png');
+const mentalHealthUrl = ref('src/assets/thematique-icons/santémentale.png');
+const sexualityUrl = ref('src/assets/thematique-icons/sexualité.png');
 
 </script>
 
