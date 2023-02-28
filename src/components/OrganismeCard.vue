@@ -9,12 +9,12 @@
             </div>
           </div>
           <div class="col-md-12">
-            <p class="title-coordinates">coordonnées</p>
+            <p class="title-coordinates">Coordonnées</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
           <div class="col-md-12 q-mb-md">
-            <p class="title-thematique">thématique</p>
+            <p class="title-thematique">Thématique</p>
             <br>
             <div v-if="organisme.thematique.length <= 4" class="row">
               <div class="col-md-1">
@@ -182,7 +182,7 @@
             </div>
           </div>
           <div class="col-md-12 q-pr-lg texte-container">
-            <p class="title-description">description</p>
+            <p class="title-description">Description</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
           </div>
