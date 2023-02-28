@@ -16,7 +16,8 @@
           <div class="col-md-12 q-mb-md">
             <p class="title-thematique">Thématique(s)</p>
             <br>
-            <div v-if="organisme.thematique.length <= 3" class="row">
+            <!--<div v-if="organisme.thematique.length <= 3" class="row">-->
+            <div class="row">
               <div class="col-md-1">
               </div>
               <div class="col-md-10">
@@ -93,6 +94,7 @@
               <div class="col-md-1">
               </div>
             </div>
+            <!--
             <div v-if="organisme.thematique.length > 3" class="row">
               <div class="col-md-2">
               </div>
@@ -169,8 +171,82 @@
               </div>
               <div class="col-md-2">
               </div>
+            </div>-->
+          </div>
+
+          <div class="col-md-12 q-mb-md">
+            <p class="title-thematique">Âge(s)</p>
+            <br>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-10">
+                <div class="row row-icons">
+                  <div v-if="organisme.age.includes('Petite enfance')" class="icon-container">
+                    <q-img src="../assets/age-icons/petiteenfance.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Petite enfance</strong>
+                    </q-tooltip>
+                  </div>
+                  <!--TODO: normalize between Enfance & Primaire-->
+                  <div v-if="organisme.age.includes('Enfance')" class="icon-container">
+                    <q-img src="../assets/age-icons/primaire.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Primaire</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Collège')"
+                          class="icon-container">
+                    <q-img src="../assets/age-icons/collège2.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Collège</strong>
+                    </q-tooltip>
+                  </div>
+                  <!--TODO: normalize Ado / Lycée-->
+                  <div v-if="organisme.age.includes('Lycée')" class="icon-container">
+                    <q-img src="../assets/age-icons/ado.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Lycée</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Jeune adulte')" class="icon-container">
+                    <q-img src="../assets/age-icons/jeuneadulte.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Jeune adulte</strong>
+                    </q-tooltip>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
             </div>
           </div>
+
         </div>
       </div>
       <div class="col-md-8">
