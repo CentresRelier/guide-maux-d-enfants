@@ -130,12 +130,11 @@ const getData = async () => {
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: Object.values(organisme.attributes.perimeters.data.map((perimeter) => ({
+      perimeter: Object.values(organisme.attributes.perimetres.data.map((perimeter) => ({
         ...perimeter,
         name: perimeter.attributes.perimetres,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    console.log(organismes.value);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
