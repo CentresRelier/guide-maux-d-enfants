@@ -119,7 +119,7 @@ const getData = async () => {
       img: organisme.attributes.img.data[0].attributes.url,
       description: organisme.attributes.description,
       website: organisme.attributes.website,
-      coordinate: organisme.attributes.coordonees,
+      coordinate: organisme.attributes.coordonnees,
       contact: organisme.attributes.contact,
       email: organisme.attributes.email,
       thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
