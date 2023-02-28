@@ -13,6 +13,7 @@
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
+
           <div class="col-md-12 q-mb-md">
             <p class="title-thematique">Thématique(s)</p>
             <br>
@@ -94,6 +95,7 @@
               <div class="col-md-1">
               </div>
             </div>
+
             <!--
             <div v-if="organisme.thematique.length > 3" class="row">
               <div class="col-md-2">
@@ -175,7 +177,7 @@
           </div>
 
           <div class="col-md-12 q-mb-md">
-            <p class="title-thematique">Âge(s)</p>
+            <p class="title-age">Âge(s)</p>
             <br>
             <div class="row">
               <div class="col-md-1">
@@ -193,7 +195,6 @@
                       <strong>Petite enfance</strong>
                     </q-tooltip>
                   </div>
-                  <!--TODO: normalize between Enfance & Primaire-->
                   <div v-if="organisme.age.includes('Enfance')" class="icon-container">
                     <q-img src="../assets/age-icons/primaire.png"
                            height="55px"
@@ -217,7 +218,6 @@
                       <strong>Collège</strong>
                     </q-tooltip>
                   </div>
-                  <!--TODO: normalize Ado / Lycée-->
                   <div v-if="organisme.age.includes('Lycée')" class="icon-container">
                     <q-img src="../assets/age-icons/ado.png"
                            height="55px"
@@ -339,7 +339,7 @@ export default {
   margin: 0 24px 15px 24px;
 }
 
-.title-thematique {
+.title-thematique, .title-age {
   font-weight: 900;
   color: $accent;
   font-size: 18px;
