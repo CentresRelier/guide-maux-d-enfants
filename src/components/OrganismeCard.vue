@@ -9,13 +9,13 @@
             </div>
           </div>
           <div class="col-md-12">
-            <p class="title-coordinates">Coordonnées</p>
+            <p class="title-coordinates">Coordonnées :</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
 
           <div class="col-md-12 q-mb-md">
-            <p class="title-thematique">Thématique(s)</p>
+            <p class="title-thematique">Thématiques :</p>
             <br>
             <div v-if="organisme.thematique.length <= 3" class="row">
               <div class="col-md-1">
@@ -258,11 +258,11 @@
             </div>
           </div>
           <div class="col-md-12 q-pr-lg texte-container">
-            <p class="title-description">Description</p>
+            <p class="title-description">Description :</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
           </div>
-          <div class="col-md-12 q-mb-md button-container">
+          <div class="col-md-12 q-mb-md button-container absolute-bottom">
             <router-link
               class="link"
               :to="{ name: 'organismeDetail', params: { id: organisme.id } }">
