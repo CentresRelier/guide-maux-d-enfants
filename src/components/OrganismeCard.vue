@@ -16,7 +16,7 @@
           <div class="col-md-12 q-mb-md">
             <p class="title-thematique">Thématique(s)</p>
             <br>
-            <div v-if="organisme.thematique.length <= 4" class="row">
+            <div v-if="organisme.thematique.length <= 3" class="row">
               <div class="col-md-1">
               </div>
               <div class="col-md-10">
@@ -43,7 +43,8 @@
                       <strong>Violence</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('Discimination')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                          class="icon-container">
                     <q-img src="../assets/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
@@ -92,12 +93,12 @@
               <div class="col-md-1">
               </div>
             </div>
-            <div v-if="organisme.thematique.length > 4" class="row">
+            <div v-if="organisme.thematique.length > 3" class="row">
               <div class="col-md-2">
               </div>
               <div class="col-md-8">
                 <div class="row row-icons">
-                  <div v-if="organisme.thematique.includes('addiction')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
                     <q-img src="../assets/thematique-icons/addiction.png"
                            height="55px"
                            width="55px"/>
@@ -108,7 +109,7 @@
                       <strong>Addiction</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('violence')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
                     <q-img src="../assets/thematique-icons/violence.png"
                            height="55px"
                            width="55px"/>
@@ -119,7 +120,8 @@
                       <strong>Violence</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('discimination')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                          class="icon-container">
                     <q-img src="../assets/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
@@ -130,7 +132,7 @@
                       <strong>Discrimination</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('harcèlement')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
                     <q-img src="../assets/thematique-icons/harcèlement.png"
                            height="55px"
                            width="55px"/>
@@ -141,7 +143,7 @@
                       <strong>Harcèlement</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('santé mentale')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
                     <q-img src="../assets/thematique-icons/santémentale.png"
                            height="55px"
                            width="55px"/>
@@ -152,7 +154,7 @@
                       <strong>Santé mentale</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('sexualité')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
                     <q-img src="../assets/thematique-icons/sexualité.png"
                            height="55px"
                            width="55px"/>
