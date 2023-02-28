@@ -113,11 +113,10 @@ const footerTexteButton = ref('Inscrire mon organisme');
 const getData = async () => {
   try {
     const dataOrganismes = await axios.get('http://localhost:1337/api/organismes?populate=*');
-    console.log(dataOrganismes);
+    // console.log(dataOrganismes);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
-      // TODO: make it work
       img: organisme.attributes.img.data[0].attributes.url,
       description: organisme.attributes.description,
       website: organisme.attributes.website,
@@ -132,14 +131,14 @@ const getData = async () => {
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: Object.values(organisme.attributes.perimeters.data.map((perimeter) => ({
+      perimeter: Object.values(organisme.attributes.perimetres.data.map((perimeter) => ({
         ...perimeter,
         name: perimeter.attributes.perimetres,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    console.log(organismes);
+    // console.log(organismes);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
       caption: 'Merci de réesayer ultérieurement',
