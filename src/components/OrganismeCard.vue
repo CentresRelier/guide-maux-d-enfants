@@ -9,19 +9,20 @@
             </div>
           </div>
           <div class="col-md-12">
-            <p class="title-coordinates">Coordonnées</p>
+            <p class="title-coordinates">Coordonnées :</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
+
           <div class="col-md-12 q-mb-md">
-            <p class="title-thematique">Thématique</p>
+            <p class="title-thematique">Thématiques :</p>
             <br>
-            <div v-if="organisme.thematique.length <= 4" class="row">
+            <div v-if="organisme.thematique.length <= 3" class="row">
               <div class="col-md-1">
               </div>
               <div class="col-md-10">
                 <div class="row row-icons">
-                  <div v-if="organisme.thematique.includes('addiction')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
                     <q-img src="../assets/thematique-icons/addiction.png"
                            height="55px"
                            width="55px"/>
@@ -32,7 +33,7 @@
                       <strong>Addiction</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('violence')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
                     <q-img src="../assets/thematique-icons/violence.png"
                            height="55px"
                            width="55px"/>
@@ -43,7 +44,8 @@
                       <strong>Violence</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('discimination')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                          class="icon-container">
                     <q-img src="../assets/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
@@ -54,7 +56,7 @@
                       <strong>Discrimination</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('harcèlement')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
                     <q-img src="../assets/thematique-icons/harcèlement.png"
                            height="55px"
                            width="55px"/>
@@ -65,7 +67,7 @@
                       <strong>Harcèlement</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('santé mentale')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
                     <q-img src="../assets/thematique-icons/santémentale.png"
                            height="55px"
                            width="55px"/>
@@ -76,7 +78,7 @@
                       <strong>Santé mentale</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('sexualité')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
                     <q-img src="../assets/thematique-icons/sexualité.png"
                            height="55px"
                            width="55px"/>
@@ -92,12 +94,13 @@
               <div class="col-md-1">
               </div>
             </div>
-            <div v-if="organisme.thematique.length > 4" class="row">
+
+            <div v-if="organisme.thematique.length > 3" class="row">
               <div class="col-md-2">
               </div>
               <div class="col-md-8">
                 <div class="row row-icons">
-                  <div v-if="organisme.thematique.includes('addiction')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
                     <q-img src="../assets/thematique-icons/addiction.png"
                            height="55px"
                            width="55px"/>
@@ -108,7 +111,7 @@
                       <strong>Addiction</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('violence')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
                     <q-img src="../assets/thematique-icons/violence.png"
                            height="55px"
                            width="55px"/>
@@ -119,7 +122,8 @@
                       <strong>Violence</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('discimination')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                          class="icon-container">
                     <q-img src="../assets/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
@@ -130,7 +134,7 @@
                       <strong>Discrimination</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('harcèlement')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
                     <q-img src="../assets/thematique-icons/harcèlement.png"
                            height="55px"
                            width="55px"/>
@@ -141,7 +145,7 @@
                       <strong>Harcèlement</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('santé mentale')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
                     <q-img src="../assets/thematique-icons/santémentale.png"
                            height="55px"
                            width="55px"/>
@@ -152,7 +156,7 @@
                       <strong>Santé mentale</strong>
                     </q-tooltip>
                   </div>
-                  <div v-if="organisme.thematique.includes('sexualité')" class="icon-container">
+                  <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
                     <q-img src="../assets/thematique-icons/sexualité.png"
                            height="55px"
                            width="55px"/>
@@ -169,6 +173,78 @@
               </div>
             </div>
           </div>
+
+          <!--<div class="col-md-12 q-mb-md">
+            <p class="title-age">Âge(s)</p>
+            <br>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-10">
+                <div class="row row-icons">
+                  <div v-if="organisme.age.includes('Petite enfance')" class="icon-container">
+                    <q-img src="../assets/age-icons/petiteenfance.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Petite enfance</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Enfance')" class="icon-container">
+                    <q-img src="../assets/age-icons/primaire.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Primaire</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Collège')"
+                          class="icon-container">
+                    <q-img src="../assets/age-icons/collège2.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Collège</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Lycée')" class="icon-container">
+                    <q-img src="../assets/age-icons/ado.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Lycée</strong>
+                    </q-tooltip>
+                  </div>
+                  <div v-if="organisme.age.includes('Jeune adulte')" class="icon-container">
+                    <q-img src="../assets/age-icons/jeuneadulte.png"
+                           height="55px"
+                           width="55px"/>
+                    <q-tooltip class="tooltip bg-secondary"
+                               anchor="top middle"
+                               self="bottom middle"
+                               :offset="[0, 5]">
+                      <strong>Jeune adulte</strong>
+                    </q-tooltip>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+            </div>
+          </div>-->
+
         </div>
       </div>
       <div class="col-md-8">
@@ -182,11 +258,11 @@
             </div>
           </div>
           <div class="col-md-12 q-pr-lg texte-container">
-            <p class="title-description">Description</p>
+            <p class="title-description">Description :</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
           </div>
-          <div class="col-md-12 q-mb-md button-container">
+          <div class="col-md-12 q-mb-md button-container absolute-bottom">
             <router-link
               class="link"
               :to="{ name: 'organismeDetail', params: { id: organisme.id } }">
@@ -261,7 +337,7 @@ export default {
   margin: 0 24px 15px 24px;
 }
 
-.title-thematique {
+.title-thematique, .title-age {
   font-weight: 900;
   color: $accent;
   font-size: 18px;
