@@ -17,8 +17,7 @@
           <div class="col-md-12 q-mb-md">
             <p class="title-thematique">Thématique(s)</p>
             <br>
-            <!--<div v-if="organisme.thematique.length <= 3" class="row">-->
-            <div class="row">
+            <div v-if="organisme.thematique.length <= 3" class="row">
               <div class="col-md-1">
               </div>
               <div class="col-md-10">
@@ -96,7 +95,6 @@
               </div>
             </div>
 
-            <!--
             <div v-if="organisme.thematique.length > 3" class="row">
               <div class="col-md-2">
               </div>
@@ -173,10 +171,10 @@
               </div>
               <div class="col-md-2">
               </div>
-            </div>-->
+            </div>
           </div>
 
-          <div class="col-md-12 q-mb-md">
+          <!--<div class="col-md-12 q-mb-md">
             <p class="title-age">Âge(s)</p>
             <br>
             <div class="row">
@@ -245,7 +243,7 @@
               <div class="col-md-1">
               </div>
             </div>
-          </div>
+          </div>-->
 
         </div>
       </div>
