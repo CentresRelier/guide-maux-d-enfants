@@ -113,7 +113,6 @@ const footerTexteButton = ref('Inscrire mon organisme');
 const getData = async () => {
   try {
     const dataOrganismes = await axios.get('http://localhost:1337/api/organismes?populate=*');
-    // console.log(dataOrganismes);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
@@ -136,9 +135,7 @@ const getData = async () => {
         name: perimeter.attributes.perimetres,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    // console.log(organismes);
   } catch (error) {
-    // console.log(error);
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
       caption: 'Merci de réesayer ultérieurement',
