@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="col-md-12">
-            <p class="title-coordinates">coordonées</p>
+            <p class="title-coordinates">coordonnées</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
