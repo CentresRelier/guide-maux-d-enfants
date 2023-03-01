@@ -46,7 +46,8 @@ export default {
       } else {
         this.selectedFilters.push(filter);
       }
-      console.log(this.selectedFilters);
+      const SF = this.selectedFilters;
+      this.$emit('filtersUpdated', SF);
     },
   },
 };

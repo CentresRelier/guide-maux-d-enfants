@@ -23,7 +23,6 @@ export default {
     toggleFilter() {
       this.selected = !this.selected;
       this.$emit('filterSelected');
-      // console.log(this.buttonTexte + this.selected);
     },
   },
 };

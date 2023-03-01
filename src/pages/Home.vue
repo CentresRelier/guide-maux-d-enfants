@@ -14,7 +14,7 @@
       <div class="col-md-8">
         <div class="row row-filter">
           <div class="categories-container q-pr-sm">
-            <Categories />
+            <Categories v-on:filtersUpdated="filterCards" />
           </div>
           <div class="age-range-container">
             <AgeRange />
@@ -68,6 +68,16 @@
 <script>
 export default {
   name: 'home-page',
+  data() {
+    return {
+      selectedFilters: [],
+    };
+  },
+  methods: {
+    filterCards(selectedFilters) {
+      this.selectedFilters = selectedFilters;
+    },
+  },
 };
 </script>
 
