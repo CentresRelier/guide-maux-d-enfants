@@ -31,7 +31,9 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard :organisme="organisme"/>
+          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))"
+                    :organisme="organisme" />
+          <OrganismeCard v-else class="hidden" :organisme="organisme" />
         </div>
       </div>
       <div class="col-md-2">
@@ -70,12 +72,14 @@ export default {
   name: 'home-page',
   data() {
     return {
-      selectedFilters: [],
+      // show every thematic initially
+      selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
     };
   },
   methods: {
     filterCards(selectedFilters) {
       this.selectedFilters = selectedFilters;
+      // console.log(selectedFilters);
     },
   },
 };
@@ -146,7 +150,7 @@ const getData = async () => {
         name: perimeter.attributes.perimetre,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    // console.log(organismes);
+    // console.log(organismes.value);
   } catch (error) {
     // console.log(error);
     $q.notify({
