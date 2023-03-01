@@ -3,22 +3,28 @@
     <div class="row q-pt-lg">
       <FilterButton
         :buttonTexte="'Addiction'"
-        :urlIcon="addictionUrl"/>
+        :urlIcon="addictionUrl"
+        v-on:filterSelected="updateFilters('Addiction')"/>
       <FilterButton
         :buttonTexte="'Violence'"
-        :urlIcon="violenceUrl"/>
+        :urlIcon="violenceUrl"
+        v-on:filterSelected="updateFilters('Violence')"/>
       <FilterButton
         :buttonTexte="'Discrimination'"
-        :urlIcon="discriminationUrl"/>
+        :urlIcon="discriminationUrl"
+        v-on:filterSelected="updateFilters('Discrimination')"/>
       <FilterButton
         :buttonTexte="'Harcèlement'"
-        :urlIcon="harasmentUrl"/>
+        :urlIcon="harasmentUrl"
+        v-on:filterSelected="updateFilters('Harcèlement')"/>
       <FilterButton
         :buttonTexte="'Santé mentale'"
-        :urlIcon="mentalHealthUrl"/>
+        :urlIcon="mentalHealthUrl"
+        v-on:filterSelected="updateFilters('Santé mentale')"/>
       <FilterButton
         :buttonTexte="'Sexualité'"
-        :urlIcon="sexualityUrl"/>
+        :urlIcon="sexualityUrl"
+        v-on:filterSelected="updateFilters('Sexualité')"/>
     </div>
     <div class="button-container row">
     </div>
@@ -28,6 +34,21 @@
 <script>
 export default {
   name: 'categories-component',
+  data() {
+    return {
+      selectedFilters: [],
+    };
+  },
+  methods: {
+    updateFilters(filter) {
+      if (this.selectedFilters.includes(filter)) {
+        this.selectedFilters.splice(this.selectedFilters.indexOf(filter), 1);
+      } else {
+        this.selectedFilters.push(filter);
+      }
+      console.log(this.selectedFilters);
+    },
+  },
 };
 </script>
 <script setup>
