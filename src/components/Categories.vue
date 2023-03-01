@@ -1,5 +1,5 @@
 <template>
-  <q-card class="card-categories q-pr-sm q-pl-sm">
+  <q-card class="card-categories q-pr-sm q-pl-sm q-hoverable">
     <div class="row q-pt-lg">
       <FilterButton
         :buttonTexte="'Addiction'"

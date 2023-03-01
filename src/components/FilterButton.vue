@@ -1,6 +1,6 @@
 <template>
   <div class="button-container">
-    <div class="button">
+    <div class="button" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px"></q-img>
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
     </div>
@@ -13,6 +13,17 @@ export default {
   props: {
     urlIcon: String,
     buttonTexte: String,
+  },
+  data() {
+    return {
+      selected: false,
+    };
+  },
+  methods: {
+    toggleFilter() {
+      this.selected = !this.selected;
+      // console.log(this.buttonTexte + this.selected);
+    },
   },
 };
 </script>
