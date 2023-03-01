@@ -121,20 +121,20 @@ const getData = async () => {
       img: organisme.attributes.img.data[0].attributes.url,
       description: organisme.attributes.description,
       website: organisme.attributes.website,
-      coordinate: organisme.attributes.coordonees,
+      coordinate: organisme.attributes.coordonnees,
       contact: organisme.attributes.contact,
       email: organisme.attributes.email,
       thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
         ...thematique,
-        name: thematique.attributes.thematiques,
+        name: thematique.attributes.thematique,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
       age: Object.values(organisme.attributes.ages.data.map((age) => ({
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: Object.values(organisme.attributes.perimeters.data.map((perimeter) => ({
+      perimeter: Object.values(organisme.attributes.perimetres.data.map((perimeter) => ({
         ...perimeter,
-        name: perimeter.attributes.perimetres,
+        name: perimeter.attributes.perimetre,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
     console.log(organismes);
