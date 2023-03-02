@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))"
+          <OrganismeCard v-if="selectedFilters.every(r=> organisme.thematique.includes(r))"
                     :organisme="organisme" />
           <OrganismeCard v-else class="hidden" :organisme="organisme" />
         </div>
