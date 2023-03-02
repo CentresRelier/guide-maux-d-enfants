@@ -17,7 +17,7 @@
             <Categories v-on:filtersUpdated="filterCards" />
           </div>
           <div class="age-range-container">
-            <AgeRange />
+            <AgeRange v-on:ageFiltersUpdated="filterCardsWithAge" />
           </div>
         </div>
         <div class="q-pt-lg">
@@ -31,7 +31,8 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))"
+          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))
+                    && organisme.age.some(r=> selectedAgeFilters.includes(r))"
                     :organisme="organisme" />
           <OrganismeCard v-else class="hidden" :organisme="organisme" />
         </div>
@@ -72,9 +73,12 @@ export default {
   name: 'home-page',
   data() {
     return {
-      // show every thematic initially
+      // show every thematic & age initially
       selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
+      selectedAgeFilters: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
+      // update the following arrays each time an additional filter is created
       ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
+      ALL_AGE_FILTERS: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
     };
   },
   methods: {
@@ -85,6 +89,14 @@ export default {
         this.selectedFilters = selectedFilters;
       }
       // console.log(selectedFilters);
+    },
+    filterCardsWithAge(selectedAgeFilters) {
+      if (selectedAgeFilters.length === 0) {
+        this.selectedAgeFilters = this.ALL_AGE_FILTERS;
+      } else {
+        this.selectedAgeFilters = selectedAgeFilters;
+      }
+      // console.log(selectedAgeFilters);
     },
   },
 };
@@ -155,7 +167,7 @@ const getData = async () => {
         name: perimeter.attributes.perimetre,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    // console.log(organismes.value);
+    console.log(organismes.value);
   } catch (error) {
     // console.log(error);
     $q.notify({
