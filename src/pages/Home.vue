@@ -74,11 +74,16 @@ export default {
     return {
       // show every thematic initially
       selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
+      ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
     };
   },
   methods: {
     filterCards(selectedFilters) {
-      this.selectedFilters = selectedFilters;
+      if (selectedFilters.length === 0) {
+        this.selectedFilters = this.ALL_FILTERS;
+      } else {
+        this.selectedFilters = selectedFilters;
+      }
       // console.log(selectedFilters);
     },
   },
