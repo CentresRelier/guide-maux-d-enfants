@@ -2,11 +2,16 @@
   <div>
     <q-card class="card-range q-pr-sm q-pl-sm">
       <div class="row q-pt-lg">
-        <FilterButton :urlIcon="enfance" :buttonTexte="'Petite enfance'"/>
-        <FilterButton :urlIcon="primaire" :buttonTexte="'Primaire'"/>
-        <FilterButton :urlIcon="college" :buttonTexte="'Collège'"/>
-        <FilterButton :urlIcon="lycee" :buttonTexte="'Lycée'"/>
-        <FilterButton :urlIcon="adulte" :buttonTexte="'Jeune adulte'"/>
+        <FilterButton :urlIcon="enfance" :buttonTexte="'Petite enfance'"
+                  v-on:filterSelected="updateFilters('Petite enfance')"/>
+        <FilterButton :urlIcon="primaire" :buttonTexte="'Primaire'"
+                  v-on:filterSelected="updateFilters('Enfance')"/>
+        <FilterButton :urlIcon="college" :buttonTexte="'Collège'"
+                  v-on:filterSelected="updateFilters('Collège')"/>
+        <FilterButton :urlIcon="lycee" :buttonTexte="'Lycée'"
+                  v-on:filterSelected="updateFilters('Lycée')"/>
+        <FilterButton :urlIcon="adulte" :buttonTexte="'Jeune adulte'"
+                  v-on:filterSelected="updateFilters('Jeune adulte')"/>
       </div>
     </q-card>
   </div>
@@ -15,6 +20,22 @@
 <script>
 export default {
   name: 'agerange-component',
+  data() {
+    return {
+      selectedAgeFilters: [],
+    };
+  },
+  methods: {
+    updateFilters(ageFilter) {
+      if (this.selectedAgeFilters.includes(ageFilter)) {
+        this.selectedAgeFilters.splice(this.selectedAgeFilters.indexOf(ageFilter), 1);
+      } else {
+        this.selectedAgeFilters.push(ageFilter);
+      }
+      const SELECTED_AGE_FILTERS = this.selectedAgeFilters;
+      this.$emit('ageFiltersUpdated', SELECTED_AGE_FILTERS);
+    },
+  },
 };
 </script>
 <script setup>
