@@ -14,7 +14,7 @@
       <div class="col-md-8">
         <div class="row row-filter">
           <div class="categories-container q-pr-sm">
-            <Categories />
+            <Categories v-on:filtersUpdated="filterCards" />
           </div>
           <div class="age-range-container">
             <AgeRange />
@@ -31,7 +31,9 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard :organisme="organisme"/>
+          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))"
+                    :organisme="organisme" />
+          <OrganismeCard v-else class="hidden" :organisme="organisme" />
         </div>
       </div>
       <div class="col-md-2">
@@ -68,6 +70,23 @@
 <script>
 export default {
   name: 'home-page',
+  data() {
+    return {
+      // show every thematic initially
+      selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
+      ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
+    };
+  },
+  methods: {
+    filterCards(selectedFilters) {
+      if (selectedFilters.length === 0) {
+        this.selectedFilters = this.ALL_FILTERS;
+      } else {
+        this.selectedFilters = selectedFilters;
+      }
+      // console.log(selectedFilters);
+    },
+  },
 };
 </script>
 
@@ -113,11 +132,10 @@ const footerTexteButton = ref('Inscrire mon organisme');
 const getData = async () => {
   try {
     const dataOrganismes = await axios.get('http://localhost:1337/api/organismes?populate=*');
-    console.log(dataOrganismes);
+    // console.log(dataOrganismes);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
-      // TODO: make it work
       img: organisme.attributes.img.data[0].attributes.url,
       description: organisme.attributes.description,
       website: organisme.attributes.website,
@@ -137,9 +155,9 @@ const getData = async () => {
         name: perimeter.attributes.perimetre,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
-    console.log(organismes);
+    // console.log(organismes.value);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
       caption: 'Merci de réesayer ultérieurement',

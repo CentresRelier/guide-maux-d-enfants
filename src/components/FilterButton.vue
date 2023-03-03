@@ -1,7 +1,11 @@
 <template>
   <div class="button-container">
-    <div class="button">
-      <q-img class="img" :src="urlIcon" height="58px" width="58px"></q-img>
+    <div v-if="this.selected" class="button selected" @click="toggleFilter">
+      <q-img class="img" :src="urlIcon" height="58px" width="58px" />
+      <p class="texte q-pt-sm">{{ buttonTexte }}</p>
+    </div>
+    <div v-else class="button" @click="toggleFilter">
+      <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
     </div>
   </div>
@@ -13,6 +17,24 @@ export default {
   props: {
     urlIcon: String,
     buttonTexte: String,
+  },
+  data() {
+    return {
+      selected: false,
+    };
+  },
+  methods: {
+    toggleFilter() {
+      this.selected = !this.selected;
+      /*
+      if (this.selected === true) {
+        this.class += 'input:checked';
+      } else {
+        this.class.remove('input:checked');
+      }
+      */
+      this.$emit('filterSelected');
+    },
   },
 };
 </script>
@@ -85,6 +107,10 @@ export default {
 .action input:checked + span {
   background-color: #F75A1B;
 
+}
+
+.selected {
+  background-color:rgba(0, 132, 255, 0.979);
 }
 
 </style>
