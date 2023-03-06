@@ -1,5 +1,6 @@
 <template>
-  <q-input  dense debounce="400" model-value="" class="search">
+  <q-input  dense debounce="400" model-value="" class="search" type="text"
+            placeholder="Veuillez entrer une ville ou un code postal...">
     <template v-slot:prepend>
       <q-icon name="room" class="search-button q-pl-sm"/>
     </template>
