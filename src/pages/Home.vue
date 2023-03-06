@@ -141,7 +141,7 @@ const footerTexteButton = ref('Inscrire mon organisme');
 
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get('http://localhost:1337/api/organismes?populate=*');
+    const dataOrganismes = await axios.get(`http://${window.location.hostname}:1337/api/organismes?populate=*`);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
