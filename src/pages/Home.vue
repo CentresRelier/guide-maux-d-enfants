@@ -103,6 +103,9 @@ export default {
         this.selectedAgeFilters = selectedAgeFilters;
       }
     },
+    filterInput(text) {
+      console.log(text); // TODO
+    },
   },
 };
 </script>
