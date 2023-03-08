@@ -118,6 +118,7 @@ import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 
 const $q = useQuasar();
+const $BASEPATH = `http://${window.location.hostname}:1337`;
 
 const current = ref(1);
 const organismes = ref([]);
@@ -141,7 +142,7 @@ const footerTexteButton = ref('Inscrire mon organisme');
 
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get(`http://${window.location.hostname}:1337/api/organismes?populate=*`);
+    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
