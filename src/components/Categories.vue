@@ -56,12 +56,12 @@ export default {
 import FilterButton from 'components/FilterButton.vue';
 import { ref } from 'vue';
 
-const addictionUrl = ref('src/assets/thematique-icons/addiction.png');
-const violenceUrl = ref('src/assets/thematique-icons/violence.png');
-const discriminationUrl = ref('src/assets/thematique-icons/discrimination.png');
-const harasmentUrl = ref('src/assets/thematique-icons/harcelement.png');
-const mentalHealthUrl = ref('src/assets/thematique-icons/santementale.png');
-const sexualityUrl = ref('src/assets/thematique-icons/sexualite.png');
+const addictionUrl = ref('statics/thematique-icons/addiction.png');
+const violenceUrl = ref('statics/thematique-icons/violence.png');
+const discriminationUrl = ref('statics/thematique-icons/discrimination.png');
+const harasmentUrl = ref('statics/thematique-icons/harcelement.png');
+const mentalHealthUrl = ref('statics/thematique-icons/santementale.png');
+const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
 
 </script>
 

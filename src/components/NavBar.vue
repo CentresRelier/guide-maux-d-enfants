@@ -6,7 +6,7 @@
       <div class="col-xs-11 col-sm-8 col-md-8 col2">
         <div class="row">
           <div class="col-xs-1 col-sm-2 col-md-3 col-logo">
-            <q-img src="../assets/CR_logo.svg" height="70px" width="109px"/>
+            <q-img src="statics/CR_logo.svg" height="70px" width="109px"/>
           </div>
           <div class="col-xs-1 col-sm-2 col-md-9 col-link">
             <div class="row row-link">

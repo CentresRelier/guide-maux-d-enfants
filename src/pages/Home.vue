@@ -8,7 +8,7 @@
     <div class="row q-pt-md">
       <div class="col-md-2">
         <div class="q-pt-xl ellipse-left-home">
-          <q-img src="../assets/ellipse-home-left.png" height="280" width="124"></q-img>
+          <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>
       <div class="col-md-8">
@@ -142,7 +142,26 @@ const footerTexteButton = ref('Inscrire mon organisme');
 
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`);
+    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+    console.log(dataOrganismes);
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
@@ -165,6 +184,7 @@ const getData = async () => {
         name: perimeter.attributes.perimetre,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
     }));
+    console.log(organismes.value);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
@@ -172,6 +192,7 @@ const getData = async () => {
       color: 'red-9',
       position: 'top',
     });
+    console.log(error, error.message);
   }
 };
 

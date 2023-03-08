@@ -34,8 +34,8 @@ export default {
   height: 370px;
   background-color: $green;
   background-image:
-    url( '../assets/ellipse1-green-left-svg.svg' ),
-    url( '../assets/ellipse2-green-right-svg.svg' );
+    url( 'statics/ellipse1-green-left-svg.svg' ),
+    url( 'statics/ellipse2-green-right-svg.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 0%;
 }
