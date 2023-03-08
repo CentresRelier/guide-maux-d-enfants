@@ -246,7 +246,7 @@ import axios from 'axios';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
-const $basePath = `http://${window.location.hostname}:1337`;
+const $BASEPATH = `http://${window.location.hostname}:1337`;
 
 const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -336,7 +336,7 @@ function isAgeTrue() {
 
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get(`${$basePath}/api/organismes/${route.params.id}?populate=*`);
+    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes/${route.params.id}?populate=*`);
     const arr = [];
     const datas = dataOrganismes.data.data;
     arr.push(datas);
