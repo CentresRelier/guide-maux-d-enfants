@@ -57,7 +57,7 @@ export default {
 
 .button:hover {
   background-image:
-    url( '../assets/thematique-icons/round-blue.svg' );
+    url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
 }

@@ -225,8 +225,8 @@ const headTitle = ref('Inscrire un organisme\n'
   margin-top: 100px;
   background-color: $green;
   background-image:
-    url( '../assets/ellipse1-green-head-left.svg' ),
-    url( '../assets/ellipse1-green-head-right.svg' );
+    url( 'statics/ellipse1-green-head-left.svg' ),
+    url( 'statics/ellipse1-green-head-right.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 0%;
 }
@@ -245,8 +245,8 @@ const headTitle = ref('Inscrire un organisme\n'
   height: 250px;
   background-color: $green;
   background-image:
-    url( '../assets/ellipse1-green-left-svg.svg' ),
-    url( '../assets/ellipse2-green-right-svg.svg' );
+    url( 'statics/ellipse1-green-left-svg.svg' ),
+    url( 'statics/ellipse2-green-right-svg.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 0%;
 }

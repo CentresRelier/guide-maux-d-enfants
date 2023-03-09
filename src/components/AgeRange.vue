@@ -42,11 +42,11 @@ export default {
 import FilterButton from 'components/FilterButton.vue';
 import { ref } from 'vue';
 
-const enfance = ref('src/assets/age-icons/petiteenfance.png');
-const primaire = ref('src/assets/age-icons/primaire.png');
-const college = ref('src/assets/age-icons/college.png');
-const lycee = ref('src/assets/age-icons/ado.png');
-const adulte = ref('src/assets/age-icons/jeuneadulte.png');
+const enfance = ref('statics/age-icons/petiteenfance.png');
+const primaire = ref('statics/age-icons/primaire.png');
+const college = ref('statics/age-icons/college.png');
+const lycee = ref('statics/age-icons/ado.png');
+const adulte = ref('statics/age-icons/jeuneadulte.png');
 </script>
 
 <style lang="scss" scoped>

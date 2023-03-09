@@ -57,7 +57,7 @@
                 <div class="row row-perimeter">
                   <div v-if="municipal" class="perimeter-container">
                     <div class="perimeter-icon-container">
-                      <q-img src="../assets/perimeter-icons/municipal.png"
+                      <q-img src="statics/perimeter-icons/municipal.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -67,7 +67,7 @@
                 <div class="row row-perimeter">
                   <div v-if="national" class="perimeter-container">
                     <div class="perimeter-icon-container">
-                      <q-img src="../assets/perimeter-icons/national.png"
+                      <q-img src="statics/perimeter-icons/national.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -77,7 +77,7 @@
                 <div class="row row-perimeter">
                   <div v-if="regional" class="perimeter-container">
                     <div class="perimeter-icon-container">
-                      <q-img src="../assets/perimeter-icons/region.png"
+                      <q-img src="statics/perimeter-icons/region.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -86,7 +86,7 @@
                 </div>
                 <div v-if="departemental" class="perimeter-container">
                   <div class="perimeter-icon-container">
-                    <q-img src="../assets/perimeter-icons/departemental.png"
+                    <q-img src="statics/perimeter-icons/departemental.png"
                            height="55px"
                            width="55px"/>
                   </div>
@@ -120,7 +120,7 @@
                 <div class="row row-thematique">
                   <div v-if="addiction" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/addiction.png"
+                      <q-img src="statics/thematique-icons/addiction.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -128,7 +128,7 @@
                   </div>
                   <div v-if="violence" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/violence.png"
+                      <q-img src="statics/thematique-icons/violence.png"
                              height="55px"
                              width="55px"/>
 
@@ -137,7 +137,7 @@
                   </div>
                   <div v-if="discrimination" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/discrimination.png"
+                      <q-img src="statics/thematique-icons/discrimination.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -145,7 +145,7 @@
                   </div>
                   <div v-if="harassment" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/harcelement.png"
+                      <q-img src="statics/thematique-icons/harcelement.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -153,7 +153,7 @@
                   </div>
                   <div v-if="mentalHealth" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/santementale.png"
+                      <q-img src="statics/thematique-icons/santementale.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -161,7 +161,7 @@
                   </div>
                   <div v-if="sexuality" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/sexualite.png"
+                      <q-img src="statics/thematique-icons/sexualite.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -176,7 +176,7 @@
                 <div class="row row-age">
                   <div v-if="earlyChildhood" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/petiteenfance.png"
+                      <q-img src="statics/age-icons/petiteenfance.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -184,7 +184,7 @@
                   </div>
                   <div v-if="primaire" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/primaire.png"
+                      <q-img src="statics/age-icons/primaire.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -192,7 +192,7 @@
                   </div>
                   <div v-if="college" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/college.png"
+                      <q-img src="statics/age-icons/college.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -200,7 +200,7 @@
                   </div>
                   <div v-if="lycee" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/ado.png"
+                      <q-img src="statics/age-icons/ado.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -208,7 +208,7 @@
                   </div>
                   <div v-if="youngAdulte" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/jeuneadulte.png"
+                      <q-img src="statics/age-icons/jeuneadulte.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -502,7 +502,7 @@ onMounted(() => {
 
 .perimeter-icon-container {
   background-image:
-    url( '../assets/perimeter-icons/round-yellow.svg' );
+    url( 'statics/perimeter-icons/round-yellow.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 0 20px;
@@ -511,7 +511,7 @@ onMounted(() => {
 
 .thematique-icon-container {
   background-image:
-    url( '../assets/thematique-icons/round-blue.svg' );
+    url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;
@@ -519,7 +519,7 @@ onMounted(() => {
 
 .age-icon-container {
   background-image:
-    url( '../assets/age-icons/round-green.svg' );
+    url( 'statics/age-icons/round-green.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;

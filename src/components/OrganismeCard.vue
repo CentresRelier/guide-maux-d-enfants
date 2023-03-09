@@ -23,7 +23,7 @@
               <div class="col-md-10">
                 <div class="row row-icons">
                   <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/addiction.png"
+                    <q-img src="statics/thematique-icons/addiction.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -34,7 +34,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/violence.png"
+                    <q-img src="statics/thematique-icons/violence.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -46,7 +46,7 @@
                   </div>
                   <div v-if="organisme.thematique.includes('Discrimination')"
                           class="icon-container">
-                    <q-img src="../assets/thematique-icons/discrimination.png"
+                    <q-img src="statics/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -57,7 +57,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/harcelement.png"
+                    <q-img src="statics/thematique-icons/harcelement.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -68,7 +68,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/santementale.png"
+                    <q-img src="statics/thematique-icons/santementale.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -79,7 +79,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/sexualite.png"
+                    <q-img src="statics/thematique-icons/sexualite.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -101,7 +101,7 @@
               <div class="col-md-8">
                 <div class="row row-icons">
                   <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/addiction.png"
+                    <q-img src="statics/thematique-icons/addiction.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -112,7 +112,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/violence.png"
+                    <q-img src="statics/thematique-icons/violence.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -124,7 +124,7 @@
                   </div>
                   <div v-if="organisme.thematique.includes('Discrimination')"
                           class="icon-container">
-                    <q-img src="../assets/thematique-icons/discrimination.png"
+                    <q-img src="statics/thematique-icons/discrimination.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -135,7 +135,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/harcelement.png"
+                    <q-img src="statics/thematique-icons/harcelement.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -146,7 +146,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/santementale.png"
+                    <q-img src="statics/thematique-icons/santementale.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -157,7 +157,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/sexualite.png"
+                    <q-img src="statics/thematique-icons/sexualite.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -298,7 +298,7 @@ const $BASEPATH = `http://${window.location.hostname}:1337`;
   border: 4px solid $accent;
   border-radius: 15px;
   width: 980px;
-  background-image: url( '../assets/background-card.png' );
+  background-image: url( 'statics/background-card.png' );
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center, 100%, 0%;
@@ -400,7 +400,7 @@ const $BASEPATH = `http://${window.location.hostname}:1337`;
 
 .icon-container {
   background-image:
-    url( '../assets/thematique-icons/round-blue.svg' );
+    url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 5px 10px 5px;
