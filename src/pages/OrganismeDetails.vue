@@ -192,7 +192,7 @@
                   </div>
                   <div v-if="college" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/college2.png"
+                      <q-img src="../assets/age-icons/college.png"
                              height="55px"
                              width="55px"/>
                     </div>
