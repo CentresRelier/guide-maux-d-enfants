@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-12 col">
             <div class="img-container q-mt-md q-ml-md">
-              <img class="img" :src="$BASEPATH + organisme.img" />
+              <img class="img" :src="organisme.img" />
             </div>
           </div>
           <div class="col-md-12">
@@ -290,7 +290,6 @@ export default {
 
 </script>
 <script setup>
-const $BASEPATH = `http://${window.location.hostname}:1337`;
 </script>
 
 <style lang="scss" scoped>
