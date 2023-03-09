@@ -44,7 +44,7 @@ import { ref } from 'vue';
 
 const enfance = ref('src/assets/age-icons/petiteenfance.png');
 const primaire = ref('src/assets/age-icons/primaire.png');
-const college = ref('src/assets/age-icons/collège2.png');
+const college = ref('src/assets/age-icons/college.png');
 const lycee = ref('src/assets/age-icons/ado.png');
 const adulte = ref('src/assets/age-icons/jeuneadulte.png');
 </script>

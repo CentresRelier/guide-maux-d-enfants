@@ -95,7 +95,7 @@
               </div>
             </div>
             <div class="col-md-12">
-              <p class="block-title coordinate">Coordonées</p>
+              <p class="block-title coordinate">Coordonnées</p>
               <p class="coordinate-texte">{{ organisme.coordinate }}</p>
             </div>
             <div class="col-md-12">
@@ -145,7 +145,7 @@
                   </div>
                   <div v-if="harassment" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/harcèlement.png"
+                      <q-img src="../assets/thematique-icons/harcelement.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -153,7 +153,7 @@
                   </div>
                   <div v-if="mentalHealth" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/santémentale.png"
+                      <q-img src="../assets/thematique-icons/santementale.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -161,7 +161,7 @@
                   </div>
                   <div v-if="sexuality" class="thematique-container">
                     <div class="thematique-icon-container">
-                      <q-img src="../assets/thematique-icons/sexualité.png"
+                      <q-img src="../assets/thematique-icons/sexualite.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -192,7 +192,7 @@
                   </div>
                   <div v-if="college" class="thematique-container">
                     <div class="age-icon-container">
-                      <q-img src="../assets/age-icons/collège2.png"
+                      <q-img src="../assets/age-icons/college2.png"
                              height="55px"
                              width="55px"/>
                     </div>
@@ -248,7 +248,7 @@ import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const $BASEPATH = `http://${window.location.hostname}:1337`;
 
-const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi Des organismes gratuits pour accompagner vos enfants');
+const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi \n Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
 const footerTitle = ref('Ces informations sont recueillies automatiquement depuis le site internet de l\'organisme. \n'
   + 'Aidez nous à mettre à jour les informations.');
