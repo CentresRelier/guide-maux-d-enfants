@@ -57,7 +57,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/harcèlement.png"
+                    <q-img src="../assets/thematique-icons/harcelement.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -68,7 +68,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/santémentale.png"
+                    <q-img src="../assets/thematique-icons/santementale.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -79,7 +79,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/sexualité.png"
+                    <q-img src="../assets/thematique-icons/sexualite.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -135,7 +135,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/harcèlement.png"
+                    <q-img src="../assets/thematique-icons/harcelement.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -146,7 +146,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/santémentale.png"
+                    <q-img src="../assets/thematique-icons/santementale.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -157,7 +157,7 @@
                     </q-tooltip>
                   </div>
                   <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="../assets/thematique-icons/sexualité.png"
+                    <q-img src="../assets/thematique-icons/sexualite.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
@@ -206,7 +206,7 @@
                   </div>
                   <div v-if="organisme.age.includes('Collège')"
                           class="icon-container">
-                    <q-img src="../assets/age-icons/collège2.png"
+                    <q-img src="../assets/age-icons/college.png"
                            height="55px"
                            width="55px"/>
                     <q-tooltip class="tooltip bg-secondary"
