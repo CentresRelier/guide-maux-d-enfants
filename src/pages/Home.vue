@@ -101,7 +101,7 @@ export default {
 </script>
 
 <script setup>
-// import { useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 import {
   ref,
   onMounted,
@@ -117,8 +117,9 @@ import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 
-// const $q = useQuasar();
+const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const current = ref(1);
 const organismes = ref([]);
@@ -128,7 +129,6 @@ const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé
 const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme');
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
-const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 // const filterCards = computed({
 //   get() {
@@ -159,47 +159,57 @@ function getOrganismesImages(dataOrganismes) {
 
 // TODO: remettre le try catch une fois le debug terminé
 const getData = async () => {
-  // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-  const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
-    .catch((error) => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
-      }
-      console.log(error.config);
+  try {
+    // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
+    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+    console.log(dataOrganismes);
+    organismes.value = dataOrganismes.data.data.map((organisme) => ({
+      ...organisme,
+      title: organisme.attributes.nom,
+      description: organisme.attributes.description,
+      website: organisme.attributes.website,
+      coordinate: organisme.attributes.coordonnees,
+      contact: organisme.attributes.contact,
+      email: organisme.attributes.email,
+      thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
+        ...thematique,
+        name: thematique.attributes.thematiques,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+      age: Object.values(organisme.attributes.ages.data.map((age) => ({
+        ...age,
+        name: age.attributes.age,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+      perimeter: organisme.attributes.perimetre.data.attributes.perimetre,
+    }));
+    getOrganismesImages(dataOrganismes);
+    console.log(organismes.value);
+  } catch (error) {
+    $q.notify({
+      message: 'Erreur lors du chargement des organismes',
+      caption: 'Merci de réesayer ultérieurement',
+      color: 'red-9',
+      position: 'top',
     });
-  console.log(dataOrganismes);
-  organismes.value = dataOrganismes.data.data.map((organisme) => ({
-    ...organisme,
-    title: organisme.attributes.nom,
-    description: organisme.attributes.description,
-    website: organisme.attributes.website,
-    coordinate: organisme.attributes.coordonnees,
-    contact: organisme.attributes.contact,
-    email: organisme.attributes.email,
-    thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
-      ...thematique,
-      name: thematique.attributes.thematiques,
-    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-    age: Object.values(organisme.attributes.ages.data.map((age) => ({
-      ...age,
-      name: age.attributes.age,
-    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-    perimeter: organisme.attributes.perimetre.data.attributes.perimetre,
-  }));
-  getOrganismesImages(dataOrganismes);
-  console.log(organismes.value);
+    console.log(error, error.message);
+  }
 };
 
 onMounted(() => {
