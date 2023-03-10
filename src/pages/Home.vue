@@ -159,9 +159,8 @@ function getOrganismesImages(dataOrganismes) {
 
 // TODO: remettre le try catch une fois le debug terminé
 const getData = async () => {
-  // TODO: switch back les url
   // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-  const dataOrganismes = await axios.get('http://guide-maux-d-enfants.centresrelier.org/api/organismes?populate=*')
+  const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
     .catch((error) => {
       if (error.response) {
         // The request was made and the server responded with a status code
