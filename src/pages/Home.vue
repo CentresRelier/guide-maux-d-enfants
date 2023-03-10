@@ -142,7 +142,7 @@ const footerTexteButton = ref('Inscrire mon organisme');
 // });
 
 /*
-Loads the Organisme's image in the global array organismes.
+Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
 */
 function getOrganismesImages(dataOrganismes) {
@@ -157,7 +157,6 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
-// TODO: remettre le try catch une fois le debug terminé
 const getData = async () => {
   try {
     // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
