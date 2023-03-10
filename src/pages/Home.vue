@@ -128,6 +128,7 @@ const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé
 const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme');
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 // const filterCards = computed({
 //   get() {
@@ -145,13 +146,11 @@ Loads the Organisme's image in the global array organismes.
 If no image is found for an Organisme, an image is given by default.
 */
 function getOrganismesImages(dataOrganismes) {
-  console.log(dataOrganismes);
   for (let i = 0; i < dataOrganismes.data.data.length; i += 1) {
     const found = organismes.value.find((organisme) => organisme.id === dataOrganismes
       .data.data[i].id);
     if (dataOrganismes.data.data[i].attributes.img.data !== null) {
-      found.img = dataOrganismes.data.data[i].attributes.img.data.attributes.url;
-      console.log(found.img);
+      found.img = `${SERVER_PATH}${dataOrganismes.data.data[i].attributes.img.data.attributes.url}`;
     } else {
       found.img = '/statics/default-organisme-image.jpg';
     }
@@ -182,12 +181,9 @@ const getData = async () => {
       console.log(error.config);
     });
   console.log(dataOrganismes);
-  // console.log(dataOrganismes.data.data[0].attributes.thematiques.data);
   organismes.value = dataOrganismes.data.data.map((organisme) => ({
     ...organisme,
     title: organisme.attributes.nom,
-    // TODO: un organisme peut ne pas avoir d'image, en mettre une par défaut ?
-    // img: organisme.attributes.img.data.attributes.url,
     description: organisme.attributes.description,
     website: organisme.attributes.website,
     coordinate: organisme.attributes.coordonnees,
