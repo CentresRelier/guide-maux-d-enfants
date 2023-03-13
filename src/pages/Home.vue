@@ -75,10 +75,10 @@ export default {
     return {
       // show every thematic & age initially
       selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      selectedAgeFilters: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
+      selectedAgeFilters: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
       // update the following arrays each time an additional filter is created
       ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      ALL_AGE_FILTERS: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
+      ALL_AGE_FILTERS: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
     };
   },
   methods: {

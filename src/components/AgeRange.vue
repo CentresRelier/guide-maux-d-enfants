@@ -5,7 +5,7 @@
         <FilterButton :urlIcon="enfance" :buttonTexte="'Petite enfance'"
                   v-on:filterSelected="updateFilters('Petite enfance')"/>
         <FilterButton :urlIcon="primaire" :buttonTexte="'Primaire'"
-                  v-on:filterSelected="updateFilters('Enfance')"/>
+                  v-on:filterSelected="updateFilters('Primaire')"/>
         <FilterButton :urlIcon="college" :buttonTexte="'Collège'"
                   v-on:filterSelected="updateFilters('Collège')"/>
         <FilterButton :urlIcon="lycee" :buttonTexte="'Lycée'"
