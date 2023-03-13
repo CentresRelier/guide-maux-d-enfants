@@ -9,7 +9,7 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-8 title">
-        <h5 class="page-title">Detail de l’organisme </h5>
+        <h5 class="page-title">Details de l’organisme </h5>
       </div>
       <div class="col-md-2">
       </div>
@@ -81,7 +81,7 @@
                              height="55px"
                              width="55px"/>
                     </div>
-                    <p class="thematique-texte">Regional</p>
+                    <p class="thematique-texte">Régional</p>
                   </div>
                 </div>
                 <div v-if="departemental" class="perimeter-container">
@@ -90,7 +90,7 @@
                            height="55px"
                            width="55px"/>
                   </div>
-                  <p class="thematique-texte">departemental</p>
+                  <p class="thematique-texte">Départemental</p>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@
                              height="55px"
                              width="55px"/>
                     </div>
-                    <p class="thematique-texte">discrimination</p>
+                    <p class="thematique-texte">Discrimination</p>
                   </div>
                   <div v-if="harassment" class="thematique-container">
                     <div class="thematique-icon-container">
@@ -243,10 +243,11 @@ import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 import Head from 'components/Head.vue';
 import axios from 'axios';
-import { useQuasar } from 'quasar';
+// import { useQuasar } from 'quasar';
 
-const $q = useQuasar();
-const $BASEPATH = `http://${window.location.hostname}:1337`;
+// const $q = useQuasar();
+// const $BASEPATH = `http://${window.location.hostname}:1337`;
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi \n Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -259,129 +260,38 @@ const route = useRoute();
 
 const organisme = ref([]);
 
-const addiction = ref(false);
-const violence = ref(false);
-const discrimination = ref(false);
-const harassment = ref(false);
-const mentalHealth = ref(false);
-const sexuality = ref(false);
-
-const municipal = ref(false);
-const regional = ref(false);
-const departemental = ref(false);
-const national = ref(false);
-
-const earlyChildhood = ref(false);
-const primaire = ref(false);
-const college = ref(false);
-const lycee = ref(false);
-const youngAdulte = ref(false);
-
-function isThematiqueTrue() {
-  const thematiques = organisme.value.thematique;
-  if (thematiques.includes('addiction')) {
-    addiction.value = true;
-  }
-  if (thematiques.includes('violence')) {
-    violence.value = true;
-  }
-  if (thematiques.includes('discrimination')) {
-    discrimination.value = true;
-  }
-  if (thematiques.includes('harcèlement')) {
-    harassment.value = true;
-  }
-  if (thematiques.includes('santé mentale')) {
-    mentalHealth.value = true;
-  }
-  if (thematiques.includes('sexualité')) {
-    sexuality.value = true;
-  }
-}
-
-function isPerimeterTrue() {
-  const perimeters = organisme.value.perimeter;
-  if (perimeters.includes('municipal')) {
-    municipal.value = true;
-  }
-  if (perimeters.includes('regional')) {
-    regional.value = true;
-  }
-  if (perimeters.includes('departemental')) {
-    departemental.value = true;
-  }
-  if (perimeters.includes('national')) {
-    national.value = true;
-  }
-}
-
-function isAgeTrue() {
-  const ages = organisme.value.age;
-  if (ages.includes('petite enfance')) {
-    earlyChildhood.value = true;
-  }
-  if (ages.includes('primaire')) {
-    primaire.value = true;
-  }
-  if (ages.includes('collège')) {
-    college.value = true;
-  }
-  if (ages.includes('lycée')) {
-    lycee.value = true;
-  }
-  if (ages.includes('jeune adulte')) {
-    youngAdulte.value = true;
-  }
-}
-
 const getData = async () => {
-  try {
-    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes/${route.params.id}?populate=*`);
-    const arr = [];
-    const datas = dataOrganismes.data.data;
-    arr.push(datas);
-    const finalData = arr.map((data) => ({
-      ...data,
-      title: data.attributes.nom,
-      img: data.attributes.img.data[0].attributes.url,
-      description: data.attributes.description,
-      website: data.attributes.website,
-      coordinate: data.attributes.coordonees,
-      contact: data.attributes.contact,
-      email: data.attributes.email,
-      thematique: Object.values(data.attributes.thematiques.data.map((age) => ({
-        ...age,
-        name: age.attributes.thematiques,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-      age: Object.values(data.attributes.ages.data.map((age) => ({
-        ...age,
-        name: age.attributes.age,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-      perimeter: Object.values(data.attributes.perimeters.data.map((perimeter) => ({
-        ...perimeter,
-        name: perimeter.attributes.perimetres,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-    }));
-    // eslint-disable-next-line prefer-destructuring
-    organisme.value = finalData[0];
-    console.log(organisme.value);
-  } catch (error) {
-    $q.notify({
-      message: 'Erreur lors du chargement de l\'organisme',
-      caption: 'Merci de réesayer ultérieurement',
-      color: 'red-9',
-      position: 'top',
-    });
-  }
+  const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
+  const arr = [];
+  const datas = dataOrganismes.data.data;
+  arr.push(datas);
+  organisme.value = arr.map((data) => ({
+    ...data,
+    title: data.attributes.nom,
+    img: data.attributes.img.data[0].attributes.url,
+    description: data.attributes.description,
+    website: data.attributes.website,
+    coordinate: data.attributes.coordonees,
+    contact: data.attributes.contact,
+    email: data.attributes.email,
+    thematique: Object.values(data.attributes.thematiques.data.map((age) => ({
+      ...age,
+      name: age.attributes.thematiques,
+    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
+    age: Object.values(data.attributes.ages.data.map((age) => ({
+      ...age,
+      name: age.attributes.age,
+    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
+    perimeter: Object.values(data.attributes.perimeters.data.map((perimeter) => ({
+      ...perimeter,
+      name: perimeter.attributes.perimetres,
+    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
+  }));
+  console.log(organisme.value);
 };
 
 onMounted(() => {
   getData();
-  setTimeout(() => {
-    isThematiqueTrue();
-    isPerimeterTrue();
-    isAgeTrue();
-  }, 1000);
 });
 
 </script>
