@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <div class="row">
-      <p class="texte">{{ title }}</p>
+      <p class="texte">
+        {{ title1 }}
+        <br>
+        {{ title2 }}
+      </p>
     </div>
   </div>
 </template>
@@ -10,7 +14,8 @@
 export default {
   name: 'head-component',
   props: {
-    title: String,
+    title1: String,
+    title2: String,
   },
 };
 </script>
