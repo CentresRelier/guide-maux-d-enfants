@@ -118,7 +118,8 @@ import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 
 const $q = useQuasar();
-const $BASEPATH = `http://${window.location.hostname}:1337`;
+// const $BASEPATH = `http://${window.location.hostname}:1337`;
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const current = ref(1);
 const organismes = ref([]);
@@ -140,9 +141,26 @@ const footerTexteButton = ref('Inscrire mon organisme');
 //   },
 // });
 
+/*
+Loads the Organisme's image in the array organismes.
+If no image is found for an Organisme, an image is given by default.
+*/
+function getOrganismesImages(dataOrganismes) {
+  for (let i = 0; i < dataOrganismes.data.data.length; i += 1) {
+    const found = organismes.value.find((organisme) => organisme.id === dataOrganismes
+      .data.data[i].id);
+    if (dataOrganismes.data.data[i].attributes.img.data !== null) {
+      found.img = `${SERVER_PATH}${dataOrganismes.data.data[i].attributes.img.data.attributes.url}`;
+    } else {
+      found.img = '/statics/default-organisme-image.jpg';
+    }
+  }
+}
+
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
+    // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
+    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -165,7 +183,6 @@ const getData = async () => {
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
-      img: organisme.attributes.img.data[0].attributes.url,
       description: organisme.attributes.description,
       website: organisme.attributes.website,
       coordinate: organisme.attributes.coordonnees,
@@ -173,17 +190,15 @@ const getData = async () => {
       email: organisme.attributes.email,
       thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
         ...thematique,
-        name: thematique.attributes.thematique,
+        name: thematique.attributes.thematiques,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
       age: Object.values(organisme.attributes.ages.data.map((age) => ({
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: Object.values(organisme.attributes.perimetres.data.map((perimeter) => ({
-        ...perimeter,
-        name: perimeter.attributes.perimetre,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+      perimeter: organisme.attributes.perimetre.data.attributes.perimetre,
     }));
+    getOrganismesImages(dataOrganismes);
     console.log(organismes.value);
   } catch (error) {
     $q.notify({
