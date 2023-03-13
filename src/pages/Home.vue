@@ -2,7 +2,7 @@
   <q-page class="">
 
     <div class="head">
-      <Head :title="homeTitle"/>
+      <Head :title1="homeTitle1" :title2="homeTitle2"/>
     </div>
 
     <div class="row q-pt-md">
@@ -75,10 +75,10 @@ export default {
     return {
       // show every thematic & age initially
       selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      selectedAgeFilters: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
+      selectedAgeFilters: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
       // update the following arrays each time an additional filter is created
       ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      ALL_AGE_FILTERS: ['Petite enfance', 'Enfance', 'Collège', 'Lycée', 'Jeune adulte'],
+      ALL_AGE_FILTERS: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
     };
   },
   methods: {
@@ -124,7 +124,8 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const current = ref(1);
 const organismes = ref([]);
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
-const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi Des organismes gratuits pour accompagner vos enfants');
+const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
+const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
 const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme');
 const footerUrl = ref('subscribe');
