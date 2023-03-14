@@ -55,7 +55,7 @@
               <p class="block-title perimeter">Périmètre</p>
               <div class="row row-perimeter">
                 <div class="row row-perimeter">
-                  <div v-if="municipal" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('Municipal')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/municipal.png"
                              height="55px"
@@ -65,7 +65,7 @@
                   </div>
                 </div>
                 <div class="row row-perimeter">
-                  <div v-if="national" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('National')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/national.png"
                              height="55px"
@@ -75,7 +75,7 @@
                   </div>
                 </div>
                 <div class="row row-perimeter">
-                  <div v-if="regional" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('Régional')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/region.png"
                              height="55px"
@@ -84,7 +84,8 @@
                     <p class="thematique-texte">Régional</p>
                   </div>
                 </div>
-                <div v-if="departemental" class="perimeter-container">
+                <div v-if="organisme.perimeter.includes('Départemental')"
+                          class="perimeter-container">
                   <div class="perimeter-icon-container">
                     <q-img src="statics/perimeter-icons/departemental.png"
                            height="55px"
@@ -118,7 +119,8 @@
               <div class="q-ml-sm block-container">
                 <p class="block-title thematique">Thématique</p>
                 <div class="row row-thematique">
-                  <div v-if="addiction" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Addiction')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/addiction.png"
                              height="55px"
@@ -126,16 +128,17 @@
                     </div>
                     <p class="thematique-texte">Addiction</p>
                   </div>
-                  <div v-if="violence" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Violence')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/violence.png"
                              height="55px"
                              width="55px"/>
-
                     </div>
                     <p class="thematique-texte">Violence</p>
                   </div>
-                  <div v-if="discrimination" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/discrimination.png"
                              height="55px"
@@ -143,7 +146,8 @@
                     </div>
                     <p class="thematique-texte">Discrimination</p>
                   </div>
-                  <div v-if="harassment" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Harcèlement')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/harcelement.png"
                              height="55px"
@@ -151,7 +155,8 @@
                     </div>
                     <p class="thematique-texte">Harcèlement</p>
                   </div>
-                  <div v-if="mentalHealth" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Santé mentale')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/santementale.png"
                              height="55px"
@@ -159,7 +164,8 @@
                     </div>
                     <p class="headSick">Santé<br>mentale</p>
                   </div>
-                  <div v-if="sexuality" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Sexualité')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/sexualite.png"
                              height="55px"
@@ -174,7 +180,7 @@
               <div class="q-ml-sm block-container">
                 <p class="block-title age">Tranche d'age</p>
                 <div class="row row-age">
-                  <div v-if="earlyChildhood" class="thematique-container">
+                  <div v-if="organisme.age.includes('Petite enfance')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/petiteenfance.png"
                              height="55px"
@@ -182,7 +188,7 @@
                     </div>
                     <p class="thematique-texte">Petite enfance</p>
                   </div>
-                  <div v-if="primaire" class="thematique-container">
+                  <div v-if="organisme.age.includes('Primaire')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/primaire.png"
                              height="55px"
@@ -190,7 +196,7 @@
                     </div>
                     <p class="thematique-texte">Primaire</p>
                   </div>
-                  <div v-if="college" class="thematique-container">
+                  <div v-if="organisme.age.includes('Collège')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/college.png"
                              height="55px"
@@ -198,7 +204,7 @@
                     </div>
                     <p class="thematique-texte">Collège</p>
                   </div>
-                  <div v-if="lycee" class="thematique-container">
+                  <div v-if="organisme.age.includes('Lycée')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/ado.png"
                              height="55px"
@@ -206,7 +212,7 @@
                     </div>
                     <p class="thematique-texte">Lycée</p>
                   </div>
-                  <div v-if="youngAdulte" class="thematique-container">
+                  <div v-if="organisme.age.includes('Jeune adulte')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/jeuneadulte.png"
                              height="55px"
@@ -258,7 +264,18 @@ const footerTexteButton = ref('Mettre à jour l\'organisme');
 
 const route = useRoute();
 
-const organisme = ref([]);
+const organisme = ref({
+  title: '',
+  description: '',
+  website: '',
+  coordinate: '',
+  contact: '',
+  email: '',
+  thematique: '',
+  age: '',
+  perimeter: '',
+  img: '',
+});
 
 function getOrganismeImage(dataOrganisme) {
   if (dataOrganisme.data.data.attributes.img.data.attributes.url !== null) {
@@ -271,10 +288,6 @@ function getOrganismeImage(dataOrganisme) {
 // TODO: put try/catch back on, see Home.vue
 const getData = async () => {
   const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
-  // const ARR = [];
-  // const DATA = dataOrganisme.data.data;
-  // ARR.push(DATA);
-  // console.log(ARR);
   console.log(dataOrganisme);
   organisme.value.title = dataOrganisme.data.data.attributes.nom;
   organisme.value.description = dataOrganisme.data.data.attributes.description;
@@ -292,7 +305,8 @@ const getData = async () => {
       ...age,
       name: age.attributes.age,
     })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
-  organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre;
+  organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre
+    .data.attributes.perimetre;
   getOrganismeImage(dataOrganisme);
   console.log(organisme.value);
 };
