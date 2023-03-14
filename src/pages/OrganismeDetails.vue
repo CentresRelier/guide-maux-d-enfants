@@ -260,39 +260,40 @@ const route = useRoute();
 
 const organisme = ref([]);
 
-function getOrganismeImage(array) {
-  if (array[0].attributes.img.data.attributes.url !== null) {
-    organisme.value.img = `${SERVER_PATH}${array[0].attributes.img.data.attributes.url}`;
+function getOrganismeImage(dataOrganisme) {
+  if (dataOrganisme.data.data.attributes.img.data.attributes.url !== null) {
+    organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
   } else {
     organisme.value.img = '/statics/default-organisme-image.jpg';
   }
 }
 
+// TODO: put try/catch back on, see Home.vue
 const getData = async () => {
   const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
-  const ARR = [];
-  const DATA = dataOrganisme.data.data;
-  ARR.push(DATA);
-  console.log(ARR);
-  organisme.value = ARR.map((data) => ({
-    ...data,
-    title: data.attributes.nom,
-    description: data.attributes.description,
-    website: data.attributes.website,
-    coordinate: data.attributes.coordonees,
-    contact: data.attributes.contact,
-    email: data.attributes.email,
-    thematique: Object.values(data.attributes.thematiques.data.map((age) => ({
+  // const ARR = [];
+  // const DATA = dataOrganisme.data.data;
+  // ARR.push(DATA);
+  // console.log(ARR);
+  console.log(dataOrganisme);
+  organisme.value.title = dataOrganisme.data.data.attributes.nom;
+  organisme.value.description = dataOrganisme.data.data.attributes.description;
+  organisme.value.website = dataOrganisme.data.data.attributes.website;
+  organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonees;
+  organisme.value.contact = dataOrganisme.data.data.attributes.contact;
+  organisme.value.email = dataOrganisme.data.data.attributes.email;
+  organisme.value.thematique = Object.values(dataOrganisme.data.data.attributes.thematiques.data
+    .map((age) => ({
       ...age,
       name: age.attributes.thematiques,
-    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-    age: Object.values(data.attributes.ages.data.map((age) => ({
+    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+  organisme.value.age = Object.values(dataOrganisme.data.data.attributes.ages.data
+    .map((age) => ({
       ...age,
       name: age.attributes.age,
-    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-    perimeter: data.attributes.perimetre,
-  }));
-  getOrganismeImage(ARR);
+    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+  organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre;
+  getOrganismeImage(dataOrganisme);
   console.log(organisme.value);
 };
 
