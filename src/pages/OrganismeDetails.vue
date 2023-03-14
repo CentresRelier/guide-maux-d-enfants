@@ -32,7 +32,7 @@
             <div class="col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
-                <a :href="organisme.website" target="_blank" class="website">
+                <a :href="`https://${organisme.website}`" target="_blank" class="website">
                   {{ organisme.website }}
                 </a>
                 <p></p>
