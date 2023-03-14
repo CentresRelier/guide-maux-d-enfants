@@ -21,7 +21,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-4 img-container">
-            <img class="img" :src="$basePath + organisme.img" />
+            <img class="img" :src="organisme.img" />
           </div>
           <div class="col-md-8">
             <div class="col-md-12 q-mb-sm">
@@ -260,15 +260,23 @@ const route = useRoute();
 
 const organisme = ref([]);
 
+function getOrganismeImage(array) {
+  if (array[0].attributes.img.data.attributes.url !== null) {
+    organisme.value.img = `${SERVER_PATH}${array[0].attributes.img.data.attributes.url}`;
+  } else {
+    organisme.value.img = '/statics/default-organisme-image.jpg';
+  }
+}
+
 const getData = async () => {
-  const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
-  const arr = [];
-  const datas = dataOrganismes.data.data;
-  arr.push(datas);
-  organisme.value = arr.map((data) => ({
+  const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
+  const ARR = [];
+  const DATA = dataOrganisme.data.data;
+  ARR.push(DATA);
+  console.log(ARR);
+  organisme.value = ARR.map((data) => ({
     ...data,
     title: data.attributes.nom,
-    img: data.attributes.img.data[0].attributes.url,
     description: data.attributes.description,
     website: data.attributes.website,
     coordinate: data.attributes.coordonees,
@@ -282,11 +290,9 @@ const getData = async () => {
       ...age,
       name: age.attributes.age,
     })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-    perimeter: Object.values(data.attributes.perimeters.data.map((perimeter) => ({
-      ...perimeter,
-      name: perimeter.attributes.perimetres,
-    })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
+    perimeter: data.attributes.perimetre,
   }));
+  getOrganismeImage(ARR);
   console.log(organisme.value);
 };
 
@@ -331,9 +337,6 @@ onMounted(() => {
   background-color: #EDF9FF;
 }
 
-.coordinate-container {
-}
-
 .name,
 .website-container,
 .perimeter,
@@ -362,18 +365,6 @@ onMounted(() => {
   height: 98px;
 }
 
-.perimeter {
-}
-
-.coordinate {
-}
-
-.contact {
-}
-
-.email {
-}
-
 .website {
   font-size: 18px;
   color: $accent;
@@ -387,9 +378,6 @@ onMounted(() => {
   font-size: 18px;
   color: $accent;
   padding: 0 15px 0 15px;
-}
-
-.age {
 }
 
 .thematique {
