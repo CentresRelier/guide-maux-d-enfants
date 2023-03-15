@@ -25,7 +25,14 @@
           </div>
           <div class="col-md-4 col-search">
             <SearchBar />
-            {{ organismesNumber.number }} organisme(s) trouvés
+            <p v-if="organismesFoundNumber > 1">
+              {{ organismesFoundNumber }} organismes trouvés,
+              {{ organismesNumber.number }} affichés
+            </p>
+            <p v-else>
+              {{ organismesFoundNumber }} organisme trouvé,
+              {{ organismesNumber.number }} affiché
+            </p>
           </div>
           <div class="col-md-4">
           </div>
@@ -123,6 +130,7 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const current = ref(1);
 const organismes = ref([]);
+const organismesFoundNumber = ref(0);
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
@@ -180,7 +188,7 @@ const getData = async () => {
         }
         console.log(error.config);
       });
-    console.log(dataOrganismes);
+    organismesFoundNumber.value = dataOrganismes.data.meta.pagination.total;
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
@@ -200,7 +208,6 @@ const getData = async () => {
       perimeter: organisme.attributes.perimetre.data.attributes.perimetre,
     }));
     getOrganismesImages(dataOrganismes);
-    console.log(organismes.value);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
