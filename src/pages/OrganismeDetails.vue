@@ -117,7 +117,10 @@
             </div>
             <div class="col-md-12 q-pb-sm">
               <div class="q-ml-sm block-container">
-                <p class="block-title thematique">Thématique</p>
+                <p v-if="organisme.thematique.length <= 1" class="block-title thematique">
+                  Thématique
+                </p>
+                <p v-else class="block-title thematique">Thématiques</p>
                 <div class="row row-thematique">
                   <div v-if="organisme.thematique.includes('Addiction')"
                             class="thematique-container">
@@ -178,7 +181,8 @@
             </div>
             <div class="col-md-12">
               <div class="q-ml-sm block-container">
-                <p class="block-title age">Tranche d'age</p>
+                <p v-if="organisme.age.length <= 1" class="block-title age">Tranche d'âge</p>
+                <p v-else class="block-title age">Tranches d'âge</p>
                 <div class="row row-age">
                   <div v-if="organisme.age.includes('Petite enfance')" class="thematique-container">
                     <div class="age-icon-container">
