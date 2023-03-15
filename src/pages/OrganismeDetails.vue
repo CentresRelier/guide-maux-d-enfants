@@ -9,7 +9,7 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-8 title">
-        <h5 class="page-title">Detail de l’organisme </h5>
+        <h5 class="page-title">Détails de l’organisme </h5>
       </div>
       <div class="col-md-2">
       </div>
@@ -21,7 +21,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-4 img-container">
-            <img class="img" :src="$basePath + organisme.img" />
+            <img class="img" :src="organisme.img" />
           </div>
           <div class="col-md-8">
             <div class="col-md-12 q-mb-sm">
@@ -32,7 +32,7 @@
             <div class="col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
-                <a :href="organisme.website" target="_blank" class="website">
+                <a :href="`https://${organisme.website}`" target="_blank" class="website">
                   {{ organisme.website }}
                 </a>
                 <p></p>
@@ -55,7 +55,7 @@
               <p class="block-title perimeter">Périmètre</p>
               <div class="row row-perimeter">
                 <div class="row row-perimeter">
-                  <div v-if="municipal" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('Municipal')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/municipal.png"
                              height="55px"
@@ -65,7 +65,7 @@
                   </div>
                 </div>
                 <div class="row row-perimeter">
-                  <div v-if="national" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('National')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/national.png"
                              height="55px"
@@ -75,22 +75,23 @@
                   </div>
                 </div>
                 <div class="row row-perimeter">
-                  <div v-if="regional" class="perimeter-container">
+                  <div v-if="organisme.perimeter.includes('Régional')" class="perimeter-container">
                     <div class="perimeter-icon-container">
                       <q-img src="statics/perimeter-icons/region.png"
                              height="55px"
                              width="55px"/>
                     </div>
-                    <p class="thematique-texte">Regional</p>
+                    <p class="thematique-texte">Régional</p>
                   </div>
                 </div>
-                <div v-if="departemental" class="perimeter-container">
+                <div v-if="organisme.perimeter.includes('Départemental')"
+                          class="perimeter-container">
                   <div class="perimeter-icon-container">
                     <q-img src="statics/perimeter-icons/departemental.png"
                            height="55px"
                            width="55px"/>
                   </div>
-                  <p class="thematique-texte">departemental</p>
+                  <p class="thematique-texte">Départemental</p>
                 </div>
               </div>
             </div>
@@ -116,9 +117,13 @@
             </div>
             <div class="col-md-12 q-pb-sm">
               <div class="q-ml-sm block-container">
-                <p class="block-title thematique">Thématique</p>
+                <p v-if="organisme.thematique.length <= 1" class="block-title thematique">
+                  Thématique
+                </p>
+                <p v-else class="block-title thematique">Thématiques</p>
                 <div class="row row-thematique">
-                  <div v-if="addiction" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Addiction')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/addiction.png"
                              height="55px"
@@ -126,24 +131,26 @@
                     </div>
                     <p class="thematique-texte">Addiction</p>
                   </div>
-                  <div v-if="violence" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Violence')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/violence.png"
                              height="55px"
                              width="55px"/>
-
                     </div>
                     <p class="thematique-texte">Violence</p>
                   </div>
-                  <div v-if="discrimination" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Discrimination')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/discrimination.png"
                              height="55px"
                              width="55px"/>
                     </div>
-                    <p class="thematique-texte">discrimination</p>
+                    <p class="thematique-texte">Discrimination</p>
                   </div>
-                  <div v-if="harassment" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Harcèlement')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/harcelement.png"
                              height="55px"
@@ -151,7 +158,8 @@
                     </div>
                     <p class="thematique-texte">Harcèlement</p>
                   </div>
-                  <div v-if="mentalHealth" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Santé mentale')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/santementale.png"
                              height="55px"
@@ -159,7 +167,8 @@
                     </div>
                     <p class="headSick">Santé<br>mentale</p>
                   </div>
-                  <div v-if="sexuality" class="thematique-container">
+                  <div v-if="organisme.thematique.includes('Sexualité')"
+                            class="thematique-container">
                     <div class="thematique-icon-container">
                       <q-img src="statics/thematique-icons/sexualite.png"
                              height="55px"
@@ -172,9 +181,10 @@
             </div>
             <div class="col-md-12">
               <div class="q-ml-sm block-container">
-                <p class="block-title age">Tranche d'age</p>
+                <p v-if="organisme.age.length <= 1" class="block-title age">Tranche d'âge</p>
+                <p v-else class="block-title age">Tranches d'âge</p>
                 <div class="row row-age">
-                  <div v-if="earlyChildhood" class="thematique-container">
+                  <div v-if="organisme.age.includes('Petite enfance')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/petiteenfance.png"
                              height="55px"
@@ -182,7 +192,7 @@
                     </div>
                     <p class="thematique-texte">Petite enfance</p>
                   </div>
-                  <div v-if="primaire" class="thematique-container">
+                  <div v-if="organisme.age.includes('Primaire')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/primaire.png"
                              height="55px"
@@ -190,7 +200,7 @@
                     </div>
                     <p class="thematique-texte">Primaire</p>
                   </div>
-                  <div v-if="college" class="thematique-container">
+                  <div v-if="organisme.age.includes('Collège')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/college.png"
                              height="55px"
@@ -198,7 +208,7 @@
                     </div>
                     <p class="thematique-texte">Collège</p>
                   </div>
-                  <div v-if="lycee" class="thematique-container">
+                  <div v-if="organisme.age.includes('Lycée')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/ado.png"
                              height="55px"
@@ -206,7 +216,7 @@
                     </div>
                     <p class="thematique-texte">Lycée</p>
                   </div>
-                  <div v-if="youngAdulte" class="thematique-container">
+                  <div v-if="organisme.age.includes('Jeune adulte')" class="thematique-container">
                     <div class="age-icon-container">
                       <q-img src="statics/age-icons/jeuneadulte.png"
                              height="55px"
@@ -246,7 +256,8 @@ import axios from 'axios';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
-const $BASEPATH = `http://${window.location.hostname}:1337`;
+// const $BASEPATH = `http://${window.location.hostname}:1337`;
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi \n Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -257,131 +268,80 @@ const footerTexteButton = ref('Mettre à jour l\'organisme');
 
 const route = useRoute();
 
-const organisme = ref([]);
+const organisme = ref({
+  title: '',
+  description: '',
+  website: '',
+  coordinate: '',
+  contact: '',
+  email: '',
+  thematique: '',
+  age: '',
+  perimeter: '',
+  img: '',
+});
 
-const addiction = ref(false);
-const violence = ref(false);
-const discrimination = ref(false);
-const harassment = ref(false);
-const mentalHealth = ref(false);
-const sexuality = ref(false);
-
-const municipal = ref(false);
-const regional = ref(false);
-const departemental = ref(false);
-const national = ref(false);
-
-const earlyChildhood = ref(false);
-const primaire = ref(false);
-const college = ref(false);
-const lycee = ref(false);
-const youngAdulte = ref(false);
-
-function isThematiqueTrue() {
-  const thematiques = organisme.value.thematique;
-  if (thematiques.includes('addiction')) {
-    addiction.value = true;
-  }
-  if (thematiques.includes('violence')) {
-    violence.value = true;
-  }
-  if (thematiques.includes('discrimination')) {
-    discrimination.value = true;
-  }
-  if (thematiques.includes('harcèlement')) {
-    harassment.value = true;
-  }
-  if (thematiques.includes('santé mentale')) {
-    mentalHealth.value = true;
-  }
-  if (thematiques.includes('sexualité')) {
-    sexuality.value = true;
-  }
-}
-
-function isPerimeterTrue() {
-  const perimeters = organisme.value.perimeter;
-  if (perimeters.includes('municipal')) {
-    municipal.value = true;
-  }
-  if (perimeters.includes('regional')) {
-    regional.value = true;
-  }
-  if (perimeters.includes('departemental')) {
-    departemental.value = true;
-  }
-  if (perimeters.includes('national')) {
-    national.value = true;
-  }
-}
-
-function isAgeTrue() {
-  const ages = organisme.value.age;
-  if (ages.includes('petite enfance')) {
-    earlyChildhood.value = true;
-  }
-  if (ages.includes('primaire')) {
-    primaire.value = true;
-  }
-  if (ages.includes('collège')) {
-    college.value = true;
-  }
-  if (ages.includes('lycée')) {
-    lycee.value = true;
-  }
-  if (ages.includes('jeune adulte')) {
-    youngAdulte.value = true;
+function getOrganismeImage(dataOrganisme) {
+  if (dataOrganisme.data.data.attributes.img.data !== null) {
+    organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
+  } else {
+    organisme.value.img = '/statics/default-organisme-image.jpg';
   }
 }
 
 const getData = async () => {
   try {
-    const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes/${route.params.id}?populate=*`);
-    const arr = [];
-    const datas = dataOrganismes.data.data;
-    arr.push(datas);
-    const finalData = arr.map((data) => ({
-      ...data,
-      title: data.attributes.nom,
-      img: data.attributes.img.data[0].attributes.url,
-      description: data.attributes.description,
-      website: data.attributes.website,
-      coordinate: data.attributes.coordonees,
-      contact: data.attributes.contact,
-      email: data.attributes.email,
-      thematique: Object.values(data.attributes.thematiques.data.map((age) => ({
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`)
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+    organisme.value.title = dataOrganisme.data.data.attributes.nom;
+    organisme.value.description = dataOrganisme.data.data.attributes.description;
+    organisme.value.website = dataOrganisme.data.data.attributes.website;
+    organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonees;
+    organisme.value.contact = dataOrganisme.data.data.attributes.contact;
+    organisme.value.email = dataOrganisme.data.data.attributes.email;
+    organisme.value.thematique = Object.values(dataOrganisme.data.data.attributes.thematiques.data
+      .map((age) => ({
         ...age,
         name: age.attributes.thematiques,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-      age: Object.values(data.attributes.ages.data.map((age) => ({
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.age = Object.values(dataOrganisme.data.data.attributes.ages.data
+      .map((age) => ({
         ...age,
         name: age.attributes.age,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-      perimeter: Object.values(data.attributes.perimeters.data.map((perimeter) => ({
-        ...perimeter,
-        name: perimeter.attributes.perimetres,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), [])),
-    }));
-    // eslint-disable-next-line prefer-destructuring
-    organisme.value = finalData[0];
-    console.log(organisme.value);
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre
+      .data.attributes.perimetre;
+    getOrganismeImage(dataOrganisme);
   } catch (error) {
     $q.notify({
-      message: 'Erreur lors du chargement de l\'organisme',
+      message: 'Erreur lors du chargement des organismes',
       caption: 'Merci de réesayer ultérieurement',
       color: 'red-9',
       position: 'top',
     });
+    console.log(error, error.message);
   }
 };
 
 onMounted(() => {
   getData();
-  setTimeout(() => {
-    isThematiqueTrue();
-    isPerimeterTrue();
-    isAgeTrue();
-  }, 1000);
 });
 
 </script>
@@ -421,9 +381,6 @@ onMounted(() => {
   background-color: #EDF9FF;
 }
 
-.coordinate-container {
-}
-
 .name,
 .website-container,
 .perimeter,
@@ -452,18 +409,6 @@ onMounted(() => {
   height: 98px;
 }
 
-.perimeter {
-}
-
-.coordinate {
-}
-
-.contact {
-}
-
-.email {
-}
-
 .website {
   font-size: 18px;
   color: $accent;
@@ -477,9 +422,6 @@ onMounted(() => {
   font-size: 18px;
   color: $accent;
   padding: 0 15px 0 15px;
-}
-
-.age {
 }
 
 .thematique {
