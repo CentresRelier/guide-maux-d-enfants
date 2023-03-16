@@ -20,11 +20,11 @@
             <p class="obligatory">*</p>
           </div>
           <div class="row">
-            <p>Ajouter le nom de la commune de l'agence à référencer
+            <p>Ajoutez le nom de la commune de l'agence à référencer
               (il faut donc faire une fiche par agence). Par exemple,
               les Points Accueil Ecoute Jeunes sont partout en France :
               Point Accueil Ecoute Jeunes - Antibes, puis Point Accueil
-              Ecoute Jeunes - Meudon, etc... Si l'organisme à plusieurs
+              Ecoute Jeunes - Meudon, etc... Si l'organisme a plusieurs
               agences, merci de renseigner une fiche par agence avec
               l'url de chaque agence</p>
           </div>
@@ -59,9 +59,9 @@
           <p class="obligatory">*</p>
         </div>
         <div class="row">
-          <p>URL de la page de l'organisme ou de l'agence. Cette page sera utilisé
-            pour recueillir les informations. Si vous êtes propriétaires du site
-            mettez à jour vos métadonnées, votre logo et les informations de contact</p>
+          <p>URL de la page de l'organisme ou de l'agence. Cette page sera utilisée
+            pour recueillir les informations. Si vous êtes propriétaires du site,
+            mettez à jour vos métadonnées, votre logo et les informations de contact.</p>
         </div>
         <div class="row">
           <q-input
@@ -104,7 +104,7 @@
       </div>
       <div class="col-md-8 q-mb-md block-container">
         <div class="row">
-          <h6>Tranche d'age</h6>
+          <h6>Tranche d'âge</h6>
           <p class="obligatory">*</p>
         </div>
         <div class="row">
@@ -123,9 +123,9 @@
           <p class="obligatory">*</p>
         </div>
         <div class="row">
-          <p>Sélectionner la couverture territorial de l'organisme.
+          <p>Sélectionnez la couverture territoriale de l'organisme.
             Par défaut le service sera présenté également aux
-            communes limitrophes</p>
+            communes limitrophes.</p>
         </div>
       </div>
       <div class="col-md-2">
@@ -171,7 +171,7 @@
                 <p class="obligatory">*</p>
               </div>
               <div class="row">
-                <p>Entrer le code postal au format xxxxx </p>
+                <p>Entrez le code postal au format xxxxx </p>
               </div>
               <div class="row">
                 <q-input
