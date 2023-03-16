@@ -197,8 +197,8 @@
       </div>
     </div>
 
-    <div>
-      <q-btn label="Submit" type="submit" color="accent"/>
+    <div class="absolute-bottom">
+      <q-btn class="absolute-center" label="Submit" type="submit" color="accent"/>
     </div>
 
   </q-form>
