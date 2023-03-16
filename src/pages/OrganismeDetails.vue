@@ -32,8 +32,9 @@
             <div class="col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
-                <a :href="`https://${organisme.website}`" target="_blank" class="website">
-                  {{ organisme.website }}
+                <a :href="`${organisme.website}`" target="_blank" class="website">
+                  <img class="img" src="/statics/hyperlink-logo.png"
+                          height="35" width="35" />
                 </a>
                 <p></p>
               </div>
