@@ -37,7 +37,10 @@
               standout="none"
               model-value=""
               class="input shadow-3"
-              placeholder="votre réponse">
+              placeholder="Nom de l'organisme"
+              v-model="organismeName"
+              @keyup="validateName"
+              @keydown.esc="resetData('organismeName')">
               <template v-slot:append>
                 <q-icon color="positive" name="check" class="q-pl-sm"/>
                 <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -72,7 +75,10 @@
             standout="none"
             model-value=""
             class="input shadow-3"
-            placeholder="votre réponse">
+            placeholder="Url du site web de votre organisme"
+            v-model="organismeUrl"
+            @keyup="validateUrl"
+            @keydown.esc="resetData('organismeUrl')">
             <template v-slot:append>
               <q-icon color="positive" name="check" class="q-pl-sm"/>
               <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -210,6 +216,36 @@
 <script>
 export default {
   name: 'subscribe-page',
+  data() {
+    return {
+      organismeName: '',
+      organismeUrl: '',
+    };
+  },
+  methods: {
+    validateName() {
+      if (this.organismeName === '') {
+        return;
+      }
+      const nameToValidate = this.organismeName;
+      console.log(nameToValidate);
+    },
+    validateUrl() {
+      if (this.organismeUrl === '') {
+        return;
+      }
+      const urlToValidate = this.organismeUrl;
+      console.log(urlToValidate);
+    },
+    resetData(toBeReset) {
+      if (toBeReset === 'organismeName') {
+        this.organismeName = '';
+      }
+      if (toBeReset === 'organismeUrl') {
+        this.organismeUrl = '';
+      }
+    },
+  },
 };
 </script>
 <script setup>
