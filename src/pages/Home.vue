@@ -161,7 +161,7 @@ function getOrganismesImages(dataOrganismes) {
     if (dataOrganismes.data.data[i].attributes.img.data !== null) {
       found.img = `${SERVER_PATH}${dataOrganismes.data.data[i].attributes.img.data.attributes.url}`;
     } else {
-      found.img = '/statics/default-organisme-image.jpg';
+      found.img = '/statics/default-organisme-image.png';
     }
   }
 }

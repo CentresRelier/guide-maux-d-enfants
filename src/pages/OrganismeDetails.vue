@@ -286,7 +286,7 @@ function getOrganismeImage(dataOrganisme) {
   if (dataOrganisme.data.data.attributes.img.data !== null) {
     organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
   } else {
-    organisme.value.img = '/statics/default-organisme-image.jpg';
+    organisme.value.img = '/statics/default-organisme-image.png';
   }
 }
 
