@@ -52,13 +52,7 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-8 pagination-container q-pb-lg q-pt-md">
-        <q-pagination
-          v-model="current"
-          class=""
-          :max="5"
-          :round="true"
-          color="light-blue"
-        />
+        <PaginationCounter v-model="current" />
       </div>
       <div class="col-md-2">
       </div>
@@ -126,11 +120,13 @@ import SearchBar from 'components/SearchBar.vue';
 import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
+import PaginationCounter from 'src/components/PaginationCounter.vue';
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
 const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
+// Currently selectioned and displayed page of Organismes
 const current = ref(1);
 const organismes = ref([]);
 // Total number of organismes
