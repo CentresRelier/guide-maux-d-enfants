@@ -32,7 +32,14 @@
             <div class="col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
-                <a :href="`${organisme.website}`" target="_blank" class="website">
+                <!-- website url is absolute -->
+                <a v-if="organisme.website.startsWith('http')" :href="`${organisme.website}`"
+                          target="_blank" class="website">
+                  <img class="img" src="/statics/hyperlink-logo.png"
+                          height="35" width="35" />
+                </a>
+                <!-- website url is relative -->
+                <a v-else :href="`//${organisme.website}`" target="_blank" class="website">
                   <img class="img" src="/statics/hyperlink-logo.png"
                           height="35" width="35" />
                 </a>
