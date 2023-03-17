@@ -53,7 +53,7 @@
       </div>
       <div class="col-md-8 pagination-container q-pb-lg q-pt-md">
         <PaginationCounter v-model="current" :organismesTotal="organismesTotal"
-                  :pagination="pagination" />
+                  :pagination="pagination" @click="refreshData(current)"/>
       </div>
       <div class="col-md-2">
       </div>
@@ -173,7 +173,7 @@ function getOrganismesImages(dataOrganismes) {
 const getData = async () => {
   try {
     // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`)
+    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[page]=${current.value}&pagination[pageSize]=${pagination.value}`)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -222,6 +222,11 @@ const getData = async () => {
     console.log(error, error.message);
   }
 };
+
+function refreshData(currentTab) {
+  current.value = currentTab;
+  getData();
+}
 
 onMounted(() => {
   getData();
