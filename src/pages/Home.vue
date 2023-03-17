@@ -38,10 +38,7 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))
-                    && organisme.age.some(r=> selectedAgeFilters.includes(r))"
-                    :organisme="organisme" />
-          <OrganismeCard v-else class="hidden" :organisme="organisme" />
+          <OrganismeCard :organisme="organisme" />
         </div>
       </div>
       <div class="col-md-2">
@@ -73,35 +70,6 @@
 <script>
 export default {
   name: 'home-page',
-  data() {
-    return {
-      // show every thematic & age initially
-      selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      selectedAgeFilters: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
-      // update the following arrays each time an additional filter is created
-      ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      ALL_AGE_FILTERS: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
-    };
-  },
-  methods: {
-    filterCards(selectedFilters) {
-      if (selectedFilters.length === 0) {
-        this.selectedFilters = this.ALL_FILTERS;
-      } else {
-        this.selectedFilters = selectedFilters;
-      }
-    },
-    filterCardsWithAge(selectedAgeFilters) {
-      if (selectedAgeFilters.length === 0) {
-        this.selectedAgeFilters = this.ALL_AGE_FILTERS;
-      } else {
-        this.selectedAgeFilters = selectedAgeFilters;
-      }
-    },
-    filterInput(text) {
-      console.log(text); // TODO
-    },
-  },
 };
 </script>
 
@@ -124,18 +92,20 @@ import Footer from 'components/Footer.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
 
 const $q = useQuasar();
-// const $BASEPATH = `http://${window.location.hostname}:1337`;
-const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 // Currently selectioned and displayed page of Organismes
 const current = ref(1);
+// Number of organismes per page
+const pagination = ref(10);
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
+const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
+
 const organismes = ref([]);
 // Total number of organismes
 const organismesTotal = ref(0);
 // Number of organisme on this page, defined by pagination but might be less than that
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
-// Number of organismes per page
-const pagination = ref(10);
+
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -143,16 +113,12 @@ const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme')
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
 
-// const filterCards = computed({
-//   get() {
-//     return currentTab.value
-//       ? cards.value.filter((card) => card.tag.includes(currentTab.value))
-//       : cards.value;
-//   },
-//   set(val) {
-//     currentTab.value = val;
-//   },
-// });
+// show every thematic & age initially
+const selectedFilters = ref(['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité']);
+const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte']);
+// update the following arrays each time an additional filter is created
+const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
+const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
 /*
 Loads the Organisme's image in the array organismes.
@@ -170,10 +136,9 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
-const getData = async () => {
+const getData = async (URL) => {
   try {
-    // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[page]=${current.value}&pagination[pageSize]=${pagination.value}`)
+    const dataOrganismes = await axios.get(URL)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -223,9 +188,42 @@ const getData = async () => {
   }
 };
 
+/*
+Update the baseQuery parameter with the selected filters
+Returns the URL that can be used to update the global variable organismes
+https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
+https://docs.strapi.io/dev-docs/api/rest/parameters
+*/
+function updateQueryWithFilters(baseQuery) {
+  let query = baseQuery;
+  if (selectedFilters.value.length === 1) {
+    query = `${query}&filters[thematiques][thematiques][$contains]=${selectedFilters.value[0]}`;
+  }
+  if (selectedFilters.value.length > 1
+            && selectedFilters.value.length < ALL_FILTERS.length) {
+    for (let i = 0; i < selectedFilters.value.length; i += 1) {
+      query = `${query}&filters[$and][${i}][thematiques][thematiques][$contains]=${selectedFilters.value[i]}`;
+    }
+  }
+  if (selectedAgeFilters.value.length === 1) {
+    query = `${query}&filters[ages][age][$contains]=${selectedAgeFilters.value[0]}`;
+  }
+  if (selectedAgeFilters.value.length > 1
+            && selectedAgeFilters.value.length < ALL_AGE_FILTERS.length) {
+    for (let j = 0; j < selectedAgeFilters.value.length; j += 1) {
+      query = `${query}&filters[$and][${j}][ages][age][$contains]=${selectedAgeFilters.value[j]}`;
+    }
+  }
+  return query;
+}
+
+function filterInput(text) {
+  console.log(text); // TODO
+}
+
 function refreshData(currentTab) {
   current.value = currentTab;
-  getData();
+  getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
   window.scroll({
     top: 0,
     left: 0,
@@ -233,8 +231,28 @@ function refreshData(currentTab) {
   });
 }
 
+// Filters organismes cards according to selected thematic filters
+function filterCards(filters) {
+  if (filters.length === 0) {
+    selectedFilters.value = ALL_FILTERS;
+  } else {
+    selectedFilters.value = filters;
+  }
+  refreshData(current.value);
+}
+
+// Filters organismes cards according to selected age filters
+function filterCardsWithAge(ageFilters) {
+  if (ageFilters.length === 0) {
+    selectedAgeFilters.value = ALL_AGE_FILTERS;
+  } else {
+    selectedAgeFilters.value = ageFilters;
+  }
+  refreshData(current.value);
+}
+
 onMounted(() => {
-  getData();
+  getData(BASE_URL.value);
 });
 
 </script>
