@@ -30,7 +30,7 @@
               {{ organismesNumber.number }} affichés
             </p>
             <p v-else>
-              {{ organismesFoundNumber }} organisme trouvé,
+              {{ organismesTotal }} organisme trouvé,
               {{ organismesNumber.number }} affiché
             </p>
           </div>
@@ -52,7 +52,8 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-8 pagination-container q-pb-lg q-pt-md">
-        <PaginationCounter v-model="current" />
+        <PaginationCounter v-model="current" :organismesTotal="organismesTotal"
+                  :pagination="pagination" />
       </div>
       <div class="col-md-2">
       </div>
@@ -130,7 +131,7 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const current = ref(1);
 const organismes = ref([]);
 // Total number of organismes
-const organismesFoundNumber = ref(0);
+const organismesTotal = ref(0);
 // Number of organisme on this page, defined by pagination but might be less than that
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
 // Number of organismes per page
@@ -191,7 +192,7 @@ const getData = async () => {
         }
         console.log(error.config);
       });
-    organismesFoundNumber.value = dataOrganismes.data.meta.pagination.total;
+    organismesTotal.value = dataOrganismes.data.meta.pagination.total;
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,

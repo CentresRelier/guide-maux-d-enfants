@@ -3,7 +3,7 @@
             :value="current"
             model-value="{{ current }}"
             class=""
-            :max="5"
+            :max="this.processNumberOfPages()"
             :round="true"
             color="light-blue"
             />
@@ -11,8 +11,18 @@
 
 <script>
 export default {
-  props: ['current'],
+  name: 'pagination-counter-component',
+  props: ['current', 'organismesTotal', 'pagination'],
   emits: ['current'],
+  methods: {
+    processNumberOfPages() {
+      let nbp = this.organismesTotal / this.pagination;
+      if (this.organismesTotal % this.pagination !== 0) {
+        nbp += 1;
+      }
+      return nbp;
+    },
+  },
 };
 </script>
 
