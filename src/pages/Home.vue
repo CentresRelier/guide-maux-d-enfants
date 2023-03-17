@@ -172,7 +172,7 @@ function getOrganismesImages(dataOrganismes) {
 const getData = async () => {
   try {
     // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
+    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=10`)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
