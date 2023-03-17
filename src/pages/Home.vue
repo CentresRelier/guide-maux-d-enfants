@@ -133,8 +133,12 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
 const current = ref(1);
 const organismes = ref([]);
+// Total number of organismes
 const organismesFoundNumber = ref(0);
+// Number of organisme on this page, defined by pagination but might be less than that
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
+// Number of organismes per page
+const pagination = ref(10);
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -172,7 +176,7 @@ function getOrganismesImages(dataOrganismes) {
 const getData = async () => {
   try {
     // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=10`)
+    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
