@@ -32,8 +32,16 @@
             <div class="col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
-                <a :href="`https://${organisme.website}`" target="_blank" class="website">
-                  {{ organisme.website }}
+                <!-- website url is absolute -->
+                <a v-if="organisme.website.startsWith('http')" :href="`${organisme.website}`"
+                          target="_blank" class="website">
+                  <img class="img" src="/statics/hyperlink-logo.png"
+                          height="35" width="35" />
+                </a>
+                <!-- website url is relative -->
+                <a v-else :href="`//${organisme.website}`" target="_blank" class="website">
+                  <img class="img" src="/statics/hyperlink-logo.png"
+                          height="35" width="35" />
                 </a>
                 <p></p>
               </div>
@@ -285,7 +293,7 @@ function getOrganismeImage(dataOrganisme) {
   if (dataOrganisme.data.data.attributes.img.data !== null) {
     organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
   } else {
-    organisme.value.img = '/statics/default-organisme-image.jpg';
+    organisme.value.img = '/statics/default-organisme-image.png';
   }
 }
 
