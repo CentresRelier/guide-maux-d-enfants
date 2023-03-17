@@ -226,6 +226,11 @@ const getData = async () => {
 function refreshData(currentTab) {
   current.value = currentTab;
   getData();
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  });
 }
 
 onMounted(() => {
