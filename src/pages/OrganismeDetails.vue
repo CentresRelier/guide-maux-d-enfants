@@ -452,7 +452,7 @@ onMounted(() => {
 
 .perimeter-icon-container {
   background-image:
-    url( 'statics/perimeter-icons/round-yellow.svg' );
+    url( 'public/statics/perimeter-icons/round-yellow.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 0 20px;
@@ -461,7 +461,7 @@ onMounted(() => {
 
 .thematique-icon-container {
   background-image:
-    url( 'statics/thematique-icons/round-blue.svg' );
+    url( 'public/statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;
@@ -469,7 +469,7 @@ onMounted(() => {
 
 .age-icon-container {
   background-image:
-    url( 'statics/age-icons/round-green.svg' );
+    url( 'public/statics/age-icons/round-green.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;

@@ -173,78 +173,6 @@
               </div>
             </div>
           </div>
-
-          <!--<div class="col-md-12 q-mb-md">
-            <p class="title-age">Âge(s)</p>
-            <br>
-            <div class="row">
-              <div class="col-md-1">
-              </div>
-              <div class="col-md-10">
-                <div class="row row-icons">
-                  <div v-if="organisme.age.includes('Petite enfance')" class="icon-container">
-                    <q-img src="../assets/age-icons/petiteenfance.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Petite enfance</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.age.includes('Enfance')" class="icon-container">
-                    <q-img src="../assets/age-icons/primaire.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Primaire</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.age.includes('Collège')"
-                          class="icon-container">
-                    <q-img src="../assets/age-icons/college.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Collège</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.age.includes('Lycée')" class="icon-container">
-                    <q-img src="../assets/age-icons/ado.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Lycée</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.age.includes('Jeune adulte')" class="icon-container">
-                    <q-img src="../assets/age-icons/jeuneadulte.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Jeune adulte</strong>
-                    </q-tooltip>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-1">
-              </div>
-            </div>
-          </div>-->
-
         </div>
       </div>
       <div class="col-md-8">
@@ -297,7 +225,7 @@ export default {
   border: 4px solid $accent;
   border-radius: 15px;
   width: 980px;
-  background-image: url( 'statics/background-card.png' );
+  background-image: url( 'public/statics/background-card.png' );
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center, 100%, 0%;
@@ -399,7 +327,7 @@ export default {
 
 .icon-container {
   background-image:
-    url( 'statics/thematique-icons/round-blue.svg' );
+    url( 'public/statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 5px 10px 5px;
