@@ -321,7 +321,7 @@ const getData = async () => {
     organisme.value.title = dataOrganisme.data.data.attributes.nom;
     organisme.value.description = dataOrganisme.data.data.attributes.description;
     organisme.value.website = dataOrganisme.data.data.attributes.website;
-    organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonees;
+    organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonnees;
     organisme.value.contact = dataOrganisme.data.data.attributes.contact;
     organisme.value.email = dataOrganisme.data.data.attributes.email;
     organisme.value.thematique = Object.values(dataOrganisme.data.data.attributes.thematiques.data
