@@ -2,6 +2,7 @@
   <q-input  dense debounce="400" v-model="text" class="search" type="text"
             placeholder="Veuillez entrer une ville ou un code postal..."
             @keyup.enter="onInputChange"
+            @keyup.delete="onInputChange"
             @keyup.esc="resetInput">
     <template v-slot:prepend>
       <q-icon name="room" class="search-button q-pl-sm"/>
@@ -27,6 +28,7 @@ export default {
     },
     resetInput() {
       this.text = '';
+      this.$emit('inputSubmitted', '');
     },
   },
 };

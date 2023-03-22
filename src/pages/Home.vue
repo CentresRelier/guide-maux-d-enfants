@@ -256,7 +256,7 @@ function filterCardsWithAge(ageFilters) {
 
 function filterInput(text) {
   textInput.value = text;
-  refreshData(current.value);
+  getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
 onMounted(() => {
