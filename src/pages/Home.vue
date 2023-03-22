@@ -25,8 +25,8 @@
           </div>
           <div class="col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
-            <p v-if="organismesFoundNumber > 1">
-              {{ organismesFoundNumber }} organismes trouvés,
+            <p v-if="organismesTotal > 1">
+              {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
             </p>
             <p v-else>
