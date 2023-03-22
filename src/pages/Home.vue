@@ -24,7 +24,7 @@
           <div class="col-md-4">
           </div>
           <div class="col-md-4 col-search">
-            <SearchBar />
+            <SearchBar v-on:inputSubmitted="filterInput" />
             <p v-if="organismesFoundNumber > 1">
               {{ organismesFoundNumber }} organismes trouvés,
               {{ organismesNumber.number }} affichés
@@ -102,6 +102,9 @@ export default {
       } else {
         this.selectedAgeFilters = selectedAgeFilters;
       }
+    },
+    filterInput(text) {
+      console.log(text); // TODO
     },
   },
 };
