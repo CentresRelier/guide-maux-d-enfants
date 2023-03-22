@@ -100,6 +100,9 @@ const pagination = ref(10);
 const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
 
+// Text input from SearchBar
+const textInput = ref('');
+
 const organismes = ref([]);
 // Total number of organismes
 const organismesTotal = ref(0);
@@ -214,11 +217,11 @@ function updateQueryWithFilters(baseQuery) {
       query = `${query}&filters[$and][${j}][ages][age][$contains]=${selectedAgeFilters.value[j]}`;
     }
   }
+  if (textInput.value !== '') {
+    query = `${query}&filters[$or][0][commune][$eqi]${textInput.value}
+              &filters[$or][1][code_postal][$startsWithi]${textInput.value.substring(0, 2)}`;
+  }
   return query;
-}
-
-function filterInput(text) {
-  console.log(text); // TODO
 }
 
 function refreshData(currentTab) {
@@ -248,6 +251,11 @@ function filterCardsWithAge(ageFilters) {
   } else {
     selectedAgeFilters.value = ageFilters;
   }
+  refreshData(current.value);
+}
+
+function filterInput(text) {
+  textInput.value = text;
   refreshData(current.value);
 }
 
