@@ -25,12 +25,12 @@
           </div>
           <div class="col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
-            <p v-if="organismesFoundNumber > 1">
-              {{ organismesFoundNumber }} organismes trouvés,
+            <p v-if="organismesTotal > 1">
+              {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
             </p>
             <p v-else>
-              {{ organismesFoundNumber }} organisme trouvé,
+              {{ organismesTotal }} organisme trouvé,
               {{ organismesNumber.number }} affiché
             </p>
           </div>
@@ -38,10 +38,7 @@
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
-          <OrganismeCard v-if="organisme.thematique.some(r=> selectedFilters.includes(r))
-                    && organisme.age.some(r=> selectedAgeFilters.includes(r))"
-                    :organisme="organisme" />
-          <OrganismeCard v-else class="hidden" :organisme="organisme" />
+          <OrganismeCard :organisme="organisme" />
         </div>
       </div>
       <div class="col-md-2">
@@ -52,13 +49,8 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-8 pagination-container q-pb-lg q-pt-md">
-        <q-pagination
-          v-model="current"
-          class=""
-          :max="5"
-          :round="true"
-          color="light-blue"
-        />
+        <PaginationCounter v-model="current" :organismesTotal="organismesTotal"
+                  :pagination="pagination" @click="refreshData(current)"/>
       </div>
       <div class="col-md-2">
       </div>
@@ -78,35 +70,6 @@
 <script>
 export default {
   name: 'home-page',
-  data() {
-    return {
-      // show every thematic & age initially
-      selectedFilters: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      selectedAgeFilters: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
-      // update the following arrays each time an additional filter is created
-      ALL_FILTERS: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-      ALL_AGE_FILTERS: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
-    };
-  },
-  methods: {
-    filterCards(selectedFilters) {
-      if (selectedFilters.length === 0) {
-        this.selectedFilters = this.ALL_FILTERS;
-      } else {
-        this.selectedFilters = selectedFilters;
-      }
-    },
-    filterCardsWithAge(selectedAgeFilters) {
-      if (selectedAgeFilters.length === 0) {
-        this.selectedAgeFilters = this.ALL_AGE_FILTERS;
-      } else {
-        this.selectedAgeFilters = selectedAgeFilters;
-      }
-    },
-    filterInput(text) {
-      console.log(text); // TODO
-    },
-  },
 };
 </script>
 
@@ -126,15 +89,26 @@ import SearchBar from 'components/SearchBar.vue';
 import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
+import PaginationCounter from 'src/components/PaginationCounter.vue';
 
 const $q = useQuasar();
-// const $BASEPATH = `http://${window.location.hostname}:1337`;
-const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
+// Currently selectioned and displayed page of Organismes
 const current = ref(1);
+// Number of organismes per page
+const pagination = ref(10);
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
+const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
+
+// Text input from SearchBar
+const textInput = ref('');
+
 const organismes = ref([]);
-const organismesFoundNumber = ref(0);
+// Total number of organismes
+const organismesTotal = ref(0);
+// Number of organisme on this page, defined by pagination but might be less than that
 const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
+
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
@@ -142,16 +116,12 @@ const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme')
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
 
-// const filterCards = computed({
-//   get() {
-//     return currentTab.value
-//       ? cards.value.filter((card) => card.tag.includes(currentTab.value))
-//       : cards.value;
-//   },
-//   set(val) {
-//     currentTab.value = val;
-//   },
-// });
+// show every thematic & age initially
+const selectedFilters = ref(['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité']);
+const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte']);
+// update the following arrays each time an additional filter is created
+const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
+const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
 /*
 Loads the Organisme's image in the array organismes.
@@ -169,10 +139,9 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
-const getData = async () => {
+const getData = async (URL) => {
   try {
-    // const dataOrganismes = await axios.get(`${$BASEPATH}/api/organismes?populate=*`)
-    const dataOrganismes = await axios.get(`${SERVER_PATH}/api/organismes?populate=*`)
+    const dataOrganismes = await axios.get(URL)
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -191,7 +160,7 @@ const getData = async () => {
         }
         console.log(error.config);
       });
-    organismesFoundNumber.value = dataOrganismes.data.meta.pagination.total;
+    organismesTotal.value = dataOrganismes.data.meta.pagination.total;
     organismes.value = dataOrganismes.data.data.map((organisme) => ({
       ...organisme,
       title: organisme.attributes.nom,
@@ -222,8 +191,76 @@ const getData = async () => {
   }
 };
 
+/*
+Update the baseQuery parameter with the selected filters
+Returns the URL that can be used to update the global variable organismes
+https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
+https://docs.strapi.io/dev-docs/api/rest/parameters
+*/
+function updateQueryWithFilters(baseQuery) {
+  let query = baseQuery;
+  if (selectedFilters.value.length === 1) {
+    query = `${query}&filters[thematiques][thematiques][$contains]=${selectedFilters.value[0]}`;
+  }
+  if (selectedFilters.value.length > 1
+            && selectedFilters.value.length < ALL_FILTERS.length) {
+    for (let i = 0; i < selectedFilters.value.length; i += 1) {
+      query = `${query}&filters[$and][${i}][thematiques][thematiques][$contains]=${selectedFilters.value[i]}`;
+    }
+  }
+  if (selectedAgeFilters.value.length === 1) {
+    query = `${query}&filters[ages][age][$contains]=${selectedAgeFilters.value[0]}`;
+  }
+  if (selectedAgeFilters.value.length > 1
+            && selectedAgeFilters.value.length < ALL_AGE_FILTERS.length) {
+    for (let j = 0; j < selectedAgeFilters.value.length; j += 1) {
+      query = `${query}&filters[$and][${j}][ages][age][$contains]=${selectedAgeFilters.value[j]}`;
+    }
+  }
+  if (textInput.value !== '') {
+    query = `${query}&filters[$or][0][commune][$eqi]=${textInput.value}
+              &filters[$or][1][code_postal][$startsWithi]=${textInput.value.substring(0, 2)}`;
+  }
+  return query;
+}
+
+function refreshData(currentTab) {
+  current.value = currentTab;
+  getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  });
+}
+
+// Filters organismes cards according to selected thematic filters
+function filterCards(filters) {
+  if (filters.length === 0) {
+    selectedFilters.value = ALL_FILTERS;
+  } else {
+    selectedFilters.value = filters;
+  }
+  refreshData(current.value);
+}
+
+// Filters organismes cards according to selected age filters
+function filterCardsWithAge(ageFilters) {
+  if (ageFilters.length === 0) {
+    selectedAgeFilters.value = ALL_AGE_FILTERS;
+  } else {
+    selectedAgeFilters.value = ageFilters;
+  }
+  refreshData(current.value);
+}
+
+function filterInput(text) {
+  textInput.value = text;
+  getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
+}
+
 onMounted(() => {
-  getData();
+  getData(BASE_URL.value);
 });
 
 </script>
