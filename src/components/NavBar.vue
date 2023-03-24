@@ -6,7 +6,8 @@
       <div class="col-xs-11 col-sm-8 col-md-8 col2">
         <div class="row">
           <div class="col-xs-1 col-sm-2 col-md-3 col-logo">
-            <q-img src="statics/CR_logo.svg" height="70px" width="109px"/>
+            <q-img class="cursor-pointer" src="statics/CR_logo.svg" height="70px" width="109px"
+                      @click="GoToHomePage()"/>
           </div>
           <div class="col-xs-1 col-sm-2 col-md-9 col-link">
             <div class="row row-link">
@@ -51,6 +52,12 @@
 export default {
   name: 'navbar-component',
 };
+</script>
+
+<script setup>
+function GoToHomePage() {
+  window.location = '/';
+}
 </script>
 
 <style lang="scss" scoped>

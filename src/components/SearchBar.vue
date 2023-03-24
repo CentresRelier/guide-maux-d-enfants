@@ -8,7 +8,8 @@
       <q-icon name="room" class="search-button q-pl-sm"/>
     </template>
     <template v-slot:append>
-      <q-icon name="search" class="search-button q-pr-sm" @click="onInputChange"/>
+      <q-icon name="search" class="search-button q-pr-sm cursor-pointer"
+                @click="onInputChange"/>
     </template>
   </q-input>
 </template>
