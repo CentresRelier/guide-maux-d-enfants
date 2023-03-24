@@ -39,7 +39,6 @@
               class="input shadow-3"
               placeholder="Nom de l'organisme"
               v-model="organismeName"
-              @keyup="validateName"
               @keydown.esc="resetData('organismeName')">
               <template v-slot:append>
                 <q-icon color="positive" name="check" class="q-pl-sm"/>
@@ -77,7 +76,6 @@
             class="input shadow-3"
             placeholder="Url du site web de votre organisme"
             v-model="organismeUrl"
-            @keyup="validateUrl"
             @keydown.esc="resetData('organismeUrl')">
             <template v-slot:append>
               <q-icon color="positive" name="check" class="q-pl-sm"/>
@@ -223,20 +221,6 @@ export default {
     };
   },
   methods: {
-    validateName() {
-      if (this.organismeName === '') {
-        return;
-      }
-      const nameToValidate = this.organismeName;
-      console.log(nameToValidate);
-    },
-    validateUrl() {
-      if (this.organismeUrl === '') {
-        return;
-      }
-      const urlToValidate = this.organismeUrl;
-      console.log(urlToValidate);
-    },
     resetData(toBeReset) {
       if (toBeReset === 'organismeName') {
         this.organismeName = '';
