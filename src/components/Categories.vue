@@ -4,26 +4,32 @@
       <FilterButton
         :buttonTexte="'Addiction'"
         :urlIcon="addictionUrl"
+        :tooltip="'Addiction'"
         v-on:filterSelected="updateFilters('Addiction')"/>
       <FilterButton
         :buttonTexte="'Violence'"
         :urlIcon="violenceUrl"
+        :tooltip="'Violence'"
         v-on:filterSelected="updateFilters('Violence')"/>
       <FilterButton
         :buttonTexte="'Discrimination'"
         :urlIcon="discriminationUrl"
+        :tooltip="'Discrimination'"
         v-on:filterSelected="updateFilters('Discrimination')"/>
       <FilterButton
         :buttonTexte="'Harcèlement'"
         :urlIcon="harasmentUrl"
+        :tooltip="'Harcèlement'"
         v-on:filterSelected="updateFilters('Harcèlement')"/>
       <FilterButton
         :buttonTexte="'Santé mentale'"
         :urlIcon="mentalHealthUrl"
+        :tooltip="'Santé mentale'"
         v-on:filterSelected="updateFilters('Santé mentale')"/>
       <FilterButton
         :buttonTexte="'Sexualité'"
         :urlIcon="sexualityUrl"
+        :tooltip="'Sexualité'"
         v-on:filterSelected="updateFilters('Sexualité')"/>
     </div>
     <div class="button-container row">

@@ -3,10 +3,16 @@
     <div v-if="this.selected" class="button selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
+      <q-tooltip transition-show="flip-right" transition-hide="flip-left">
+        {{ tooltip }}
+      </q-tooltip>
     </div>
     <div v-else class="button not-selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
+      <q-tooltip transition-show="flip-right" transition-hide="flip-left">
+        {{ tooltip }}
+      </q-tooltip>
     </div>
   </div>
 </template>
@@ -17,6 +23,7 @@ export default {
   props: {
     urlIcon: String,
     buttonTexte: String,
+    tooltip: String,
   },
   data() {
     return {
