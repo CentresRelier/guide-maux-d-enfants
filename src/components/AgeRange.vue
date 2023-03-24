@@ -2,15 +2,25 @@
   <div>
     <q-card class="card-range q-pr-sm q-pl-sm">
       <div class="row q-pt-lg">
-        <FilterButton :urlIcon="enfance" :buttonTexte="'Petite enfance'"
+        <FilterButton :urlIcon="enfance"
+                  :buttonTexte="'Petite enfance'"
+                  :tooltip="'Petite enfance'"
                   v-on:filterSelected="updateFilters('Petite enfance')"/>
-        <FilterButton :urlIcon="primaire" :buttonTexte="'Primaire'"
+        <FilterButton :urlIcon="primaire"
+                  :buttonTexte="'Primaire'"
+                  :tooltip="'Primaire'"
                   v-on:filterSelected="updateFilters('Primaire')"/>
-        <FilterButton :urlIcon="college" :buttonTexte="'Collège'"
+        <FilterButton :urlIcon="college"
+                  :buttonTexte="'Collège'"
+                  :tooltip="'Collège'"
                   v-on:filterSelected="updateFilters('Collège')"/>
-        <FilterButton :urlIcon="lycee" :buttonTexte="'Lycée'"
+        <FilterButton :urlIcon="lycee"
+                  :buttonTexte="'Lycée'"
+                  :tooltip="'Lycée'"
                   v-on:filterSelected="updateFilters('Lycée')"/>
-        <FilterButton :urlIcon="adulte" :buttonTexte="'Jeune adulte'"
+        <FilterButton :urlIcon="adulte"
+                  :buttonTexte="'Jeune adulte'"
+                  :tooltip="'Jeune adulte'"
                   v-on:filterSelected="updateFilters('Jeune adulte')"/>
       </div>
     </q-card>
