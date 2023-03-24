@@ -108,6 +108,10 @@ export default {
 }
 
 .selected {
+  background-image:
+    url( 'statics/thematique-icons/round-blue.svg' );
+  background-repeat: no-repeat;
+  background-position: center, 10%,10%;
   opacity: 1;
 }
 
