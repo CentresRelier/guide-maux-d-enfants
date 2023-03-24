@@ -1,6 +1,6 @@
 <template>
   <q-input  dense debounce="400" v-model="text" class="search" type="text"
-            placeholder="Veuillez entrer une ville ou un code postal..."
+            placeholder="Entrez une ville ou un code postal"
             @keyup.enter="onInputChange"
             @keyup.delete="onInputChange"
             @keyup.esc="resetInput">
