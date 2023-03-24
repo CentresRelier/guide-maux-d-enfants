@@ -4,7 +4,7 @@
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
     </div>
-    <div v-else class="button" @click="toggleFilter">
+    <div v-else class="button not-selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
     </div>
@@ -26,13 +26,6 @@ export default {
   methods: {
     toggleFilter() {
       this.selected = !this.selected;
-      /*
-      if (this.selected === true) {
-        this.class += 'input:checked';
-      } else {
-        this.class.remove('input:checked');
-      }
-      */
       this.$emit('filterSelected');
     },
   },
@@ -43,11 +36,15 @@ export default {
 </script>
 
 <style scoped>
+
+.not-selected {
+  opacity: 0.4;
+}
+
 .button-container {
   height: 100px;
   width: 100px;
   text-align: center;
-  opacity: 0.4;
 }
 
 .button-container:hover {
@@ -60,6 +57,7 @@ export default {
     url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
+  opacity: 1;
 }
 
 .texte {
@@ -110,7 +108,7 @@ export default {
 }
 
 .selected {
-  background-color:rgba(0, 132, 255, 0.979);
+  opacity: 1;
 }
 
 </style>

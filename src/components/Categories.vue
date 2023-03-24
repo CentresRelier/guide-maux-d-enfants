@@ -86,7 +86,6 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
   height: 100px;
   width: 100px;
   text-align: center;
-  opacity: 0.4;
 }
 
 .button-container:hover {
