@@ -218,8 +218,7 @@ function updateQueryWithFilters(baseQuery) {
     }
   }
   if (textInput.value !== '') {
-    query = `${query}&filters[$or][0][commune][$eqi]=${textInput.value}
-              &filters[$or][1][code_postal][$startsWithi]=${textInput.value.substring(0, 2)}`;
+    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWithi]=${textInput.value.substring(0, 2)}`;
   }
   return query;
 }
