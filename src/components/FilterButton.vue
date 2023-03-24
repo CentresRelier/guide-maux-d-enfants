@@ -3,14 +3,14 @@
     <div v-if="this.selected" class="button selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
-      <q-tooltip transition-show="flip-right" transition-hide="flip-left">
+      <q-tooltip transition-show="scale">
         {{ tooltip }}
       </q-tooltip>
     </div>
     <div v-else class="button not-selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" height="58px" width="58px" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
-      <q-tooltip transition-show="flip-right" transition-hide="flip-left">
+      <q-tooltip transition-show="scale">
         {{ tooltip }}
       </q-tooltip>
     </div>
