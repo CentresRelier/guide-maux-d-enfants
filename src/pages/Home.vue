@@ -6,12 +6,12 @@
     </div>
 
     <div class="row q-pt-md">
-      <div class="col-md-2">
-        <div class="q-pt-xl ellipse-left-home">
+      <div class=" col-sm-0 col-md-2">
+        <div v-if="windowWidth > 768" class="q-pt-xl ellipse-left-home">
           <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-sm-12 col-md-8">
         <div class="row row-filter">
           <div class="categories-container q-pr-sm">
             <Categories v-on:filtersUpdated="filterCards" />
@@ -21,9 +21,9 @@
           </div>
         </div>
         <div class="q-pt-lg">
-          <div class="col-md-4">
+          <div class=" col-xs-0 col-sm-0 col-md-4">
           </div>
-          <div class="col-md-4 col-search">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
             <p v-if="organismesTotal > 1">
               {{ organismesTotal }} organismes trouvés,
@@ -34,25 +34,25 @@
               {{ organismesNumber.number }} affiché
             </p>
           </div>
-          <div class="col-md-4">
+          <div class="col-xs-0 col-md-4">
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
           <OrganismeCard :organisme="organisme" />
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-sm-0 col-md-2">
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-xs-0 col-md-2">
       </div>
-      <div class="col-md-8 pagination-container q-pb-lg q-pt-md">
+      <div class="col-xs-12 col-md-8 pagination-container q-pb-lg q-pt-md">
         <PaginationCounter v-model="current" :organismesTotal="organismesTotal"
                   :pagination="pagination" @click="refreshData(current)"/>
       </div>
-      <div class="col-md-2">
+      <div class="col-xs-0 col-md-2">
       </div>
     </div>
 
@@ -79,7 +79,7 @@ import {
   ref,
   onMounted,
   computed,
-  reactive,
+  reactive, onUnmounted,
 } from 'vue';
 import axios from 'axios';
 import Head from 'components/Head.vue';
@@ -123,6 +123,8 @@ const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycé
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
+const windowWidth = ref(window.innerWidth);
+
 /*
 Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
@@ -134,7 +136,7 @@ function getOrganismesImages(dataOrganismes) {
     if (dataOrganismes.data.data[i].attributes.img.data !== null) {
       found.img = `${SERVER_PATH}${dataOrganismes.data.data[i].attributes.img.data.attributes.url}`;
     } else {
-      found.img = '/statics/default-organisme-image.png';
+      found.img = '/statics/CR_logo-svg.svg';
     }
   }
 }
@@ -258,10 +260,16 @@ function filterInput(text) {
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
+function onWidthChange() {
+  windowWidth.value = window.innerWidth;
+}
+
 onMounted(() => {
   getData(BASE_URL.value);
+  window.addEventListener('resize', onWidthChange);
 });
 
+onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 <style scoped>
 .col-search {
@@ -270,10 +278,34 @@ onMounted(() => {
 
 .head {
   padding-top: 100px;
+  margin-bottom: 25px;
 }
 
 .row-filter {
   justify-content: center;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .row-filter {
+    justify-content: center;
+    flex-direction: column;
+    max-width: 432px;
+  }
+  .col-search {
+    text-align: center;
+    text-align: -webkit-center;
+  }
+  .head {
+    margin-bottom: 0;
+  }
+  .categories-container {
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
+  .age-range-container {
+    align-self: center;
+    width: 416px;
+  }
 }
 
 .ellipse-left-home {

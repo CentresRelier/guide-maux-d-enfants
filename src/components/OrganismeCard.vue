@@ -1,11 +1,19 @@
 <template>
   <q-card class="card q-mt-lg q-mb-sm">
     <div class="row">
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-md-12 col">
+      <div class="col-xs-12 col-md-4">
+        <div class="row row-mobile">
+          <div class="col-md-12 col col-mobile">
             <div class="img-container q-mt-md q-ml-md">
               <img class="img" :src="organisme.img" />
+            </div>
+          </div>
+          <div v-if="windowWidth <= 768" class="col-md-12">
+            <div class="row">
+              <div class="col-xs-0 col-md-5"></div>
+              <div class="col-xs-12 col-md-7">
+                <p class="title q-pt-lg  q-pr-lg q-ml-lg">{{ organisme.title }}</p>
+              </div>
             </div>
           </div>
           <div class="col-md-12">
@@ -13,14 +21,13 @@
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
-
           <div class="col-md-12 q-mb-md">
             <p class="title-thematique">Thématiques :</p>
             <br>
             <div v-if="organisme.thematique.length <= 3" class="row">
-              <div class="col-md-1">
+              <div class="col-xs-0 col-md-1">
               </div>
-              <div class="col-md-10">
+              <div class="col-xs-12 col-md-10">
                 <div class="row row-icons">
                   <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
                     <q-img src="statics/thematique-icons/addiction.png"
@@ -91,14 +98,14 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-1">
+              <div class="col-xs-0 col-md-1">
               </div>
             </div>
 
             <div v-if="organisme.thematique.length > 3" class="row">
-              <div class="col-md-2">
+              <div class="col-xs-1 col-md-2">
               </div>
-              <div class="col-md-8">
+              <div class="col-xs-10 col-md-8">
                 <div class="row row-icons">
                   <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
                     <q-img src="statics/thematique-icons/addiction.png"
@@ -169,40 +176,40 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-xs-1 col-md-2">
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-xs-12 col-md-8">
         <div class="row">
-          <div class="col-md-12">
+          <div v-if="windowWidth > 768" class="col-md-12">
             <div class="row">
-              <div class="col-md-5"></div>
-              <div class="col-md-7">
+              <div class="col-xs-0 col-md-5"></div>
+              <div class="col-xs-12 col-md-7">
                 <p class="title q-pt-lg  q-pr-lg q-ml-lg">{{ organisme.title }}</p>
               </div>
             </div>
           </div>
-          <div class="col-md-12 q-pr-lg texte-container">
+          <div class="col-xs-12 col-md-12 q-pr-lg texte-container">
             <p class="title-description">Description :</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
           </div>
-          <div class="col-md-12 q-mb-md button-container absolute-bottom">
-            <router-link
-              class="link"
-              :to="{ name: 'organismeDetail', params: { id: organisme.id } }">
-              <q-btn
-                class="button"
-                rounded
-                size="md">
-                En savoir +
-              </q-btn>
-            </router-link>
-          </div>
         </div>
+      </div>
+      <div class="col-xs-12 col-md-12 q-mb-md button-container">
+        <router-link
+          class="link"
+          :to="{ name: 'organismeDetail', params: { id: organisme.id } }">
+          <q-btn
+            class="button"
+            rounded
+            size="md">
+            En savoir +
+          </q-btn>
+        </router-link>
       </div>
     </div>
   </q-card>
@@ -218,6 +225,18 @@ export default {
 
 </script>
 <script setup>
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const windowWidth = ref(window.innerWidth);
+function onWidthChange() {
+  windowWidth.value = window.innerWidth;
+}
+
+onMounted(() => {
+  window.addEventListener('resize', onWidthChange);
+});
+
+onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 
 <style lang="scss" scoped>
@@ -232,18 +251,19 @@ export default {
 }
 
 .img-container {
-  height: 172px;
-  width: 288px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   border-radius: 10px;
+  object-fit: contain;
+  overflow: hidden;
+  margin-right: 25px;
 }
 
 .img {
+  height: 100%;
   max-height: 172px;
-  max-width: 288px;
+  min-height: 172px;
   object-fit: contain;
   border-radius: 10px;
 }
@@ -333,4 +353,64 @@ export default {
   padding: 0 5px 10px 5px;
 }
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .card {
+    border: 4px solid $accent;
+    border-radius: 15px;
+    width: 400px;
+    background-image: url('public/statics/background-card.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center, 100%, 0%;
+  }
+  .row-mobile {
+    flex-direction: column;
+  }
+  .texte-container {
+    padding: 0 16px 0 16px;
+    margin: 0;
+  }
+  .title {
+    padding-top: 25px;
+    font-size: 28px;
+  }
+  .title-coordinates {
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 24px;
+  }
+  .title-thematique {
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 24px;
+  }
+  .title-description {
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 24px;
+    text-align: center;
+  }
+  .img-container {
+    margin-right: 18px;
+  }
+  .img {
+    max-height: 200px;
+    min-height: 200px;
+  }
+  .row-icons {
+    justify-content: center;
+    place-content: center;
+  }
+  .col-mobile {
+    min-height: 220px;
+  }
+  .button-container {
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
+  .button {
+    height: 45px;
+    width: 170px;
+  }
+}
 </style>

@@ -86,4 +86,11 @@ export default {
 .button:hover {
   background-color: $accent;
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .texte {
+    padding: 40px 10px 0px 10px;
+  }
+}
+
 </style>

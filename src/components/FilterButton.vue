@@ -1,14 +1,14 @@
 <template>
   <div class="button-container">
     <div v-if="this.selected" class="button selected" @click="toggleFilter">
-      <q-img class="img" :src="urlIcon" height="58px" width="58px" />
+      <q-img class="img" :src="urlIcon" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
       <q-tooltip transition-show="scale">
         {{ tooltip }}
       </q-tooltip>
     </div>
     <div v-else class="button not-selected" @click="toggleFilter">
-      <q-img class="img" :src="urlIcon" height="58px" width="58px" />
+      <q-img class="img" :src="urlIcon" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
       <q-tooltip transition-show="scale">
         {{ tooltip }}
@@ -43,7 +43,10 @@ export default {
 </script>
 
 <style scoped>
-
+.img {
+  height: 58px;
+  width: 58px;
+}
 .not-selected {
   opacity: 0.4;
 }
@@ -111,7 +114,6 @@ export default {
 
 .action input:checked + span {
   background-color: #F75A1B;
-
 }
 
 .selected {
@@ -120,6 +122,21 @@ export default {
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
   opacity: 1;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .img {
+    height: 45px;
+    width: 45px;
+  }
+  .button-container {
+    height: 70px;
+    width: 70px;
+    justify-content: center;
+  }
+  .texte {
+    overflow: hidden;
+  }
 }
 
 </style>

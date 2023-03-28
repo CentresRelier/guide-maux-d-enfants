@@ -1,6 +1,8 @@
 <template>
   <div>
-    <q-btn></q-btn>
+    <q-btn @click="GoToHomePage" flat>
+      <img class="img" src="/statics/return.svg" />
+    </q-btn>
   </div>
 </template>
 
@@ -8,8 +10,16 @@
 export default {
   name: 'return-component',
 };
+
 </script>
-
+<script setup>
+function GoToHomePage() {
+  window.location = '/';
+}
+</script>
 <style scoped>
-
+.img {
+  height: 40px;
+  width: 40px;
+}
 </style>

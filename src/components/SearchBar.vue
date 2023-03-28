@@ -45,4 +45,12 @@ export default {
 .search-button {
   color: $accent;
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .search {
+    border: 4px solid $secondary;
+    border-radius: 35px;
+    width: 350px;
+  }
+}
 </style>
