@@ -2,34 +2,41 @@
   <div class="container">
 
     <div class="head">
-      <Head :title="homeTitle"/>
+      <Head :title1="homeTitle1" :title2="homeTitle2"/>
     </div>
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-xs-0 col-md-2">
       </div>
-      <div class="col-md-8 title">
-        <h5 class="page-title">Détails de l’organisme </h5>
+      <div class="col-xs-12 col-md-8 title">
+        <div class="row">
+          <div v-if="windowWidth <= 768" class="col-xs-2 col-md-0 return-btn">
+            <ReturnButton />
+          </div>
+          <div class="col-xs-10 col-md-12">
+            <h5 class="page-title">Détails de l’organisme </h5>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-xs-0 col-md-2">
       </div>
     </div>
 
     <div class="row q-mb-sm">
-      <div class="col-md-3">
+      <div class="col-xs-0 col-md-3">
       </div>
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-md-4 img-container">
-            <img class="img" :src="organisme.img" />
+      <div class="col-xs-12 col-md-6">
+        <div class="row row-mobile">
+          <div class="col-xs-12 col-md-4 img-container">
+            <img class="img-organisme" :src="organisme.img" />
           </div>
-          <div class="col-md-8">
-            <div class="col-md-12 q-mb-sm">
+          <div class="col-xs-12 col-md-8">
+            <div class="col-xs-12 col-md-12 q-mb-sm">
               <div class="name q-ml-sm block-container">
                 <p class="name-text">{{ organisme.title }}</p>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-xs-12 col-md-12">
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
                 <!-- website url is absolute -->
@@ -49,17 +56,17 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-xs-0 col-md-3">
       </div>
     </div>
 
     <div class="row q-pb-xl">
-      <div class="col-md-3">
+      <div class="col-xs-0 col-md-3">
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-12 col-md-6">
         <div class="row">
-          <div class="col-md-4 coordinate-container block-container">
-            <div class="col-md-12">
+          <div class="col-xs-12 col-md-4 coordinate-container">
+            <div class="col-xs-12 col-md-12">
               <p class="block-title perimeter">Périmètre</p>
               <div class="row row-perimeter">
                 <div class="row row-perimeter">
@@ -103,20 +110,20 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-xs-12 col-md-12">
               <p class="block-title coordinate">Coordonnées</p>
               <p class="coordinate-texte">{{ organisme.coordinate }}</p>
             </div>
-            <div class="col-md-12">
+            <div class="col-xs-12 col-md-12">
               <p class="block-title contact">Contact</p>
               <p class="coordinate-texte">{{ organisme.contact }}</p>
             </div>
-            <div class="col-md-12">
+            <div class="col-xs-12 col-md-12">
               <p class="block-title email">Email</p>
               <p class="coordinate-texte">{{ organisme.email }}</p>
             </div>
           </div>
-          <div class="col-md-8">
+          <div class="col-xs-12 col-md-8">
             <div class="col-md-12 q-pb-sm">
               <div class="q-ml-sm block-container">
                 <p class="block-title title-description">Description</p>
@@ -187,7 +194,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-xs-12 col-md-12">
               <div class="q-ml-sm block-container">
                 <p v-if="organisme.age.length <= 1" class="block-title age">Tranche d'âge</p>
                 <p v-else class="block-title age">Tranches d'âge</p>
@@ -238,7 +245,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-xs-0 col-md-3">
       </div>
     </div>
       <Social :title="socialTitle"/>
@@ -254,11 +261,12 @@ export default {
 </script>
 <script setup>
 import {
-  onMounted, ref,
+  onMounted, onUnmounted, ref,
 } from 'vue';
 import { useRoute } from 'vue-router';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
+import ReturnButton from 'components/ReturnButton.vue';
 import Head from 'components/Head.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
@@ -267,12 +275,15 @@ const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
 const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 
-const homeTitle = ref('Le guide Maux d\'enfants mode d\'emploi \n Des organismes gratuits pour accompagner vos enfants');
+const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
+const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
 const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
 const footerTitle = ref('Ces informations sont recueillies automatiquement depuis le site internet de l\'organisme. \n'
   + 'Aidez nous à mettre à jour les informations.');
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Mettre à jour l\'organisme');
+
+const windowWidth = ref(window.innerWidth);
 
 const route = useRoute();
 
@@ -293,7 +304,7 @@ function getOrganismeImage(dataOrganisme) {
   if (dataOrganisme.data.data.attributes.img.data !== null) {
     organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
   } else {
-    organisme.value.img = '/statics/default-organisme-image.png';
+    organisme.value.img = '/statics/CR_logo-svg.svg';
   }
 }
 
@@ -348,9 +359,16 @@ const getData = async () => {
   }
 };
 
+function onWidthChange() {
+  windowWidth.value = window.innerWidth;
+}
+
 onMounted(() => {
   getData();
+  window.addEventListener('resize', onWidthChange);
 });
+
+onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 
 </script>
 
@@ -367,23 +385,32 @@ onMounted(() => {
   color: $accent;
 }
 
-.img {
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  object-fit: contain;
+  overflow: hidden;
+  background-color: #EDF9FF;
+  border: 4px solid $accent;
+}
+
+.img-organisme {
+  height: 100%;
+  min-height: 197px;
   max-height: 197px;
-  max-width: 300px;
   object-fit: contain;
   border-radius: 10px;
 }
 
-.img-container {
-  height: 205px;
-  text-align: center;
-  justify-content: center;
-  background-color: white;
+.block-container {
   border: 4px solid $accent;
   border-radius: 15px;
+  background-color: #EDF9FF;
 }
 
-.block-container {
+.coordinate-container {
   border: 4px solid $accent;
   border-radius: 15px;
   background-color: #EDF9FF;
@@ -430,6 +457,8 @@ onMounted(() => {
   font-size: 18px;
   color: $accent;
   padding: 0 15px 0 15px;
+  overflow-wrap: break-word;
+  white-space: pre-line;
 }
 
 .thematique {
@@ -499,4 +528,28 @@ onMounted(() => {
   height: 90px;
 }
 
+.return-btn {
+  align-self: center;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .row-mobile {
+    flex-direction: column;
+  }
+  .page-title {
+    margin: 25px 0 25px 0;
+  }
+  .img-container {
+    margin: 0 16px 8px 16px;
+    max-width: 400px;
+  }
+  .block-container {
+    margin: 0 16px 0px 16px;
+    max-width: 400px;
+  }
+  .coordinate-container {
+    margin: 0 16px 8px 16px;
+    width:400px;
+  }
+}
 </style>

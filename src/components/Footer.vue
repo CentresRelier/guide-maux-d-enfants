@@ -81,4 +81,13 @@ export default {
   text-decoration: none;
 }
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .texte {
+    padding-top: 80px;
+  }
+  .container {
+    height: 300px;
+  }
+}
+
 </style>

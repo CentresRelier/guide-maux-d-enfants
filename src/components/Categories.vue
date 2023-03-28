@@ -12,11 +12,10 @@
         :tooltip="'Violences physiques, sexuelles, psychologiques, cyber-violences...'"
         v-on:filterSelected="updateFilters('Violence')"/>
       <FilterButton
-        :buttonTexte="'Discrimination'"
-        :urlIcon="discriminationUrl"
-        :tooltip="`Raciale, sociale, religieuse, sexiste, culturelle, transphobie,
-                basée sur l'orientation sexuelle, l'apparence physique, le handicap...`"
-        v-on:filterSelected="updateFilters('Discrimination')"/>
+        :buttonTexte="'Sexualité'"
+        :urlIcon="sexualityUrl"
+        :tooltip="'Prévention, genre, orientation sexuelle, prostitution...'"
+        v-on:filterSelected="updateFilters('Sexualité')"/>
       <FilterButton
         :buttonTexte="'Harcèlement'"
         :urlIcon="harasmentUrl"
@@ -28,10 +27,11 @@
         :tooltip="'Dépression, phobies, envies suicidaires, anxiété, isolement...'"
         v-on:filterSelected="updateFilters('Santé mentale')"/>
       <FilterButton
-        :buttonTexte="'Sexualité'"
-        :urlIcon="sexualityUrl"
-        :tooltip="'Prévention, genre, orientation sexuelle, prostitution...'"
-        v-on:filterSelected="updateFilters('Sexualité')"/>
+        :buttonTexte="'Discrimination'"
+        :urlIcon="discriminationUrl"
+        :tooltip="`Raciale, sociale, religieuse, sexiste, culturelle, transphobie,
+                basée sur l'orientation sexuelle, l'apparence physique, le handicap...`"
+        v-on:filterSelected="updateFilters('Discrimination')"/>
     </div>
     <div class="button-container row">
     </div>
@@ -98,5 +98,20 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
 .button-container:hover {
   opacity: 0.6;
   transition: ease-out 300ms;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .img {
+    height: 45px;
+    width: 45px;
+  }
+  .button-container {
+    height: 65px;
+    width: 65px;
+    text-align: center;
+  }
+  .row {
+    padding-top: 16px;
+  }
 }
 </style>

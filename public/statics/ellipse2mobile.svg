@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 128" width="500" height="128">
+	<title>Nouveau projet</title>
+	<defs>
+		<image width="500" height="128" id="img1" href="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDUwMCAxMjgiIHdpZHRoPSI1MDAiIGhlaWdodD0iMTI4Ij4NCgk8dGl0bGU+Tm91dmVhdSBwcm9qZXQ8L3RpdGxlPg0KCTxzdHlsZT4NCgkJLnMwIHsgb3BhY2l0eTogLjM7ZmlsbDogIzE0ODBiYiB9DQoJPC9zdHlsZT4NCgk8cGF0aCBpZD0iTGF5ZXIiIGNsYXNzPSJzMCIgZD0ibS0zOC4zLTQyLjJjLTc0LjctNTMuNS0yNjIuOS01MC00MDktMTEuMi05NS45IDI1LjQtOTEuNyA1MC0yNDguNSA1MC0zNjQuMyAwLTI2Ni45LTE1Ny40LTIzOC4yLTE2OS40IDMzLjItMTMuOCAxMTYxLjktMTIuNyAxMjA0LTEyLjcgMTE5LjMgMCAyMTYgNjQuMSAyMTYgMTQzLjMgMCA3OS4xLTk2LjcgMTQzLjItMjE2IDE0My4yLTExOS4zIDAtMTk0LjktNjIuMS0zMDguMy0xNDMuMnoiLz4NCjwvc3ZnPg0K"/>
+	</defs>
+	<style>
+	</style>
+	<use id="ellipse2" href="#img1" transform="matrix(.5,0,0,.501,250,0)"/>
+</svg>

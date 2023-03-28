@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card class="card-range q-pr-sm q-pl-sm">
-      <div class="row q-pt-lg">
+      <div class="row row-age q-pt-lg">
         <FilterButton :urlIcon="enfance"
                   :buttonTexte="'Petite enfance'"
                   :tooltip="'Petite enfance'"
@@ -64,5 +64,21 @@ const adulte = ref('statics/age-icons/jeuneadulte.png');
   height: 125px;
   border-radius: 15px;
   border: 3px solid $secondary;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .img {
+    height: 45px;
+    width: 45px;
+  }
+  .card-range {
+    height: 125px;
+    border-radius: 15px;
+    border: 3px solid $secondary;
+  }
+  .row-age {
+    justify-content: space-around;
+    padding-top: 16px;
+  }
 }
 </style>
