@@ -1,21 +1,31 @@
-# Quasar App (vue-organismes)
+![logo](https://centresrelier.org/wp-content/uploads/2022/01/CR_logo.svg)
 
-A Quasar Project
+# Guide Maux D'enfants
 
-## Install the dependencies
+Le projet associatif a pour but de regrouper toutes les associations de france en raport avec les enfants victimes
+de harcèlement ou violence sous toutes ces formes.
+
+
+# Stack thechnique
+
+Le projet est construit en vue3 et Quasar.
+
+La partie back-end est un Strapi.
+
+## Installer les dépendances
 ```bash
 yarn
 # or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Run le projet
 ```bash
 quasar dev
 ```
 
 
-### Lint the files
+### Lint
 ```bash
 yarn lint
 # or
@@ -24,10 +34,11 @@ npm run lint
 
 
 
-### Build the app for production
+### Production
 ```bash
 quasar build
 ```
 
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+### Configuration
+Voir [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+
