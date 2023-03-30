@@ -10,7 +10,7 @@
       </div>
       <div class="col-xs-12 col-md-8 title">
         <div class="row">
-          <div v-if="windowWidth <= 768" class="col-xs-2 col-md-0 return-btn">
+          <div class="col-xs-2 col-md-0 return-btn">
             <ReturnButton />
           </div>
           <div class="col-xs-10 col-md-12">
@@ -22,10 +22,10 @@
       </div>
     </div>
 
-    <div class="row q-mb-sm">
-      <div class="col-xs-0 col-md-3">
+    <div class="row q-mb-sm row-main">
+      <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
-      <div class="col-xs-12 col-md-6">
+      <div class="col-xs-12 col-md-8 col-lg-6">
         <div class="row row-mobile">
           <div class="col-xs-12 col-md-4 img-container">
             <img class="img-organisme" :src="organisme.img" />
@@ -56,15 +56,15 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-0 col-md-3">
+      <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
     </div>
 
     <div class="row q-pb-xl">
-      <div class="col-xs-0 col-md-3">
+      <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
-      <div class="col-xs-12 col-md-6">
-        <div class="row">
+      <div class="col-xs-12 col-md-8 col-lg-6">
+        <div class="row row-coordinate">
           <div class="col-xs-12 col-md-4 coordinate-container">
             <div class="col-xs-12 col-md-12">
               <p class="block-title perimeter">Périmètre</p>
@@ -245,7 +245,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-0 col-md-3">
+      <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
     </div>
       <Social :title="socialTitle"/>
@@ -261,7 +261,7 @@ export default {
 </script>
 <script setup>
 import {
-  onMounted, onUnmounted, ref,
+  onMounted, ref,
 } from 'vue';
 import { useRoute } from 'vue-router';
 import Social from 'components/Social.vue';
@@ -282,8 +282,6 @@ const footerTitle = ref('Ces informations sont recueillies automatiquement depui
   + 'Aidez nous à mettre à jour les informations.');
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Mettre à jour l\'organisme');
-
-const windowWidth = ref(window.innerWidth);
 
 const route = useRoute();
 
@@ -359,16 +357,9 @@ const getData = async () => {
   }
 };
 
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
 onMounted(() => {
   getData();
-  window.addEventListener('resize', onWidthChange);
 });
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 
 </script>
 
@@ -532,24 +523,75 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   align-self: center;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
-  .row-mobile {
-    flex-direction: column;
+@media only screen and (min-device-width : 500px) and (max-device-width : 1024px) {
+  .name {
+    margin: 0;
   }
-  .page-title {
-    margin: 25px 0 25px 0;
-  }
-  .img-container {
-    margin: 0 16px 8px 16px;
-    max-width: 400px;
+  .website-container {
+    margin: 0;
   }
   .block-container {
-    margin: 0 16px 0px 16px;
-    max-width: 400px;
+    margin: 0;
+  }
+  .img-container {
+    margin-bottom: 32px;
+    max-width: 450px;
+  }
+  .row-mobile {
+    padding-right: 32px;
+    padding-left: 32px;
+    justify-content: center;
+  }
+  .row-coordinate {
+    padding-right: 32px;
+    padding-left: 32px;
   }
   .coordinate-container {
-    margin: 0 16px 8px 16px;
-    width:400px;
+    margin-bottom: 8px;
   }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 500px) {
+  .name {
+    margin: 0;
+  }
+  .website-container {
+    margin: 0;
+  }
+  .block-container {
+    margin: 0;
+  }
+  .img-container {
+    margin-bottom: 8px;
+    max-width: 450px;
+  }
+  .row-mobile {
+    padding-right: 16px;
+    padding-left: 16px;
+    justify-content: center;
+  }
+  .row-coordinate {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  .coordinate-container {
+    margin-bottom: 8px;
+  }
+}
+
+.ellipse-left-home {
+  width: 124px;
+  height: 280px;
+}
+
+.ellipse-right-home {
+  width: 124px;
+  height: 280px;
+  display: block;
+  margin-left: auto;
+}
+
+.row-main {
+  place-content: center;
 }
 </style>

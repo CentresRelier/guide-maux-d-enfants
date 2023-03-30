@@ -1,5 +1,5 @@
 <template>
-  <div v-if="windowWidth > 768" class="container">
+  <div v-if="$q.screen.gt.sm" class="container">
     <div class="row">
       <p class="texte">
         {{ title1 }}
@@ -8,7 +8,7 @@
       </p>
     </div>
   </div>
-  <div   v-if="windowWidth <= 768" class="container-mobile">
+  <div v-else class="container-mobile">
     <div class="row-mobile">
       <p class="texte-mobile">
         {{ title1 }}
@@ -27,21 +27,6 @@ export default {
     title2: String,
   },
 };
-</script>
-<script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-
-const windowWidth = ref(window.innerWidth);
-
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
-onMounted(() => {
-  window.addEventListener('resize', onWidthChange);
-});
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 
 <style lang="scss" scoped>
@@ -94,4 +79,5 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   height: 100px;
   justify-content: center;
 }
+
 </style>

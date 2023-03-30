@@ -5,15 +5,15 @@
       <Head :title1="homeTitle1" :title2="homeTitle2"/>
     </div>
 
-    <div class="row q-pt-md">
-      <div class=" col-sm-0 col-md-2">
-        <div v-if="windowWidth > 768" class="q-pt-xl ellipse-left-home">
+    <div class="row q-pt-md row-categories">
+      <div class="col-xs-0 col-sm-1 col-md-1">
+        <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-left-home">
           <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>
-      <div class="col-sm-12 col-md-8">
+      <div class="col-xs-12 col-sm-10 col-md-10">
         <div class="row row-filter">
-          <div class="categories-container q-pr-sm">
+          <div class="categories-container">
             <Categories v-on:filtersUpdated="filterCards" />
           </div>
           <div class="age-range-container">
@@ -41,7 +41,10 @@
           <OrganismeCard :organisme="organisme" />
         </div>
       </div>
-      <div class="col-sm-0 col-md-2">
+      <div class="col-xs-0 col-sm-1 col-md-1">
+        <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-right-home">
+          <q-img src="statics/ellipse-home-right.png" height="280" width="124"></q-img>
+        </div>
       </div>
     </div>
 
@@ -271,6 +274,7 @@ onMounted(() => {
 
 onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
+
 <style scoped>
 .col-search {
   text-align: -webkit-center;
@@ -285,11 +289,15 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   justify-content: center;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1383px) {
+  .categories-container {
+    margin-bottom: 16px;
+  }
+}
+
+@media only screen and (min-device-width : 440px) and (max-device-width : 768px) {
   .row-filter {
-    justify-content: center;
-    flex-direction: column;
-    max-width: 432px;
+    min-width: 434px;
   }
   .col-search {
     text-align: center;
@@ -299,18 +307,40 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
     margin-bottom: 0;
   }
   .categories-container {
-    margin-left: 8px;
     margin-bottom: 8px;
   }
   .age-range-container {
     align-self: center;
-    width: 416px;
+    width: 412px;
+  }
+}
+
+@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+  .categories-container {
+    max-width: 97vw;
+    align-self: center;
+    margin-bottom: 16px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .row-categories {
+    padding-top: 0;
+  }
+  .head {
+    margin-bottom: 16px;
   }
 }
 
 .ellipse-left-home {
   width: 124px;
   height: 280px;
+}
+
+.ellipse-right-home {
+  width: 124px;
+  height: 280px;
+  display: block;
+  margin-left: auto;
 }
 
 .row-card {

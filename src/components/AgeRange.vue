@@ -1,30 +1,28 @@
 <template>
-  <div>
-    <q-card class="card-range q-pr-sm q-pl-sm">
-      <div class="row row-age q-pt-lg">
-        <FilterButton :urlIcon="enfance"
-                  :buttonTexte="'Petite enfance'"
-                  :tooltip="'Petite enfance'"
-                  v-on:filterSelected="updateFilters('Petite enfance')"/>
-        <FilterButton :urlIcon="primaire"
-                  :buttonTexte="'Primaire'"
-                  :tooltip="'Primaire'"
-                  v-on:filterSelected="updateFilters('Primaire')"/>
-        <FilterButton :urlIcon="college"
-                  :buttonTexte="'Collège'"
-                  :tooltip="'Collège'"
-                  v-on:filterSelected="updateFilters('Collège')"/>
-        <FilterButton :urlIcon="lycee"
-                  :buttonTexte="'Lycée'"
-                  :tooltip="'Lycée'"
-                  v-on:filterSelected="updateFilters('Lycée')"/>
-        <FilterButton :urlIcon="adulte"
-                  :buttonTexte="'Jeune adulte'"
-                  :tooltip="'Jeune adulte'"
-                  v-on:filterSelected="updateFilters('Jeune adulte')"/>
-      </div>
-    </q-card>
-  </div>
+  <q-card class="card-range q-pr-sm q-pl-sm">
+    <div class="row row-age q-pt-lg">
+      <FilterButton :urlIcon="enfance"
+                :buttonTexte="'Petite enfance'"
+                :tooltip="'Petite enfance'"
+                v-on:filterSelected="updateFilters('Petite enfance')"/>
+      <FilterButton :urlIcon="primaire"
+                :buttonTexte="'Primaire'"
+                :tooltip="'Primaire'"
+                v-on:filterSelected="updateFilters('Primaire')"/>
+      <FilterButton :urlIcon="college"
+                :buttonTexte="'Collège'"
+                :tooltip="'Collège'"
+                v-on:filterSelected="updateFilters('Collège')"/>
+      <FilterButton :urlIcon="lycee"
+                :buttonTexte="'Lycée'"
+                :tooltip="'Lycée'"
+                v-on:filterSelected="updateFilters('Lycée')"/>
+      <FilterButton :urlIcon="adulte"
+                :buttonTexte="'Jeune adulte'"
+                :tooltip="'Jeune adulte'"
+                v-on:filterSelected="updateFilters('Jeune adulte')"/>
+    </div>
+  </q-card>
 </template>
 
 <script>
@@ -66,19 +64,43 @@ const adulte = ref('statics/age-icons/jeuneadulte.png');
   border: 3px solid $secondary;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+@media only screen and (min-device-width : 440px) and (max-device-width : 768px) {
   .img {
     height: 45px;
     width: 45px;
   }
-  .card-range {
-    height: 125px;
-    border-radius: 15px;
-    border: 3px solid $secondary;
+  .button-container {
+    height: 65px;
+    width: 65px;
+    text-align: center;
   }
   .row-age {
-    justify-content: space-around;
+    display: flex;
+    justify-content: space-evenly;
     padding-top: 16px;
+  }
+}
+
+@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+  .img {
+    height: 35px;
+    width: 35px;
+  }
+  .button-container {
+    height: 55px;
+    width: 55px;
+    text-align: center;
+  }
+  .row-age {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 16px;
+  }
+  .card-range {
+    height: 120px;
+    width: 350px;
+    border-radius: 15px;
+    border: 2px solid $secondary;
   }
 }
 </style>
