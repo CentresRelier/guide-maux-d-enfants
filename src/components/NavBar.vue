@@ -1,15 +1,15 @@
 <template>
   <q-header class="text-white space-between header sticky">
     <div class="row">
-      <div class="col-xs-1 col-sm-2 col-md-2 col1">
+      <div class="col-xs-1 col-sm-1 col-md-2 col1">
       </div>
-      <div class="col-xs-11 col-sm-8 col-md-8 col2">
+      <div class="col-xs-11 col-sm-10 col-md-8 col2">
         <div class="row row-menu">
           <div class="col-sm-2 col-md-3 col-logo">
             <q-img class="cursor-pointer" src="statics/CR_logo.svg" height="70px" width="109px"
                       @click="GoToHomePage()"/>
           </div>
-          <div v-if="windowWidth > 768" class="col-xs-1 col-sm-2 col-md-9 col-link">
+          <div v-if="$q.screen.gt.sm" class="col-xs-1 col-sm-2 col-md-9 col-link">
             <div class="row row-link">
               <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr">
                 <p class="link">Parents/jeunes</p>
@@ -40,7 +40,7 @@
               </a>
             </div>
           </div>
-          <div v-if="windowWidth <= 768" id="menuBtn">
+          <div v-else id="menuBtn">
             <button class="menuBtn__btn" @click="overlay = !overlay" :class="{ active:overlay }">
               <span class="top"></span>
               <span class="mid"></span>
@@ -49,11 +49,11 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-1 col-sm-2 col-md-2 col3">
+      <div class="col-xs-1 col-sm-1 col-md-2 col3">
       </div>
         <div v-if="overlay" class="overlay" >
           <div class="column items-center q-pt-xl">
-            <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr" @click="overlay = false">
+            <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr">
               <p class="link">Parents/jeunes</p>
             </a>
             <a href="https://centresrelier.org/formations/" class="nav-link nav-link-ltr">
@@ -93,24 +93,13 @@ export default {
 </script>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 
 function GoToHomePage() {
   window.location = '/';
 }
 
 const overlay = ref(false);
-const windowWidth = ref(window.innerWidth);
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
-onMounted(() => {
-  window.addEventListener('resize', onWidthChange);
-});
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
-
 </script>
 
 <style lang="scss" scoped>
@@ -215,7 +204,6 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
       width: 40px;
       height: 40px;
       background: white;
-      border: none;
       position: relative;
       z-index: 100;
       appearance: none;
