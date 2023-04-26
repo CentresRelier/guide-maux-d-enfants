@@ -182,7 +182,7 @@ const getData = async (URL) => {
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: organisme.attributes.perimetre.data.attributes.perimetre,
+      perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
     }));
     getOrganismesImages(dataOrganismes);
   } catch (error) {
