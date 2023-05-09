@@ -352,7 +352,9 @@ export default {
   .card {
     border: 4px solid $accent;
     border-radius: 15px;
-    width: 380px;
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
     background-image: url('public/statics/background-card.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -389,8 +391,11 @@ export default {
     margin-right: 18px;
   }
   .img {
-    max-height: 200px;
+    height: 100%;
     min-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    max-width: 80vw;
   }
   .row-icons {
     justify-content: center;
