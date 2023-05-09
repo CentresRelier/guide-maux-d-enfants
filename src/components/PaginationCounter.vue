@@ -2,10 +2,8 @@
     <q-pagination
             :value="current"
             model-value="{{ current }}"
-            class=""
             :max="this.processNumberOfPages()"
             :max-pages="5"
-            :round="true"
             color="light-blue"
             direction-links
             />
