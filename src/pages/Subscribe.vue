@@ -10,23 +10,22 @@
     @submit="submit"
     class="q-gutter-md">
 
-    <div class="row">
+    <template v-for="(organismeField, index) in organismeFieldsList"
+                    :key="organismeField.title">
+      <div class="row"
+         v-if="!Array.isArray(organismeField)"
+        :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
       <div class="col-md-2">
       </div>
-      <div class="col-md-8 q-mt-xl q-mb-md block-container">
+      <div class="col-md-8 q-mb-md block-container"
+          :class="{'q-mt-xl': index === 0, 'q-mb-md': index < organismeFieldsList.length - 1}">
         <div class="texte-container">
           <div class="row">
-            <h6>Nom de l'organisme (et agence si applicable)</h6>
+            <h6>{{organismeField.title}}</h6>
             <p class="obligatory">*</p>
           </div>
           <div class="row">
-            <p>Ajoutez le nom de la commune de l'agence à référencer
-              (il faut donc faire une fiche par agence). Par exemple,
-              les Points Accueil Ecoute Jeunes sont partout en France :
-              Point Accueil Ecoute Jeunes - Antibes, puis Point Accueil
-              Ecoute Jeunes - Meudon, etc... Si l'organisme a plusieurs
-              agences, merci de renseigner une fiche par agence avec
-              l'url de chaque agence</p>
+            <p>{{organismeField.description}}</p>
           </div>
           <div class="row">
             <q-input
@@ -37,9 +36,9 @@
               standout="none"
               model-value=""
               class="input shadow-3"
-              placeholder="Nom de l'organisme"
-              v-model="organismeName"
-              @keydown.esc="resetData('organismeName')">
+              :placeholder="organismeField.placeholder"
+              v-model="organismeField.model"
+              @keydown.esc="resetData(organismeField.model)">
               <template v-slot:append>
                 <q-icon color="positive" name="check" class="q-pl-sm"/>
                 <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -50,105 +49,29 @@
       </div>
       <div class="col-md-2">
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2">
       </div>
-      <div class="col-md-8 q-mb-md block-container">
-        <div class="row">
-          <h6>Site web</h6>
-          <p class="obligatory">*</p>
-        </div>
-        <div class="row">
-          <p>URL de la page de l'organisme ou de l'agence. Cette page sera utilisée
-            pour recueillir les informations. Si vous êtes propriétaires du site,
-            mettez à jour vos métadonnées, votre logo et les informations de contact.</p>
-        </div>
-        <div class="row">
-          <q-input
-            hide-bottom-space
-            borderless
-            rounded
-            dense
-            standout="none"
-            model-value=""
-            class="input shadow-3"
-            placeholder="Url du site web de votre organisme"
-            v-model="organismeUrl"
-            @keydown.esc="resetData('organismeUrl')">
-            <template v-slot:append>
-              <q-icon color="positive" name="check" class="q-pl-sm"/>
-              <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
-            </template>
-          </q-input>
-        </div>
-      </div>
-      <div class="col-md-2">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8 q-mb-md block-container">
-        <div class="row">
-          <h6>Thématique</h6>
-          <p class="obligatory">*</p>
-        </div>
-        <div class="row">
-        </div>
-      </div>
-      <div class="col-md-2">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8 q-mb-md block-container">
-        <div class="row">
-          <h6>Tranche d'âge</h6>
-          <p class="obligatory">*</p>
-        </div>
-        <div class="row">
-        </div>
-      </div>
-      <div class="col-md-2">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8 q-mb-md block-container">
-        <div class="row">
-          <h6>Périmètre d'action</h6>
-          <p class="obligatory">*</p>
-        </div>
-        <div class="row">
-          <p>Sélectionnez la couverture territoriale de l'organisme.
-            Par défaut le service sera présenté également aux
-            communes limitrophes.</p>
-        </div>
-      </div>
-      <div class="col-md-2">
-      </div>
-    </div>
-
-    <div class="row q-pb-xl">
+      <template v-if="Array.isArray(organismeField)">
+      <div class="row" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
       <div class="col-md-2">
       </div>
       <div class="col-md-8">
         <div class="row">
-          <div class="col-md-6">
-            <div class="block-container q-mr-sm">
+          <div class="col-md-6"
+                 v-for="(org, i) in organismeField"
+                 :key="org.name">
+            <div class="block-container"
+                 v-bind:class="{
+                 'q-mr-sm': i === 0,
+                 'q-ml-sm': i === organismeField.length - 1,
+                 'q-mt-xl' : index === 0,
+                 'q-mb-md' : index < organismeFieldsList.length - 1
+                 }">
               <div class="row">
-                <h6>Commune</h6>
+                <h6>{{org.title}}</h6>
                 <p class="obligatory">*</p>
               </div>
               <div class="row">
-                <p><br></p>
+                <p>{{org.description}}</p>
               </div>
               <div class="row">
                 <q-input
@@ -159,34 +82,7 @@
                   standout="none"
                   model-value=""
                   class="input shadow-3"
-                  placeholder="votre réponse">
-                  <template v-slot:append>
-                    <q-icon color="positive" name="check" class="q-pl-sm"/>
-                    <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
-                  </template>
-                </q-input>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="block-container q-ml-sm">
-              <div class="row">
-                <h6>Code postal</h6>
-                <p class="obligatory">*</p>
-              </div>
-              <div class="row">
-                <p>Entrez le code postal au format xxxxx </p>
-              </div>
-              <div class="row">
-                <q-input
-                  hide-bottom-space
-                  borderless
-                  rounded
-                  dense
-                  standout="none"
-                  model-value=""
-                  class="input shadow-3"
-                  placeholder="votre réponse">
+                  :placeholder="org.placeholder">
                   <template v-slot:append>
                     <q-icon color="positive" name="check" class="q-pl-sm"/>
                     <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -199,7 +95,10 @@
       </div>
       <div class="col-md-2">
       </div>
-    </div>
+      </div>
+      </template>
+
+    </template>
 
     <div class="absolute-bottom">
       <q-btn class="absolute-center" label="Submit" type="submit" color="accent"/>
@@ -218,6 +117,18 @@ export default {
     return {
       organismeName: '',
       organismeUrl: '',
+      organismeAddress: '',
+      organismePhone: '',
+      organismeEmail: '',
+      organismeImg: '',
+      organismeAge: '',
+      organismePerimetre: '',
+      organismeThématiques: '',
+      organismePostalCode: '',
+      organismeMunicipalities: '',
+      organismeCity: '',
+      organismeDept: '',
+      organismeState: '',
     };
   },
   methods: {
@@ -233,10 +144,113 @@ export default {
 };
 </script>
 <script setup>
-import { ref } from 'vue';
+import { defineProps, ref } from 'vue';
 
 const headTitle = ref('Inscrire un organisme\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
+const props = defineProps({
+  organismeName: String,
+  organismeUrl: String,
+});
+
+const organismeFieldsList = ref([
+  {
+    title: 'Nom de l\'organisme (et agence si applicable)',
+    description: 'Ajoutez le nom de la commune de l\'agence à référencer'
+              + '(il faut donc faire une fiche par agence). Par exemple,'
+              + 'les Points Accueil Ecoute Jeunes sont partout en France :'
+              + 'Point Accueil Ecoute Jeunes - Antibes, puis Point Accueil'
+              + 'Ecoute Jeunes - Meudon, etc... Si l\'organisme a plusieurs'
+              + 'agences, merci de renseigner une fiche par agence avec'
+              + 'l\'url de chaque agence',
+    placeholder: 'Nom de l\'organisme',
+    model: props.organismeName,
+  },
+  {
+    title: 'Site web',
+    description: 'URL de la page de l\'organisme ou de l\'agence. Cette page sera utilisée'
+            + 'pour recueillir les informations. Si vous êtes propriétaires du site,'
+            + 'mettez à jour vos métadonnées, votre logo et les informations de contact.,',
+    placeholder: 'Url du site web de votre organisme',
+    model: props.organismeUrl,
+  },
+  {
+    title: 'Adresse',
+    description: 'Renseignez l\'adresse de l\'organisme',
+    placeholder: 'adresse de l\'organisme',
+    model: props.organismeAddress,
+  },
+  [
+    {
+      title: 'Téléphone',
+      description: 'Renseignez le téléphone de l\'organisme',
+      placeholder: 'Téléphone de votre organisme',
+      model: props.organismePhone,
+    },
+    {
+      title: 'Email',
+      description: 'Renseignez l\'email de l\'organisme',
+      placeholder: 'Email de votre organisme',
+      model: props.organismeEmail,
+    },
+  ],
+  {
+    title: 'Logo',
+    description: 'Renseignez le logo de votre organisme',
+    placeholder: 'Logo de l\'organisme',
+    model: props.organismeImg,
+  },
+  {
+    title: 'Age',
+    description: 'Renseignez l\'âge de votre organisme',
+    placeholder: 'Age de l\'organisme',
+    model: props.organismeAge,
+  },
+  {
+    title: 'Périmètre',
+    description: 'Renseignez le périmètre de votre organisme',
+    placeholder: 'Périmètre de l\'organisme',
+    model: props.organismePerimetre,
+  },
+  {
+    title: 'Thématiques',
+    description: 'Renseignez les thématiques de votre organisme',
+    placeholder: 'Thématiques de l\'organisme',
+    model: props.organismeThématiques,
+  },
+  [
+    {
+      title: 'Code postal',
+      description: 'Renseignez le code postal de l\'organisme',
+      placeholder: 'Code postal',
+      model: props.organismePostalCode,
+    },
+    {
+      title: 'Commune',
+      description: 'Renseignez la commune de l\'organisme',
+      placeholder: 'Commune de votre organisme',
+      model: props.organismeMunicipalities,
+    },
+  ],
+  {
+    title: 'Ville',
+    description: 'Renseignez la ville de l\'organisme',
+    placeholder: 'Ville de l\'organisme',
+    model: props.organismeCity,
+  },
+  {
+    title: 'Département',
+    description: 'Renseignez le département de l\'organisme',
+    placeholder: 'Département de l\'organisme',
+    model: props.organismeDept,
+  },
+  {
+    title: 'Region',
+    description: 'Renseignez la région de l\'organisme',
+    placeholder: 'Région de l\'organisme',
+    model: props.organismeState,
+  },
+]);
 </script>
 
 <style lang="scss" scoped>
