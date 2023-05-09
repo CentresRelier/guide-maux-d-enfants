@@ -39,7 +39,6 @@ export default {
 .search {
   border: 4px solid $secondary;
   border-radius: 35px;
-  width: 500px;
 }
 
 .search-button {
@@ -48,9 +47,10 @@ export default {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
   .search {
-    border: 4px solid $secondary;
+    border: 3px solid $secondary;
     border-radius: 35px;
-    width: 350px;
+    margin-right: 20px;
+    margin-left: 20px;
   }
 }
 </style>

@@ -20,21 +20,21 @@
             <AgeRange v-on:ageFiltersUpdated="filterCardsWithAge" />
           </div>
         </div>
-        <div class="q-pt-lg">
-          <div class=" col-xs-0 col-sm-0 col-md-4">
+        <div class="row justify-center q-pt-lg">
+          <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-search">
+          <div class="col-xs-12 col-sm-8 col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
-            <p v-if="organismesTotal > 1">
+            <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
             </p>
-            <p v-else>
+            <p v-else class="flex justify-center">
               {{ organismesTotal }} organisme trouvé,
               {{ organismesNumber.number }} affiché
             </p>
           </div>
-          <div class="col-xs-0 col-md-4">
+          <div class="col-xs-0 col-sm-2 col-md-4">
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
@@ -292,6 +292,12 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 @media only screen and (min-device-width : 768px) and (max-device-width : 1383px) {
   .categories-container {
     margin-bottom: 16px;
+  }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1393px) {
+  .age-range-container {
+    margin-top: 16px;
   }
 }
 
