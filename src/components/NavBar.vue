@@ -52,7 +52,7 @@
       <div class="col-xs-1 col-sm-1 col-md-2 col3">
       </div>
         <div v-if="overlay" class="overlay" >
-          <div class="column items-center q-pt-xl">
+          <div class="column items-center">
             <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr">
               <p class="link">Parents/jeunes</p>
             </a>
