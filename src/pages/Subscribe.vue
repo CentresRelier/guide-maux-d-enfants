@@ -15,87 +15,99 @@
       <div class="row"
          v-if="!Array.isArray(organismeField)"
         :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8 q-mb-md block-container"
-          :class="{'q-mt-xl': index === 0, 'q-mb-md': index < organismeFieldsList.length - 1}">
-        <div class="texte-container">
-          <div class="row">
-            <h6>{{organismeField.title}}</h6>
-            <p class="obligatory">*</p>
-          </div>
-          <div class="row">
-            <p>{{organismeField.description}}</p>
-          </div>
-          <div class="row">
-            <q-input
-              hide-bottom-space
-              borderless
-              rounded
-              dense
-              standout="none"
-              model-value=""
-              class="input shadow-3"
-              :placeholder="organismeField.placeholder"
-              v-model="organismeField.model"
-              @keydown.esc="resetData(organismeField.model)">
-              <template v-slot:append>
-                <q-icon color="positive" name="check" class="q-pl-sm"/>
-                <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
-              </template>
-            </q-input>
-          </div>
+        <div class="col-md-2">
         </div>
-      </div>
-      <div class="col-md-2">
-      </div>
-      </div>
-      <template v-if="Array.isArray(organismeField)">
-      <div class="row" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-md-6"
-                 v-for="(org, i) in organismeField"
-                 :key="org.name">
-            <div class="block-container"
-                 v-bind:class="{
-                 'q-mr-sm': i === 0,
-                 'q-ml-sm': i === organismeField.length - 1,
-                 'q-mt-xl' : index === 0,
-                 'q-mb-md' : index < organismeFieldsList.length - 1
-                 }">
-              <div class="row">
-                <h6>{{org.title}}</h6>
-                <p class="obligatory">*</p>
-              </div>
-              <div class="row">
-                <p>{{org.description}}</p>
-              </div>
-              <div class="row">
-                <q-input
-                  hide-bottom-space
-                  borderless
-                  rounded
-                  dense
-                  standout="none"
-                  model-value=""
-                  class="input shadow-3"
-                  :placeholder="org.placeholder">
-                  <template v-slot:append>
-                    <q-icon color="positive" name="check" class="q-pl-sm"/>
-                    <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
-                  </template>
-                </q-input>
-              </div>
+        <div class="col-md-8 block-container"
+            :class="{'q-mt-xl': index === 0, 'q-mb-md': index < organismeFieldsList.length - 1}">
+          <div class="texte-container">
+            <div class="row">
+              <h6>{{organismeField.title}}</h6>
+              <p class="obligatory">*</p>
+            </div>
+            <div class="row">
+              <p>{{organismeField.description}}</p>
+            </div>
+            <div class="row">
+              <q-input
+                v-if="!organismeField.logo"
+                hide-bottom-space
+                borderless
+                rounded
+                dense
+                standout="none"
+                model-value=""
+                class="input shadow-3"
+                :placeholder="organismeField.placeholder"
+                v-model="organismeField.model"
+                @keydown.esc="resetData(organismeField.model)">
+                <template v-slot:append>
+                  <q-icon color="positive" name="check" class="q-pl-sm"/>
+                  <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
+                </template>
+              </q-input>
+              <template v-if="organismeField.logo">
+                  <div class="col"
+                        v-for="img in organismeField.logo" :key="img.buttonText">
+                    <FilterButton
+                      :urlIcon="img.urlIcon"
+                      :buttonTexte="img.buttonText"
+                      :tooltip="img.tooltip"
+                      v-on:filterSelected="updateFilters(img.buttonText)"/>
+                  </div>
+              </template>
             </div>
           </div>
         </div>
+        <div class="col-md-2">
+        </div>
       </div>
-      <div class="col-md-2">
-      </div>
-      </div>
+      <template v-if="Array.isArray(organismeField)">
+        <div class="row" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6"
+                    v-for="(org, i) in organismeField"
+                    :key="org.name">
+                <div class="block-container "
+                    v-bind:class="{
+                    'q-mr-sm': i % 2 === 0,
+                    'q-ml-sm': i % 2 !== 0,
+                    'q-mt-md': i > 1,
+                    'q-mt-xl' : index === 0,
+                    'q-mb-md' : index < organismeFieldsList.length - 1
+                    }">
+                  <div class="row">
+                    <h6>{{org.title}}</h6>
+                    <p class="obligatory">*</p>
+                  </div>
+                  <div class="row">
+                    <p>{{org.description}}</p>
+                  </div>
+                  <div class="row">
+                    <q-input
+                      hide-bottom-space
+                      borderless
+                      rounded
+                      dense
+                      standout="none"
+                      model-value=""
+                      class="input shadow-3"
+                      :placeholder="org.placeholder">
+                      <template v-slot:append>
+                        <q-icon color="positive" name="check" class="q-pl-sm"/>
+                        <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
       </template>
 
     </template>
@@ -140,10 +152,15 @@ export default {
         this.organismeUrl = '';
       }
     },
+
+    updateFilters(selectedButton) {
+      console.log(selectedButton);
+    },
   },
 };
 </script>
 <script setup>
+import FilterButton from 'components/FilterButton.vue';
 import { defineProps, ref } from 'vue';
 
 const headTitle = ref('Inscrire un organisme\n'
@@ -151,7 +168,31 @@ const headTitle = ref('Inscrire un organisme\n'
 const props = defineProps({
   organismeName: String,
   organismeUrl: String,
+  organismeAddress: String,
+  organismePhone: String,
+  organismeEmail: String,
+  organismeImg: String,
+  organismeAge: String,
+  organismePerimetre: String,
+  organismeThématiques: String,
+  organismePostalCode: String,
+  organismeMunicipalities: String,
+  organismeCity: String,
+  organismeDept: String,
+  organismeState: String,
 });
+
+const addictionUrl = ref('statics/thematique-icons/addiction.png');
+const violenceUrl = ref('statics/thematique-icons/violence.png');
+const discriminationUrl = ref('statics/thematique-icons/discrimination.png');
+const harasmentUrl = ref('statics/thematique-icons/harcelement.png');
+const mentalHealthUrl = ref('statics/thematique-icons/santementale.png');
+const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
+const enfance = ref('statics/age-icons/petiteenfance.png');
+const primaire = ref('statics/age-icons/primaire.png');
+const college = ref('statics/age-icons/college.png');
+const lycee = ref('statics/age-icons/ado.png');
+const adulte = ref('statics/age-icons/jeuneadulte.png');
 
 const organismeFieldsList = ref([
   {
@@ -201,22 +242,102 @@ const organismeFieldsList = ref([
     model: props.organismeImg,
   },
   {
-    title: 'Age',
-    description: 'Renseignez l\'âge de votre organisme',
-    placeholder: 'Age de l\'organisme',
-    model: props.organismeAge,
-  },
-  {
-    title: 'Périmètre',
-    description: 'Renseignez le périmètre de votre organisme',
-    placeholder: 'Périmètre de l\'organisme',
-    model: props.organismePerimetre,
-  },
-  {
     title: 'Thématiques',
-    description: 'Renseignez les thématiques de votre organisme',
     placeholder: 'Thématiques de l\'organisme',
     model: props.organismeThématiques,
+    logo: [
+      {
+        buttonText: 'Addiction',
+        urlIcon: addictionUrl,
+        tooltip: 'Drogue, écrans, tabac, alcool, pornographie, sexe...',
+      },
+      {
+        buttonText: 'Violence',
+        urlIcon: violenceUrl,
+        tooltip: 'Violences physiques, sexuelles, psychologiques, cyber-violences...',
+      },
+      {
+        buttonText: 'Discrimination',
+        urlIcon: discriminationUrl,
+        tooltip: `Raciale, sociale, religieuse, sexiste, culturelle, transphobie,
+                basée sur l'orientation sexuelle, l'apparence physique, le handicap...`,
+      },
+      {
+        buttonText: 'Harcèlement',
+        urlIcon: harasmentUrl,
+        tooltip: 'Scolaire, périscolaire, cyberharcèlement, intrafamilial, harcèlement de rue...',
+      },
+      {
+        buttonText: 'Santé mentale',
+        urlIcon: mentalHealthUrl,
+        tooltip: 'Dépression, phobies, envies suicidaires, anxiété, isolement...',
+      },
+      {
+        buttonText: 'Sexualité',
+        urlIcon: sexualityUrl,
+        tooltip: 'Prévention, genre, orientation sexuelle, prostitution...',
+      },
+    ],
+  },
+  {
+    title: 'Age',
+    placeholder: 'Age de l\'organisme',
+    model: props.organismeAge,
+    logo: [
+      {
+        buttonText: 'Petite enfance',
+        urlIcon: enfance,
+        tooltip: 'Petite enfance',
+      },
+      {
+        buttonText: 'Primaire',
+        urlIcon: primaire,
+        tooltip: 'Primaire',
+      },
+      {
+        buttonText: 'Collège',
+        urlIcon: college,
+        tooltip: 'Collège',
+      },
+      {
+        buttonText: 'Lycée',
+        urlIcon: lycee,
+        tooltip: 'Lycée',
+      },
+      {
+        buttonText: 'Jeune adulte',
+        urlIcon: adulte,
+        tooltip: 'Jeune adulte',
+      },
+    ],
+  },
+  {
+    title: 'Périmètre d\'action',
+    description: 'Sélectionner la couverture territorial de l\'organisme. Par défaut le service sera présenté également aux communes limitrophes',
+    placeholder: 'Périmètre de l\'organisme',
+    model: props.organismePerimetre,
+    logo: [
+      {
+        buttonText: 'Municipal',
+        urlIcon: 'statics/perimeter-icons/municipal.png',
+        tooltip: 'Municipal',
+      },
+      {
+        buttonText: 'Départemental',
+        urlIcon: 'statics/perimeter-icons/departemental.png',
+        tooltip: 'Départemental',
+      },
+      {
+        buttonText: 'Régional',
+        urlIcon: 'statics/perimeter-icons/region.png',
+        tooltip: 'Régional',
+      },
+      {
+        buttonText: 'National',
+        urlIcon: 'statics/perimeter-icons/national.png',
+        tooltip: 'National',
+      },
+    ],
   },
   [
     {
@@ -231,25 +352,25 @@ const organismeFieldsList = ref([
       placeholder: 'Commune de votre organisme',
       model: props.organismeMunicipalities,
     },
+    {
+      title: 'Ville',
+      description: 'Renseignez la ville de l\'organisme',
+      placeholder: 'Ville de l\'organisme',
+      model: props.organismeCity,
+    },
+    {
+      title: 'Département',
+      description: 'Renseignez le département de l\'organisme',
+      placeholder: 'Département de l\'organisme',
+      model: props.organismeDept,
+    },
+    {
+      title: 'Region',
+      description: 'Renseignez la région de l\'organisme',
+      placeholder: 'Région de l\'organisme',
+      model: props.organismeState,
+    },
   ],
-  {
-    title: 'Ville',
-    description: 'Renseignez la ville de l\'organisme',
-    placeholder: 'Ville de l\'organisme',
-    model: props.organismeCity,
-  },
-  {
-    title: 'Département',
-    description: 'Renseignez le département de l\'organisme',
-    placeholder: 'Département de l\'organisme',
-    model: props.organismeDept,
-  },
-  {
-    title: 'Region',
-    description: 'Renseignez la région de l\'organisme',
-    placeholder: 'Région de l\'organisme',
-    model: props.organismeState,
-  },
 ]);
 </script>
 
