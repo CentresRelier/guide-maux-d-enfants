@@ -74,7 +74,7 @@ export default {
 </script>
 
 <script setup>
-import { useQuasar } from 'quasar';
+import { useMeta, useQuasar } from 'quasar';
 import {
   ref,
   onMounted,
@@ -90,6 +90,16 @@ import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
+
+useMeta(() => ({
+  title: "GUIDE MAUX D'ENFANTS",
+  titleTemplate: (title) => `${title} - Des organismes gratuits pour accompagner vos enfants`,
+  // meta tags
+  meta: {
+    keywords: { name: 'keywords', content: 'ENFANTS GUIDE MAUX HARCELEMENT' },
+    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+  },
+}));
 
 const $q = useQuasar();
 

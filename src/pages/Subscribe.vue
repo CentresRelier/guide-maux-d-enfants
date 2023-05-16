@@ -12,7 +12,7 @@
 
     <template v-for="(organismeField, index) in organismeFieldsList"
                     :key="organismeField.title">
-      <div class="row"
+      <div class="row row-mobile"
          v-if="!Array.isArray(organismeField)"
         :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
         <div class="col-md-2">
@@ -20,14 +20,14 @@
         <div class="col-md-8 block-container"
             :class="{'q-mt-xl': index === 0, 'q-mb-md': index < organismeFieldsList.length - 1}">
           <div class="texte-container">
-            <div class="row">
+            <div class="row row-mobile">
               <h6>{{organismeField.title}}</h6>
               <p class="obligatory">*</p>
             </div>
-            <div class="row">
+            <div class="row row-mobile">
               <p>{{organismeField.description}}</p>
             </div>
-            <div class="row">
+            <div class="row row-mobile">
               <q-input
                 v-if="!organismeField.logo"
                 hide-bottom-space
@@ -46,7 +46,7 @@
                 </template>
               </q-input>
               <template v-if="organismeField.logo">
-                  <div class="col"
+                  <div
                         v-for="img in organismeField.logo" :key="img.buttonText">
                     <FilterButton
                       :urlIcon="img.urlIcon"
@@ -62,30 +62,30 @@
         </div>
       </div>
       <template v-if="Array.isArray(organismeField)">
-        <div class="row" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
+        <div class="row row-mobile" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
           <div class="col-md-2">
           </div>
           <div class="col-md-8">
-            <div class="row">
+            <div class="row row-mobile">
               <div class="col-md-6"
                     v-for="(org, i) in organismeField"
                     :key="org.name">
-                <div class="block-container "
+                <div class="block-container"
                     v-bind:class="{
                     'q-mr-sm': i % 2 === 0,
-                    'q-ml-sm': i % 2 !== 0,
-                    'q-mt-md': i > 1,
+                    'q-ml-sm': i % 2 !== 0 && windowWidth > 1023,
+                    'q-mt-md': (i > 1 && windowWidth > 1023) || (i > 0 && windowWidth <= 1023),
                     'q-mt-xl' : index === 0,
                     'q-mb-md' : index < organismeFieldsList.length - 1
                     }">
-                  <div class="row">
+                  <div class="row row-mobile">
                     <h6>{{org.title}}</h6>
                     <p class="obligatory">*</p>
                   </div>
-                  <div class="row">
+                  <div class="row row-mobile">
                     <p>{{org.description}}</p>
                   </div>
-                  <div class="row">
+                  <div class="row row-mobile">
                     <q-input
                       hide-bottom-space
                       borderless
@@ -161,7 +161,9 @@ export default {
 </script>
 <script setup>
 import FilterButton from 'components/FilterButton.vue';
-import { defineProps, ref } from 'vue';
+import {
+  defineProps, ref, onMounted, onUnmounted,
+} from 'vue';
 
 const headTitle = ref('Inscrire un organisme\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
@@ -372,6 +374,18 @@ const organismeFieldsList = ref([
     },
   ],
 ]);
+
+const windowWidth = ref(window.innerWidth);
+function onWidthChange() {
+  windowWidth.value = window.innerWidth;
+  console.log(windowWidth.value);
+}
+
+onMounted(() => {
+  window.addEventListener('resize', onWidthChange);
+});
+
+onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 
 <style lang="scss" scoped>
