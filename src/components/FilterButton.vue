@@ -3,14 +3,21 @@
     <div v-if="this.selected" class="button selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
-      <q-tooltip transition-show="scale">
+      <q-tooltip transition-show="scale"
+                 anchor="top middle"
+                 class="bg-secondary"
+                 :offset="[100, 60]">
         {{ tooltip }}
       </q-tooltip>
     </div>
     <div v-else class="button not-selected" @click="toggleFilter">
       <q-img class="img" :src="urlIcon" />
       <p class="texte q-pt-sm">{{ buttonTexte }}</p>
-      <q-tooltip transition-show="scale">
+      <q-tooltip
+        transition-show="scale"
+        anchor="top middle"
+        class="bg-secondary"
+        :offset="[100, 60]">
         {{ tooltip }}
       </q-tooltip>
     </div>
@@ -76,52 +83,17 @@ export default {
   color: #26256C;
 }
 
-.cat{
-  margin: 4px;
-  border-radius: 4px;
-  border: 1px solid #fff;
-  overflow: hidden;
-  float: left;
-}
-
-.cat label {
-  float: left;
-  line-height: 3.0em;
-  height: 92px;
-  width: 92px;
-}
-
-.cat label span {
-  text-align: center;
-  padding: 3px 0;
-  display: block;
-}
-
-.cat label input {
-  position: absolute;
-  display: none;
-  color: #fff !important;
-}
-/* selects all of the text within the input element and changes the color of the text */
-.cat label input + span {
-  color: #fff;
-}
-
-/* This will declare how a selected input will look giving generic properties */
-.cat input:checked + span {
-  color: #ffffff;
-}
-
-.action input:checked + span {
-  background-color: #F75A1B;
-}
-
 .selected {
   background-image:
     url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
   opacity: 1;
+}
+
+.tooltip {
+  padding-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {

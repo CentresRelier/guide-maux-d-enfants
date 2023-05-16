@@ -15,10 +15,14 @@
       <div class="row row-mobile"
          v-if="!Array.isArray(organismeField)"
         :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
-        <div class="col-md-2">
+        <div v-if="windowWidth > 1023" class="col-md-2">
         </div>
-        <div class="col-md-8 block-container"
-            :class="{'q-mt-xl': index === 0, 'q-mb-md': index < organismeFieldsList.length - 1}">
+        <div class=" block-container"
+            :class="{'q-mt-xl': index === 0,
+                      'q-mb-md': index < organismeFieldsList.length - 1,
+                      'col-md-8': windowWidth > 1023,
+                      'col-md-12 card-organism q-mr-sm q-ml-sm': windowWidth <= 1023,
+                      }">
           <div class="texte-container">
             <div class="row row-mobile">
               <h6>{{organismeField.title}}</h6>
@@ -37,6 +41,7 @@
                 standout="none"
                 model-value=""
                 class="input shadow-3"
+                :class="{'card-organism': windowWidth <= 553}"
                 :placeholder="organismeField.placeholder"
                 v-model="organismeField.model"
                 @keydown.esc="resetData(organismeField.model)">
@@ -58,23 +63,32 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" v-if="windowWidth > 1023">
         </div>
       </div>
       <template v-if="Array.isArray(organismeField)">
         <div class="row row-mobile" :class="{'q-pb-xl': index === organismeFieldsList.length - 1}">
-          <div class="col-md-2">
+          <div class="col-md-2" v-if="windowWidth > 1023">
           </div>
-          <div class="col-md-8">
+          <div
+          :class="{
+            'col-md-8': windowWidth > 1023,
+            'col-xs-12': windowWidth <= 1023,
+          }">
             <div class="row row-mobile">
-              <div class="col-md-6"
+              <div
+              :class="{
+                'col-md-6': windowWidth > 1023,
+                'col-xs-12': windowWidth <= 1023,
+              }"
                     v-for="(org, i) in organismeField"
                     :key="org.name">
                 <div class="block-container"
                     v-bind:class="{
-                    'q-mr-sm': i % 2 === 0,
+                    'q-mr-sm': i % 2 === 0 && windowWidth > 1023,
                     'q-ml-sm': i % 2 !== 0 && windowWidth > 1023,
                     'q-mt-md': (i > 1 && windowWidth > 1023) || (i > 0 && windowWidth <= 1023),
+                    'q-mr-sm q-ml-sm': windowWidth <= 1023,
                     'q-mt-xl' : index === 0,
                     'q-mb-md' : index < organismeFieldsList.length - 1
                     }">
@@ -105,7 +119,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2" v-if="windowWidth > 1023">
           </div>
         </div>
       </template>
@@ -127,29 +141,29 @@ export default {
   name: 'subscribe-page',
   data() {
     return {
-      organismeName: '',
-      organismeUrl: '',
-      organismeAddress: '',
-      organismePhone: '',
-      organismeEmail: '',
-      organismeImg: '',
-      organismeAge: '',
-      organismePerimetre: '',
-      organismeThématiques: '',
-      organismePostalCode: '',
-      organismeMunicipalities: '',
-      organismeCity: '',
-      organismeDept: '',
-      organismeState: '',
+      name: '',
+      url: '',
+      address: '',
+      phone: '',
+      email: '',
+      img: '',
+      age: '',
+      perimetre: '',
+      thematiques: '',
+      postalCode: '',
+      municipalities: '',
+      city: '',
+      dept: '',
+      state: '',
     };
   },
   methods: {
     resetData(toBeReset) {
-      if (toBeReset === 'organismeName') {
-        this.organismeName = '';
+      if (toBeReset === 'name') {
+        this.name = '';
       }
-      if (toBeReset === 'organismeUrl') {
-        this.organismeUrl = '';
+      if (toBeReset === 'url') {
+        this.url = '';
       }
     },
 
@@ -168,20 +182,20 @@ import {
 const headTitle = ref('Inscrire un organisme\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
 const props = defineProps({
-  organismeName: String,
-  organismeUrl: String,
-  organismeAddress: String,
-  organismePhone: String,
-  organismeEmail: String,
-  organismeImg: String,
-  organismeAge: String,
-  organismePerimetre: String,
-  organismeThématiques: String,
-  organismePostalCode: String,
-  organismeMunicipalities: String,
-  organismeCity: String,
-  organismeDept: String,
-  organismeState: String,
+  name: String,
+  url: String,
+  address: String,
+  phone: String,
+  email: String,
+  img: String,
+  age: String,
+  perimetre: String,
+  thematiques: String,
+  postalCode: String,
+  municipalities: String,
+  city: String,
+  dept: String,
+  state: String,
 });
 
 const addictionUrl = ref('statics/thematique-icons/addiction.png');
@@ -207,7 +221,7 @@ const organismeFieldsList = ref([
               + 'agences, merci de renseigner une fiche par agence avec'
               + 'l\'url de chaque agence',
     placeholder: 'Nom de l\'organisme',
-    model: props.organismeName,
+    model: props.name,
   },
   {
     title: 'Site web',
@@ -215,38 +229,38 @@ const organismeFieldsList = ref([
             + 'pour recueillir les informations. Si vous êtes propriétaires du site,'
             + 'mettez à jour vos métadonnées, votre logo et les informations de contact.,',
     placeholder: 'Url du site web de votre organisme',
-    model: props.organismeUrl,
+    model: props.url,
   },
   {
     title: 'Adresse',
     description: 'Renseignez l\'adresse de l\'organisme',
     placeholder: 'adresse de l\'organisme',
-    model: props.organismeAddress,
+    model: props.address,
   },
   [
     {
       title: 'Téléphone',
       description: 'Renseignez le téléphone de l\'organisme',
       placeholder: 'Téléphone de votre organisme',
-      model: props.organismePhone,
+      model: props.phone,
     },
     {
       title: 'Email',
       description: 'Renseignez l\'email de l\'organisme',
       placeholder: 'Email de votre organisme',
-      model: props.organismeEmail,
+      model: props.email,
     },
   ],
   {
     title: 'Logo',
     description: 'Renseignez le logo de votre organisme',
     placeholder: 'Logo de l\'organisme',
-    model: props.organismeImg,
+    model: props.img,
   },
   {
     title: 'Thématiques',
     placeholder: 'Thématiques de l\'organisme',
-    model: props.organismeThématiques,
+    model: props.thematiques,
     logo: [
       {
         buttonText: 'Addiction',
@@ -284,7 +298,7 @@ const organismeFieldsList = ref([
   {
     title: 'Age',
     placeholder: 'Age de l\'organisme',
-    model: props.organismeAge,
+    model: props.age,
     logo: [
       {
         buttonText: 'Petite enfance',
@@ -317,7 +331,7 @@ const organismeFieldsList = ref([
     title: 'Périmètre d\'action',
     description: 'Sélectionner la couverture territorial de l\'organisme. Par défaut le service sera présenté également aux communes limitrophes',
     placeholder: 'Périmètre de l\'organisme',
-    model: props.organismePerimetre,
+    model: props.perimetre,
     logo: [
       {
         buttonText: 'Municipal',
@@ -346,31 +360,31 @@ const organismeFieldsList = ref([
       title: 'Code postal',
       description: 'Renseignez le code postal de l\'organisme',
       placeholder: 'Code postal',
-      model: props.organismePostalCode,
+      model: props.postalCode,
     },
     {
       title: 'Commune',
       description: 'Renseignez la commune de l\'organisme',
       placeholder: 'Commune de votre organisme',
-      model: props.organismeMunicipalities,
+      model: props.municipalities,
     },
     {
       title: 'Ville',
       description: 'Renseignez la ville de l\'organisme',
       placeholder: 'Ville de l\'organisme',
-      model: props.organismeCity,
+      model: props.city,
     },
     {
       title: 'Département',
       description: 'Renseignez le département de l\'organisme',
       placeholder: 'Département de l\'organisme',
-      model: props.organismeDept,
+      model: props.dept,
     },
     {
       title: 'Region',
       description: 'Renseignez la région de l\'organisme',
       placeholder: 'Région de l\'organisme',
-      model: props.organismeState,
+      model: props.state,
     },
   ],
 ]);
@@ -378,7 +392,6 @@ const organismeFieldsList = ref([
 const windowWidth = ref(window.innerWidth);
 function onWidthChange() {
   windowWidth.value = window.innerWidth;
-  console.log(windowWidth.value);
 }
 
 onMounted(() => {
@@ -459,5 +472,10 @@ h6 {
   width: 500px;
   font-size: 18px;
   padding-left: 10px;
+  margin-right: 10px;
+}
+
+.card-organism {
+  width: 100%;
 }
 </style>

@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+	<title>round-blue-svg</title>
+	<defs>
+		<image  width="40" height="40" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAAXNSR0IB2cksfwAAAFRQTFRFYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJYcCJdPReGgAAABx0Uk5TAAwfMUNSXGFQRi4COE0UPl0QKiYGX0g6ME8sDlbWVFYAAAEJSURBVHicjZVZEoQgDEQDsoiKuKMz97/nAJY1Kijp71cdAkkDcBahBeNCSlGqipIaHkQa7aBDQjckRdWtOVG7OtbHrgO/Y156jKqmMK9r/UnNT+C8TCe/5QnzUn/P5tEveDZHv+Mb5jXsvfc6B/I2gCzHSWlCJ10eFK6f2uY5d5vOMHtCL02ARi+crE1hxXBSFqBwIIMSB3JAHdEdEnCclHgQXTq5AbFKzEh4KShwYIV/QvRQAGrMrFsGgqjdhUU0eZCFnWmzV7n1+7p+cuB4RJXFBYDr53V6l1NMTQsupN5iz35vCTluKYwPUeLWPYsiQ5g2GfjEXsPeJsM+uBK6qtJ/H5wV9Ir9AFDQJuHxhBHwAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+	</style>
+	<use id="img1" href="#img1" x="0" y="0"/>
+</svg>
