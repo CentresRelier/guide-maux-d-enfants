@@ -8,10 +8,6 @@
     <div class="row q-pt-md row-categories">
       <div class="col-xs-0 col-sm-1 col-md-1">
         <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-left-home">
-    <div class="row q-pt-md">
-      <div class=" col-sm-0 col-md-2">
-        <HelpButton />
-        <div v-if="windowWidth > 768" class="q-pt-xl ellipse-left-home">
           <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>
@@ -39,6 +35,7 @@
             </p>
           </div>
           <div class="col-xs-0 col-sm-2 col-md-4">
+            <HelpButton />
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
@@ -70,7 +67,6 @@
     <div class="footer">
       <Footer :title="footerTitle" :url="footerUrl" :buttonText="footerTexteButton"/>
     </div>
-
   </q-page>
 </template>
 
@@ -97,6 +93,7 @@ import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
+import HelpButton from 'components/HelpButton.vue';
 
 useMeta(() => ({
   title: "GUIDE MAUX D'ENFANTS",
