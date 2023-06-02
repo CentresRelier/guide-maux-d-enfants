@@ -8,7 +8,7 @@
 
   <q-form
     @submit="submit"
-    class="q-gutter-md">
+    class="q-gutter-md q-pb-xl">
 
     <template v-for="(organismeField, index) in organismeFieldsList"
                     :key="organismeField.title">
@@ -127,8 +127,13 @@
 
     </template>
 
-    <div class="absolute-bottom">
-      <q-btn class="absolute-center" label="Submit" type="submit" color="accent"/>
+    <div class="absolute-bottom send-btn">
+      <q-btn class="absolute-center button"
+             type="submit"
+             rounded
+             size="md">
+        <p class="submit-text">ENVOYER</p>
+      </q-btn>
     </div>
 
   </q-form>
@@ -476,5 +481,33 @@ h6 {
 
 .card-organism {
   width: 100%;
+}
+
+.button {
+  text-transform: none;
+  border: 3px solid $accent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  color: $accent;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: $accent;
+
+  .submit-text {
+    color: white;
+  }
+}
+
+.submit-text {
+  color: $accent;
+  font-size: 22px;
+  font-family: 'Montserrat', sans-serif;
+  margin: 10px 15px 10px 15px;
+}
+
+.send-btn {
+  margin-bottom: 48px;
 }
 </style>
