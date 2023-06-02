@@ -8,6 +8,10 @@
     <div class="row q-pt-md row-categories">
       <div class="col-xs-0 col-sm-1 col-md-1">
         <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-left-home">
+    <div class="row q-pt-md">
+      <div class=" col-sm-0 col-md-2">
+        <HelpButton />
+        <div v-if="windowWidth > 768" class="q-pt-xl ellipse-left-home">
           <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>

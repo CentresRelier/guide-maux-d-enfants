@@ -1,14 +1,14 @@
 <template>
   <div>
-    <q-btn @click="GoToHomePage" flat>
+    <q-btn @click="GoToHelpPage" flat>
       <img class="img" src="/statics/return.svg" />
     </q-btn>
   </div>
 </template>
 
 <script setup>
-function GoToHomePage() {
-  window.location = '/';
+function GoToHelpPage() {
+  window.location = '/#/help';
 }
 </script>
 <style scoped>
