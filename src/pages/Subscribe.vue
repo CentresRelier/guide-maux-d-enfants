@@ -57,7 +57,7 @@
                       :urlIcon="img.urlIcon"
                       :buttonTexte="img.buttonText"
                       :tooltip="img.tooltip"
-                      v-on:filterSelected="updateFilters(img.buttonText)"/>
+                      v-on:filterSelected="updateFilters(img.id, organismeField.function)"/>
                   </div>
               </template>
             </div>
@@ -108,7 +108,8 @@
                       standout="none"
                       model-value=""
                       class="input shadow-3"
-                      :placeholder="org.placeholder">
+                      :placeholder="org.placeholder"
+                      v-model="org.model">
                       <template v-slot:append>
                         <q-icon color="positive" name="check" class="q-pl-sm"/>
                         <q-icon color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -143,18 +144,14 @@ export default {
     return {
       name: '',
       url: '',
-      address: '',
-      phone: '',
-      email: '',
-      img: '',
       age: '',
       perimetre: '',
       thematiques: '',
       postalCode: '',
       municipalities: '',
-      city: '',
-      dept: '',
-      state: '',
+      selectedAgeFilters: [],
+      selectedThematiquesFilters: [],
+      selectedPerimetreFilters: [],
     };
   },
   methods: {
@@ -166,17 +163,21 @@ export default {
         this.url = '';
       }
     },
-
-    updateFilters(selectedButton) {
-      console.log(selectedButton);
+    updateFilters(ageFilter, functionName) {
+      if (this[`selected${functionName}Filters`].includes(ageFilter)) {
+        this[`selected${functionName}Filters`].splice(this[`selected${functionName}Filters`].indexOf(ageFilter), 1);
+      } else {
+        this[`selected${functionName}Filters`].push(ageFilter);
+      }
     },
   },
 };
 </script>
 <script setup>
 import FilterButton from 'components/FilterButton.vue';
+import axios from 'axios';
 import {
-  defineProps, ref, onMounted, onUnmounted,
+  defineProps, ref, onMounted, onUnmounted, getCurrentInstance, toRaw,
 } from 'vue';
 
 const headTitle = ref('Inscrire un organisme\n'
@@ -184,20 +185,14 @@ const headTitle = ref('Inscrire un organisme\n'
 const props = defineProps({
   name: String,
   url: String,
-  address: String,
-  phone: String,
-  email: String,
-  img: String,
+  thematiques: String,
   age: String,
   perimetre: String,
-  thematiques: String,
   postalCode: String,
   municipalities: String,
-  city: String,
-  dept: String,
-  state: String,
 });
 
+const fieldsList = ref(['nom', 'website', 'thematiques', 'age', 'perimetre', 'code_postal', 'commune']);
 const addictionUrl = ref('statics/thematique-icons/addiction.png');
 const violenceUrl = ref('statics/thematique-icons/violence.png');
 const discriminationUrl = ref('statics/thematique-icons/discrimination.png');
@@ -232,66 +227,47 @@ const organismeFieldsList = ref([
     model: props.url,
   },
   {
-    title: 'Adresse',
-    description: 'Renseignez l\'adresse de l\'organisme',
-    placeholder: 'adresse de l\'organisme',
-    model: props.address,
-  },
-  [
-    {
-      title: 'Téléphone',
-      description: 'Renseignez le téléphone de l\'organisme',
-      placeholder: 'Téléphone de votre organisme',
-      model: props.phone,
-    },
-    {
-      title: 'Email',
-      description: 'Renseignez l\'email de l\'organisme',
-      placeholder: 'Email de votre organisme',
-      model: props.email,
-    },
-  ],
-  {
-    title: 'Logo',
-    description: 'Renseignez le logo de votre organisme',
-    placeholder: 'Logo de l\'organisme',
-    model: props.img,
-  },
-  {
     title: 'Thématiques',
     placeholder: 'Thématiques de l\'organisme',
     model: props.thematiques,
+    function: 'Thematiques',
     logo: [
       {
         buttonText: 'Addiction',
         urlIcon: addictionUrl,
         tooltip: 'Drogue, écrans, tabac, alcool, pornographie, sexe...',
+        id: 1,
       },
       {
         buttonText: 'Violence',
         urlIcon: violenceUrl,
         tooltip: 'Violences physiques, sexuelles, psychologiques, cyber-violences...',
+        id: 2,
       },
       {
         buttonText: 'Discrimination',
         urlIcon: discriminationUrl,
         tooltip: `Raciale, sociale, religieuse, sexiste, culturelle, transphobie,
                 basée sur l'orientation sexuelle, l'apparence physique, le handicap...`,
+        id: 3,
       },
       {
         buttonText: 'Harcèlement',
         urlIcon: harasmentUrl,
         tooltip: 'Scolaire, périscolaire, cyberharcèlement, intrafamilial, harcèlement de rue...',
+        id: 4,
       },
       {
         buttonText: 'Santé mentale',
         urlIcon: mentalHealthUrl,
         tooltip: 'Dépression, phobies, envies suicidaires, anxiété, isolement...',
+        id: 5,
       },
       {
         buttonText: 'Sexualité',
         urlIcon: sexualityUrl,
         tooltip: 'Prévention, genre, orientation sexuelle, prostitution...',
+        id: 6,
       },
     ],
   },
@@ -299,31 +275,37 @@ const organismeFieldsList = ref([
     title: 'Age',
     placeholder: 'Age de l\'organisme',
     model: props.age,
+    function: 'Age',
     logo: [
       {
         buttonText: 'Petite enfance',
         urlIcon: enfance,
         tooltip: 'Petite enfance',
+        id: 1,
       },
       {
         buttonText: 'Primaire',
         urlIcon: primaire,
         tooltip: 'Primaire',
+        id: 2,
       },
       {
         buttonText: 'Collège',
         urlIcon: college,
         tooltip: 'Collège',
+        id: 3,
       },
       {
         buttonText: 'Lycée',
         urlIcon: lycee,
         tooltip: 'Lycée',
+        id: 4,
       },
       {
         buttonText: 'Jeune adulte',
         urlIcon: adulte,
         tooltip: 'Jeune adulte',
+        id: 5,
       },
     ],
   },
@@ -332,26 +314,31 @@ const organismeFieldsList = ref([
     description: 'Sélectionner la couverture territorial de l\'organisme. Par défaut le service sera présenté également aux communes limitrophes',
     placeholder: 'Périmètre de l\'organisme',
     model: props.perimetre,
+    function: 'Perimetre',
     logo: [
       {
         buttonText: 'Municipal',
         urlIcon: 'statics/perimeter-icons/municipal.png',
         tooltip: 'Municipal',
+        id: 1,
       },
       {
         buttonText: 'Départemental',
         urlIcon: 'statics/perimeter-icons/departemental.png',
         tooltip: 'Départemental',
+        id: 2,
       },
       {
         buttonText: 'Régional',
         urlIcon: 'statics/perimeter-icons/region.png',
         tooltip: 'Régional',
+        id: 3,
       },
       {
         buttonText: 'National',
         urlIcon: 'statics/perimeter-icons/national.png',
         tooltip: 'National',
+        id: 4,
       },
     ],
   },
@@ -368,30 +355,42 @@ const organismeFieldsList = ref([
       placeholder: 'Commune de votre organisme',
       model: props.municipalities,
     },
-    {
-      title: 'Ville',
-      description: 'Renseignez la ville de l\'organisme',
-      placeholder: 'Ville de l\'organisme',
-      model: props.city,
-    },
-    {
-      title: 'Département',
-      description: 'Renseignez le département de l\'organisme',
-      placeholder: 'Département de l\'organisme',
-      model: props.dept,
-    },
-    {
-      title: 'Region',
-      description: 'Renseignez la région de l\'organisme',
-      placeholder: 'Région de l\'organisme',
-      model: props.state,
-    },
   ],
 ]);
+
+const instance = getCurrentInstance();
 
 const windowWidth = ref(window.innerWidth);
 function onWidthChange() {
   windowWidth.value = window.innerWidth;
+}
+
+async function submit() {
+  const data = {};
+
+  organismeFieldsList.value.forEach((org, i) => {
+    if (!Array.isArray(org)) {
+      if (!org.function) {
+        data[fieldsList.value[i]] = org.model;
+      } else {
+        data[fieldsList.value[i]] = toRaw(instance.proxy[`selected${org.function}Filters`]);
+      }
+    } else {
+      org.forEach((littlefields) => {
+        data[fieldsList.value[i]] = littlefields.model;
+        i += 1;
+      });
+    }
+  });
+  await axios.post('http://guide-maux-d-enfants.centresrelier.org/api/organismes', { data }, {
+    headers: {
+      Authorization: 'Bearer 38c4a09fa35e3020ab337146cdeb05a02cbe7df60fd84eebff2f5200a5093bb17849c933b59d179e0fd1229d11c37abf50b5035a3c690d281d476f975acb4dd6dd44b17e882cb944b8dfe946b1b224a4efbf86b4290d2afe27851061bd075dfa3aa0e3e35f96b4dbdb1df301c1ad0252d4faa40711c18c439296c2cb87f7a85d',
+    },
+  }).then((response) => {
+    console.log('L\'organisme a bien été créé', response);
+  }, (error) => {
+    console.log('Un problème est survenu. Nous vous demandons de réessayer ultérieurement', error);
+  });
 }
 
 onMounted(() => {
