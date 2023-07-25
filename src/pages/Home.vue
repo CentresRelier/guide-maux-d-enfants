@@ -5,43 +5,47 @@
       <Head :title1="homeTitle1" :title2="homeTitle2"/>
     </div>
 
-    <div class="row q-pt-md">
-      <div class=" col-sm-0 col-md-2">
-        <div v-if="windowWidth > 768" class="q-pt-xl ellipse-left-home">
+    <div class="row q-pt-md row-categories">
+      <div class="col-xs-0 col-sm-1 col-md-1">
+        <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-left-home">
           <q-img src="statics/ellipse-home-left.png" height="280" width="124"></q-img>
         </div>
       </div>
-      <div class="col-sm-12 col-md-8">
+      <div class="col-xs-12 col-sm-10 col-md-10">
         <div class="row row-filter">
-          <div class="categories-container q-pr-sm">
+          <div class="categories-container">
             <Categories v-on:filtersUpdated="filterCards" />
           </div>
           <div class="age-range-container">
             <AgeRange v-on:ageFiltersUpdated="filterCardsWithAge" />
           </div>
         </div>
-        <div class="q-pt-lg">
-          <div class=" col-xs-0 col-sm-0 col-md-4">
+        <div class="row justify-center q-pt-lg">
+          <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-search">
+          <div class="col-xs-12 col-sm-8 col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
-            <p v-if="organismesTotal > 1">
+            <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
             </p>
-            <p v-else>
+            <p v-else class="flex justify-center">
               {{ organismesTotal }} organisme trouvé,
               {{ organismesNumber.number }} affiché
             </p>
           </div>
-          <div class="col-xs-0 col-md-4">
+          <div class="col-xs-0 col-sm-2 col-md-4">
+            <HelpButton />
           </div>
         </div>
         <div class="row row-card" v-for="organisme in organismes" :key="organisme.id">
           <OrganismeCard :organisme="organisme" />
         </div>
       </div>
-      <div class="col-sm-0 col-md-2">
+      <div class="col-xs-0 col-sm-1 col-md-1">
+        <div v-if="$q.screen.gt.sm" class="q-pt-xl ellipse-right-home">
+          <q-img src="statics/ellipse-home-right.png" height="280" width="124"></q-img>
+        </div>
       </div>
     </div>
 
@@ -63,7 +67,6 @@
     <div class="footer">
       <Footer :title="footerTitle" :url="footerUrl" :buttonText="footerTexteButton"/>
     </div>
-
   </q-page>
 </template>
 
@@ -74,12 +77,12 @@ export default {
 </script>
 
 <script setup>
-import { useQuasar } from 'quasar';
+import { useMeta, useQuasar } from 'quasar';
 import {
   ref,
   onMounted,
   computed,
-  reactive, onUnmounted,
+  reactive,
 } from 'vue';
 import axios from 'axios';
 import Head from 'components/Head.vue';
@@ -90,6 +93,17 @@ import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
+import HelpButton from 'components/HelpButton.vue';
+
+useMeta(() => ({
+  title: "GUIDE MAUX D'ENFANTS",
+  titleTemplate: (title) => `${title} - Des organismes gratuits pour accompagner vos enfants`,
+  // meta tags
+  meta: {
+    keywords: { name: 'keywords', content: 'ENFANTS GUIDE MAUX HARCELEMENT' },
+    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+  },
+}));
 
 const $q = useQuasar();
 
@@ -123,8 +137,6 @@ const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycé
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
-const windowWidth = ref(window.innerWidth);
-
 /*
 Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
@@ -141,55 +153,60 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
+function getPerimeterPriority(perimeter) {
+  // Define the sorting priority based on the perimeter value
+  switch (perimeter) {
+    case '1-Municipal':
+      return 1;
+    case '2-Départemental':
+      return 2;
+    case '3-Régional':
+      return 3;
+    case '4-National':
+      return 4;
+    default:
+      return 0; // Set other values to the lowest priority
+  }
+}
+
 const getData = async (URL) => {
   try {
-    const dataOrganismes = await axios.get(URL)
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+    const dataOrganismes = await axios.get(URL);
     organismesTotal.value = dataOrganismes.data.meta.pagination.total;
-    organismes.value = dataOrganismes.data.data.map((organisme) => ({
-      ...organisme,
-      title: organisme.attributes.nom,
-      description: organisme.attributes.description,
-      website: organisme.attributes.website,
-      coordinate: organisme.attributes.coordonnees,
-      contact: organisme.attributes.contact,
-      email: organisme.attributes.email,
-      thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
-        ...thematique,
-        name: thematique.attributes.thematiques,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      age: Object.values(organisme.attributes.ages.data.map((age) => ({
-        ...age,
-        name: age.attributes.age,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
-    }));
+    const sortedOrganismes = dataOrganismes.data.data
+      .map((organisme) => ({
+        ...organisme,
+        title: organisme.attributes.nom,
+        description: organisme.attributes.description,
+        website: organisme.attributes.website,
+        coordinate: organisme.attributes.coordonnees,
+        postalCode: organisme.attributes.code_postal.substring(0, 2),
+        contact: organisme.attributes.contact,
+        email: organisme.attributes.email,
+        thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
+          ...thematique,
+          name: thematique.attributes.thematiques,
+        })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+        age: Object.values(organisme.attributes.ages.data.map((age) => ({
+          ...age,
+          name: age.attributes.age,
+        })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+        perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
+      }))
+      .sort((a, b) => {
+        const aPriority = getPerimeterPriority(a.perimeter);
+        const bPriority = getPerimeterPriority(b.perimeter);
+        return aPriority - bPriority;
+      });
+    organismes.value = sortedOrganismes;
     getOrganismesImages(dataOrganismes);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
-      caption: 'Merci de réesayer ultérieurement',
+      caption: 'Merci de réessayer ultérieurement',
       color: 'red-9',
       position: 'top',
     });
-    console.log(error, error.message);
   }
 };
 
@@ -220,7 +237,7 @@ function updateQueryWithFilters(baseQuery) {
     }
   }
   if (textInput.value !== '') {
-    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$eq]=${textInput.value}`;
+    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
   }
   return query;
 }
@@ -260,17 +277,11 @@ function filterInput(text) {
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
 onMounted(() => {
   getData(BASE_URL.value);
-  window.addEventListener('resize', onWidthChange);
 });
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
+
 <style scoped>
 .col-search {
   text-align: -webkit-center;
@@ -285,11 +296,21 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   justify-content: center;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1383px) {
+  .categories-container {
+    margin-bottom: 16px;
+  }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1393px) {
+  .age-range-container {
+    margin-top: 16px;
+  }
+}
+
+@media only screen and (min-device-width : 440px) and (max-device-width : 768px) {
   .row-filter {
-    justify-content: center;
-    flex-direction: column;
-    max-width: 432px;
+    min-width: 434px;
   }
   .col-search {
     text-align: center;
@@ -299,18 +320,40 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
     margin-bottom: 0;
   }
   .categories-container {
-    margin-left: 8px;
     margin-bottom: 8px;
   }
   .age-range-container {
     align-self: center;
-    width: 416px;
+    width: 412px;
+  }
+}
+
+@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+  .categories-container {
+    max-width: 97vw;
+    align-self: center;
+    margin-bottom: 16px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .row-categories {
+    padding-top: 0;
+  }
+  .head {
+    margin-bottom: 16px;
   }
 }
 
 .ellipse-left-home {
   width: 124px;
   height: 280px;
+}
+
+.ellipse-right-home {
+  width: 124px;
+  height: 280px;
+  display: block;
+  margin-left: auto;
 }
 
 .row-card {

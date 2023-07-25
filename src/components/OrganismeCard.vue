@@ -3,12 +3,12 @@
     <div class="row">
       <div class="col-xs-12 col-md-4">
         <div class="row row-mobile">
-          <div class="col-md-12 col col-mobile">
+          <div class="col-xs-12 col-md-12 col col-mobile">
             <div class="img-container q-mt-md q-ml-md">
               <img class="img" :src="organisme.img" />
             </div>
           </div>
-          <div v-if="windowWidth <= 768" class="col-md-12">
+          <div v-if="$q.screen.lt.md" class="col-xs-12 col-md-12">
             <div class="row">
               <div class="col-xs-0 col-md-5"></div>
               <div class="col-xs-12 col-md-7">
@@ -16,12 +16,76 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-xs-12 col-md-12">
+            <p class="title-perimeter">Périmétre :</p>
+            <br>
+            <div class="col-xs-0 col-md-1">
+            </div>
+            <div class="col-xs-12 col-md-10">
+              <div class="row row-icons" v-if="organisme.perimeter">
+                <div v-if="organisme.perimeter.includes('1-Municipal')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/municipal.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Municipal</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('2-Départemental')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/region.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Départemental</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('3-Régional')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/region.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Régional</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('4-National')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/national.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>National</strong>
+                  </q-tooltip>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-0 col-md-1">
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-12">
             <p class="title-coordinates">Coordonnées :</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
           </div>
-          <div class="col-md-12 q-mb-md">
+          <div class="col-xs-12 col-md-12 q-mb-md">
             <p class="title-thematique">Thématiques :</p>
             <br>
             <div v-if="organisme.thematique.length <= 3" class="row">
@@ -184,7 +248,7 @@
       </div>
       <div class="col-xs-12 col-md-8">
         <div class="row">
-          <div v-if="windowWidth > 768" class="col-md-12">
+          <div v-if="$q.screen.gt.sm" class="col-md-12">
             <div class="row">
               <div class="col-xs-0 col-md-5"></div>
               <div class="col-xs-12 col-md-7">
@@ -192,7 +256,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-12 col-md-12 q-pr-lg texte-container">
+          <div class="col-xs-12 col-md-12 texte-container">
             <p class="title-description">Description :</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
@@ -223,20 +287,6 @@ export default {
   },
 };
 
-</script>
-<script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-
-const windowWidth = ref(window.innerWidth);
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
-onMounted(() => {
-  window.addEventListener('resize', onWidthChange);
-});
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 
 <style lang="scss" scoped>
@@ -269,6 +319,14 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 }
 
 .title-coordinates {
+  font-weight: 900;
+  color: $accent;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 24px 0 24px;
+}
+
+.title-perimeter {
   font-weight: 900;
   color: $accent;
   font-size: 18px;
@@ -309,6 +367,7 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 
 .texte-container {
   overflow-wrap: break-word;
+  padding-right: 24px;
 }
 
 .description {
@@ -353,11 +412,29 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   padding: 0 5px 10px 5px;
 }
 
+.icon-container-perimeter {
+  background-image:
+    url( 'public/statics/perimeter-icons/round-yellow.svg' );
+  background-repeat: no-repeat;
+  background-position: center, 100%, 0%;
+  padding: 0 5px 10px 5px;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+  .texte-container {
+    padding-right: 24px;
+    padding-left: 24px;
+    text-align: center;
+  }
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
   .card {
     border: 4px solid $accent;
     border-radius: 15px;
-    width: 400px;
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
     background-image: url('public/statics/background-card.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -384,6 +461,11 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
     font-size: 24px;
     padding-top: 24px;
   }
+  .title-perimeter {
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 24px;
+  }
   .title-description {
     font-weight: bold;
     font-size: 24px;
@@ -394,8 +476,11 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
     margin-right: 18px;
   }
   .img {
-    max-height: 200px;
+    height: 100%;
     min-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    max-width: 80vw;
   }
   .row-icons {
     justify-content: center;

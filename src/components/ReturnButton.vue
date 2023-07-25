@@ -6,12 +6,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'return-component',
-};
-
-</script>
 <script setup>
 function GoToHomePage() {
   window.location = '/';
