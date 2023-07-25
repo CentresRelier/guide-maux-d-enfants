@@ -184,6 +184,9 @@ import axios from 'axios';
 import {
   defineProps, ref, onMounted, onUnmounted, getCurrentInstance, toRaw,
 } from 'vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const headTitle = ref('Inscrire un organisme\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
@@ -391,8 +394,13 @@ async function submit() {
     headers: {
       Authorization: 'Bearer 38c4a09fa35e3020ab337146cdeb05a02cbe7df60fd84eebff2f5200a5093bb17849c933b59d179e0fd1229d11c37abf50b5035a3c690d281d476f975acb4dd6dd44b17e882cb944b8dfe946b1b224a4efbf86b4290d2afe27851061bd075dfa3aa0e3e35f96b4dbdb1df301c1ad0252d4faa40711c18c439296c2cb87f7a85d',
     },
-  }).then((response) => {
-    console.log('L\'organisme a bien été créé', response);
+  }).then(() => {
+    $q.notify({
+      message: 'L\'organisme a bien été créé',
+      caption: 'Vous pouvez créé un nouvelle organisme',
+      color: 'green-9',
+      position: 'top',
+    });
   }, (error) => {
     console.log('Un problème est survenu. Nous vous demandons de réessayer ultérieurement', error);
   });
