@@ -17,6 +17,70 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-12">
+            <p class="title-perimeter">Périmétre :</p>
+            <br>
+            <div class="col-xs-0 col-md-1">
+            </div>
+            <div class="col-xs-12 col-md-10">
+              <div class="row row-icons" v-if="organisme.perimeter">
+                <div v-if="organisme.perimeter.includes('1-Municipal')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/municipal.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Municipal</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('2-Départemental')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/region.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Départemental</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('3-Régional')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/region.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>Régional</strong>
+                  </q-tooltip>
+                </div>
+                <div v-if="organisme.perimeter.includes('4-National')"
+                     class="icon-container-perimeter"
+                >
+                  <q-img src="statics/perimeter-icons/national.png"
+                         height="55px"
+                         width="55px"/>
+                  <q-tooltip class="tooltip bg-secondary"
+                             anchor="top middle"
+                             self="bottom middle"
+                             :offset="[0, 5]">
+                    <strong>National</strong>
+                  </q-tooltip>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-0 col-md-1">
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-12">
             <p class="title-coordinates">Coordonnées :</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
@@ -262,6 +326,14 @@ export default {
   margin: 10px 24px 0 24px;
 }
 
+.title-perimeter {
+  font-weight: 900;
+  color: $accent;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 24px 0 24px;
+}
+
 .coordinates {
   white-space: pre-line;
   font-weight: 500;
@@ -340,6 +412,14 @@ export default {
   padding: 0 5px 10px 5px;
 }
 
+.icon-container-perimeter {
+  background-image:
+    url( 'public/statics/perimeter-icons/round-yellow.svg' );
+  background-repeat: no-repeat;
+  background-position: center, 100%, 0%;
+  padding: 0 5px 10px 5px;
+}
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
   .texte-container {
     padding-right: 24px;
@@ -377,6 +457,11 @@ export default {
     padding-top: 24px;
   }
   .title-thematique {
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 24px;
+  }
+  .title-perimeter {
     font-weight: bold;
     font-size: 24px;
     padding-top: 24px;
