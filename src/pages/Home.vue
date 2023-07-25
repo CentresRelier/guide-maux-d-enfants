@@ -82,7 +82,7 @@ import {
   ref,
   onMounted,
   computed,
-  reactive, onUnmounted,
+  reactive,
 } from 'vue';
 import axios from 'axios';
 import Head from 'components/Head.vue';
@@ -137,8 +137,6 @@ const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycé
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
-const windowWidth = ref(window.innerWidth);
-
 /*
 Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
@@ -155,55 +153,60 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
+function getPerimeterPriority(perimeter) {
+  // Define the sorting priority based on the perimeter value
+  switch (perimeter) {
+    case '1-Municipal':
+      return 1;
+    case '2-Départemental':
+      return 2;
+    case '3-Régional':
+      return 3;
+    case '4-National':
+      return 4;
+    default:
+      return 0; // Set other values to the lowest priority
+  }
+}
+
 const getData = async (URL) => {
   try {
-    const dataOrganismes = await axios.get(URL)
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+    const dataOrganismes = await axios.get(URL);
     organismesTotal.value = dataOrganismes.data.meta.pagination.total;
-    organismes.value = dataOrganismes.data.data.map((organisme) => ({
-      ...organisme,
-      title: organisme.attributes.nom,
-      description: organisme.attributes.description,
-      website: organisme.attributes.website,
-      coordinate: organisme.attributes.coordonnees,
-      contact: organisme.attributes.contact,
-      email: organisme.attributes.email,
-      thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
-        ...thematique,
-        name: thematique.attributes.thematiques,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      age: Object.values(organisme.attributes.ages.data.map((age) => ({
-        ...age,
-        name: age.attributes.age,
-      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
-      perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
-    }));
+    const sortedOrganismes = dataOrganismes.data.data
+      .map((organisme) => ({
+        ...organisme,
+        title: organisme.attributes.nom,
+        description: organisme.attributes.description,
+        website: organisme.attributes.website,
+        coordinate: organisme.attributes.coordonnees,
+        postalCode: organisme.attributes.code_postal.substring(0, 2),
+        contact: organisme.attributes.contact,
+        email: organisme.attributes.email,
+        thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
+          ...thematique,
+          name: thematique.attributes.thematiques,
+        })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+        age: Object.values(organisme.attributes.ages.data.map((age) => ({
+          ...age,
+          name: age.attributes.age,
+        })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
+        perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
+      }))
+      .sort((a, b) => {
+        const aPriority = getPerimeterPriority(a.perimeter);
+        const bPriority = getPerimeterPriority(b.perimeter);
+        return aPriority - bPriority;
+      });
+    organismes.value = sortedOrganismes;
     getOrganismesImages(dataOrganismes);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
-      caption: 'Merci de réesayer ultérieurement',
+      caption: 'Merci de réessayer ultérieurement',
       color: 'red-9',
       position: 'top',
     });
-    console.log(error, error.message);
   }
 };
 
@@ -234,7 +237,7 @@ function updateQueryWithFilters(baseQuery) {
     }
   }
   if (textInput.value !== '') {
-    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$eq]=${textInput.value}`;
+    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
   }
   return query;
 }
@@ -274,16 +277,9 @@ function filterInput(text) {
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
-function onWidthChange() {
-  windowWidth.value = window.innerWidth;
-}
-
 onMounted(() => {
   getData(BASE_URL.value);
-  window.addEventListener('resize', onWidthChange);
 });
-
-onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 </script>
 
 <style scoped>
