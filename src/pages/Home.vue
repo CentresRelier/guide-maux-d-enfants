@@ -153,27 +153,11 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
-function getPerimeterPriority(perimeter) {
-  // Define the sorting priority based on the perimeter value
-  switch (perimeter) {
-    case '1-Municipal':
-      return 1;
-    case '2-Départemental':
-      return 2;
-    case '3-Régional':
-      return 3;
-    case '4-National':
-      return 4;
-    default:
-      return 0; // Set other values to the lowest priority
-  }
-}
-
 const getData = async (URL) => {
   try {
     const dataOrganismes = await axios.get(URL);
     organismesTotal.value = dataOrganismes.data.meta.pagination.total;
-    const sortedOrganismes = dataOrganismes.data.data
+    organismes.value = dataOrganismes.data.data
       .map((organisme) => ({
         ...organisme,
         title: organisme.attributes.nom,
@@ -192,13 +176,7 @@ const getData = async (URL) => {
           name: age.attributes.age,
         })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
         perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
-      }))
-      .sort((a, b) => {
-        const aPriority = getPerimeterPriority(a.perimeter);
-        const bPriority = getPerimeterPriority(b.perimeter);
-        return aPriority - bPriority;
-      });
-    organismes.value = sortedOrganismes;
+      }));
     getOrganismesImages(dataOrganismes);
   } catch (error) {
     $q.notify({
