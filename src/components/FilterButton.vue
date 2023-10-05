@@ -96,16 +96,31 @@ export default {
   margin-bottom: 100px;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+@media only screen and (min-device-width : 343px) and (max-device-width : 768px) {
   .img {
-    height: 45px;
-    width: 45px;
+    display: none;
   }
   .button-container {
     height: 70px;
-    width: 70px;
+    width: 110px;
     justify-content: center;
   }
+  .texte {
+    overflow: hidden;
+  }
+}
+
+@media only screen and (min-device-width : 280px) and (max-device-width : 343px) {
+  .img {
+    display: none;
+  }
+
+  .button-container {
+    height: 40px;
+    width: 85px;
+    justify-content: center;
+  }
+
   .texte {
     overflow: hidden;
   }
