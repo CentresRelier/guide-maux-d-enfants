@@ -199,8 +199,7 @@ function updateQueryWithFilters(baseQuery) {
   if (selectedFilters.value.length === 1) {
     query = `${query}&filters[thematiques][thematiques][$contains]=${selectedFilters.value[0]}`;
   }
-  if (selectedFilters.value.length > 1
-            && selectedFilters.value.length < ALL_FILTERS.length) {
+  if (selectedFilters.value.length > 1 && selectedFilters.value.length <= ALL_FILTERS.length) {
     for (let i = 0; i < selectedFilters.value.length; i += 1) {
       query = `${query}&filters[$and][${i}][thematiques][thematiques][$contains]=${selectedFilters.value[i]}`;
     }
@@ -233,7 +232,7 @@ function refreshData(currentTab) {
 // Filters organismes cards according to selected thematic filters
 function filterCards(filters) {
   if (filters.length === 0) {
-    selectedFilters.value = ALL_FILTERS;
+    selectedFilters.value = [];
   } else {
     selectedFilters.value = filters;
   }
@@ -243,7 +242,7 @@ function filterCards(filters) {
 // Filters organismes cards according to selected age filters
 function filterCardsWithAge(ageFilters) {
   if (ageFilters.length === 0) {
-    selectedAgeFilters.value = ALL_AGE_FILTERS;
+    selectedAgeFilters.value = [];
   } else {
     selectedAgeFilters.value = ageFilters;
   }
