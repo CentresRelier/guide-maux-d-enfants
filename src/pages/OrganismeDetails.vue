@@ -535,7 +535,8 @@ onMounted(() => {
   }
   .img-container {
     margin-bottom: 32px;
-    max-width: 450px;
+    max-width:100%;
+    max-height:100%;
   }
   .row-mobile {
     padding-right: 32px;
@@ -563,7 +564,8 @@ onMounted(() => {
   }
   .img-container {
     margin-bottom: 8px;
-    max-width: 450px;
+    max-width:100%;
+    max-height:100%;
   }
   .row-mobile {
     padding-right: 16px;
@@ -576,6 +578,11 @@ onMounted(() => {
   }
   .coordinate-container {
     margin-bottom: 8px;
+  }
+
+  .img-organisme {
+    max-width:100%;
+    max-height:100%;
   }
 }
 

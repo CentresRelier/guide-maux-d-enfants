@@ -103,8 +103,8 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
 
 @media only screen and (min-device-width : 440px) and (max-device-width : 768px) {
   .img {
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
   }
   .button-container {
     height: 65px;
@@ -119,14 +119,13 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
   }
 }
 
-@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 440px) {
   .img {
-    height: 35px;
-    width: 35px;
+    display: none;
   }
   .button-container {
-    height: 55px;
-    width: 55px;
+    height: auto;
+    width: 110px;
     text-align: center;
   }
   .row {
@@ -139,4 +138,27 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
     margin-right: 0px;
   }
 }
+
+@media only screen and (min-device-width : 280px) and (max-device-width : 320px) {
+  .img {
+    display: none;
+  }
+
+  .button-container {
+    height: 45px;
+    width: 85px;
+    text-align: center;
+  }
+  .row {
+    padding-top: 16px;
+  }
+  .card-categories {
+    height: 120px;
+    border-radius: 15px;
+    border: 2px solid $secondary;
+    margin-right: 0px;
+  }
+
+}
+
 </style>

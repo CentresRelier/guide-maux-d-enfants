@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-12">
-            <p class="title-perimeter">Périmétre :</p>
+            <p class="title-perimeter">Périmètre :</p>
             <br>
             <div class="col-xs-0 col-md-1">
             </div>
