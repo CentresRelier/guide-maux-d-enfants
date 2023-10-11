@@ -7,7 +7,7 @@
         <div class="row row-menu">
           <div class="col-sm-2 col-md-3 col-logo">
             <q-img class="cursor-pointer" src="statics/CR_logo.svg" height="70px" width="109px"
-                      @click="GoToHomePage()"/>
+                      @click="goHome()"/>
           </div>
           <div v-if="$q.screen.gt.sm" class="col-xs-1 col-sm-2 col-md-9 col-link">
             <div class="row row-link">
@@ -95,7 +95,7 @@ export default {
 <script setup>
 import { ref } from 'vue';
 
-function GoToHomePage() {
+function goHome() {
   window.location = '/';
 }
 

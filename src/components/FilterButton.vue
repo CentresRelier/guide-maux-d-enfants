@@ -54,6 +54,7 @@ export default {
   height: 58px;
   width: 58px;
 }
+
 .not-selected {
   opacity: 0.4;
 }
@@ -91,39 +92,68 @@ export default {
   opacity: 1;
 }
 
-.tooltip {
-  padding-bottom: 100px;
-  margin-bottom: 100px;
-}
-
-@media only screen and (min-device-width : 343px) and (max-device-width : 768px) {
+@media only screen and (min-device-width : 387px) and (max-device-width : 768px) {
   .img {
     display: none;
   }
   .button-container {
-    height: 70px;
+    height: 50px;
     width: 110px;
     justify-content: center;
   }
   .texte {
     overflow: hidden;
+    height: 55px;
+    padding-top: 15px;
+    font-size: 14px;
+  }
+  .not-selected {
+    opacity: 0.7;
   }
 }
 
-@media only screen and (min-device-width : 280px) and (max-device-width : 343px) {
+@media only screen and (min-device-width : 342px) and (max-device-width : 387px) {
   .img {
     display: none;
   }
 
   .button-container {
-    height: 40px;
-    width: 85px;
+    height: 50px;
+    width: 95px;
     justify-content: center;
   }
 
   .texte {
+    height: 50px;
+    padding-top: 15px;
     overflow: hidden;
+  }
+
+  .not-selected {
+    opacity: 0.7;
   }
 }
 
+@media only screen and (min-device-width : 280px) and (max-device-width : 342px) {
+  .img {
+    display: none;
+  }
+
+  .button-container {
+    height: 50px;
+    width: 80px;
+    justify-content: center;
+  }
+
+  .texte {
+    height: 50px;
+    width: 70px;
+    padding-top: 15px;
+    overflow: hidden;
+  }
+
+  .not-selected {
+    opacity: 0.7;
+  }
+}
 </style>

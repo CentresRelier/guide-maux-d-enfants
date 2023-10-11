@@ -23,18 +23,16 @@
         <div class="row justify-center q-pt-lg">
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
-          <div class="col-xs-12 col-sm-8 col-md-4 col-search">
+          <div class="col-xs-8 col-sm-8 col-md-4 col-search">
             <SearchBar v-on:inputSubmitted="filterInput" />
             <p v-if="organismesTotal > 1" class="flex justify-center">
-              {{ organismesTotal }} organismes trouvés,
-              {{ organismesNumber.number }} affichés
+              {{ organismesTotal }} organismes trouvés
             </p>
             <p v-else class="flex justify-center">
-              {{ organismesTotal }} organisme trouvé,
-              {{ organismesNumber.number }} affiché
+              {{ organismesTotal }} organisme trouvé
             </p>
           </div>
-          <div class="col-xs-0 col-sm-2 col-md-4">
+          <div class="col-xs-1 col-sm-2 col-md-4">
             <HelpButton />
           </div>
         </div>
@@ -81,8 +79,6 @@ import { useMeta, useQuasar } from 'quasar';
 import {
   ref,
   onMounted,
-  computed,
-  reactive,
 } from 'vue';
 import axios from 'axios';
 import Head from 'components/Head.vue';
@@ -120,8 +116,6 @@ const textInput = ref('');
 const organismes = ref([]);
 // Total number of organismes
 const organismesTotal = ref(0);
-// Number of organisme on this page, defined by pagination but might be less than that
-const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
 
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
@@ -305,7 +299,7 @@ onMounted(() => {
   }
 }
 
-@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 440px) {
   .categories-container {
     max-width: 97vw;
     align-self: center;
@@ -340,5 +334,9 @@ onMounted(() => {
 .pagination-container {
   display: flex;
   place-content: center;
+}
+
+@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+
 }
 </style>
