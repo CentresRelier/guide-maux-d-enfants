@@ -5,7 +5,7 @@
             @keyup.delete="onInputChange"
             @keyup.esc="resetInput">
     <template v-slot:prepend>
-      <q-icon name="room" class="search-button q-pl-sm"/>
+      <q-icon name="room" class="search-button icon-search q-pl-sm"/>
     </template>
     <template v-slot:append>
       <q-icon name="search" class="search-button q-pr-sm cursor-pointer"
@@ -20,7 +20,18 @@ export default {
   data() {
     return {
       text: '',
+      searchHistory: [],
     };
+  },
+  watch: {
+    text(newSearch) {
+      // localStorage.text = newSearch;
+      const txtSearch = localStorage.text;
+      if (txtSearch !== '') {
+        this.searchHistory.push(txtSearch);
+        localStorage.text = newSearch;
+      }
+    },
   },
   methods: {
     onInputChange() {

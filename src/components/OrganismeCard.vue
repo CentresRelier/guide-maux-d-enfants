@@ -84,6 +84,8 @@
             <p class="title-coordinates">Coordonnées :</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
+            <p class="coordinates">{{ organisme.code_postal }}</p>
+            <p class="coordinates">{{ organisme.ville }}</p>
           </div>
           <div class="col-xs-12 col-md-12 q-mb-md">
             <p class="title-thematique">Thématiques :</p>

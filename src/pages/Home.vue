@@ -28,6 +28,7 @@
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
+              {{ searchResults }}
             </p>
             <p v-else class="flex justify-center">
               {{ organismesTotal }} organisme trouvé,
@@ -73,6 +74,13 @@
 <script>
 export default {
   name: 'home-page',
+
+  computed: {
+    searchResults() {
+      const storedResults = window.localStorage.getItem('searchResults');
+      return storedResults ? JSON.parse(storedResults) : [];
+    },
+  },
 };
 </script>
 
@@ -116,6 +124,10 @@ const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSi
 
 // Text input from SearchBar
 const textInput = ref('');
+/* const searchResults = computed(() => {
+  const storedResults = window.localStorage.getItem('searchResults');
+  return storedResults ? JSON.parse(storedResults) : [];
+}); */
 
 const organismes = ref([]);
 // Total number of organismes
@@ -150,6 +162,7 @@ function getOrganismesImages(dataOrganismes) {
     } else {
       found.img = '/statics/CR_logo-svg.svg';
     }
+    // console.log(dataOrganismes);
   }
 }
 
@@ -215,6 +228,7 @@ function updateQueryWithFilters(baseQuery) {
   }
   if (textInput.value !== '') {
     query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
+    // window.localStorage.setItem('searchResults', query);
   }
   return query;
 }
@@ -251,7 +265,9 @@ function filterCardsWithAge(ageFilters) {
 
 function filterInput(text) {
   textInput.value = text;
+  window.localStorage.setItem('searchResults', text);
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
+  console.log(text);
 }
 
 onMounted(() => {
