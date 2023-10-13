@@ -2,36 +2,42 @@
   <q-card class="card-categories q-pr-sm q-pl-sm q-hoverable">
     <div class="row-categories row q-pt-lg">
       <FilterButton
-        :buttonTexte="'Addiction'"
+        :buttonText="'Addiction'"
         :urlIcon="addictionUrl"
         :tooltip="'Drogue, écrans, tabac, alcool, pornographie, sexe...'"
-        v-on:filterSelected="updateFilters('Addiction')"/>
+        v-on:filterSelected="isNotInLocalStorage('Addiction')"
+        v-on:isInLocaleStorage="isInLocalStorage('Addiction')"/>
       <FilterButton
-        :buttonTexte="'Violence'"
+        :buttonText="'Violence'"
         :urlIcon="violenceUrl"
         :tooltip="'Violences physiques, sexuelles, psychologiques, cyber-violences...'"
-        v-on:filterSelected="updateFilters('Violence')"/>
+        v-on:filterSelected="isNotInLocalStorage('Violence')"
+        v-on:isInLocaleStorage="isInLocalStorage('Violence')"/>
       <FilterButton
-        :buttonTexte="'Sexualité'"
+        :buttonText="'Sexualité'"
         :urlIcon="sexualityUrl"
         :tooltip="'Prévention, genre, orientation sexuelle, prostitution...'"
-        v-on:filterSelected="updateFilters('Sexualité')"/>
+        v-on:filterSelected="isNotInLocalStorage('Sexualité')"
+        v-on:isInLocaleStorage="isInLocalStorage('Sexualité')"/>
       <FilterButton
-        :buttonTexte="'Harcèlement'"
+        :buttonText="'Harcèlement'"
         :urlIcon="harasmentUrl"
         :tooltip="'Scolaire, périscolaire, cyberharcèlement, intrafamilial, harcèlement de rue...'"
-        v-on:filterSelected="updateFilters('Harcèlement')"/>
+        v-on:filterSelected="isNotInLocalStorage('Harcèlement')"
+        v-on:isInLocaleStorage="isInLocalStorage('Harcèlement')"/>
       <FilterButton
-        :buttonTexte="'Santé mentale'"
+        :buttonText="'Santé mentale'"
         :urlIcon="mentalHealthUrl"
         :tooltip="'Dépression, phobies, envies suicidaires, anxiété, isolement...'"
-        v-on:filterSelected="updateFilters('Santé mentale')"/>
+        v-on:filterSelected="isNotInLocalStorage('Santé mentale')"
+        v-on:isInLocaleStorage="isInLocalStorage('Santé mentale')"/>
       <FilterButton
-        :buttonTexte="'Discrimination'"
+        :buttonText="'Discrimination'"
         :urlIcon="discriminationUrl"
         :tooltip="`Raciale, sociale, religieuse, sexiste, culturelle, transphobie,
                 basée sur l'orientation sexuelle, l'apparence physique, le handicap...`"
-        v-on:filterSelected="updateFilters('Discrimination')"/>
+        v-on:filterSelected="isNotInLocalStorage('Discrimination')"
+        v-on:isInLocaleStorage="isInLocalStorage('Discrimination')"/>
     </div>
     <div class="button-container row">
     </div>
@@ -41,22 +47,6 @@
 <script>
 export default {
   name: 'categories-component',
-  data() {
-    return {
-      selectedFilters: [],
-    };
-  },
-  methods: {
-    updateFilters(filter) {
-      if (this.selectedFilters.includes(filter)) {
-        this.selectedFilters.splice(this.selectedFilters.indexOf(filter), 1);
-      } else {
-        this.selectedFilters.push(filter);
-      }
-      const SELECTED_FILTERS = this.selectedFilters;
-      this.$emit('filtersUpdated', SELECTED_FILTERS);
-    },
-  },
 };
 </script>
 <script setup>
@@ -70,6 +60,27 @@ const harasmentUrl = ref('statics/thematique-icons/harcelement.png');
 const mentalHealthUrl = ref('statics/thematique-icons/santementale.png');
 const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
 
+const selectedFilters = ref([]);
+const emit = defineEmits(['filtersUpdated']);
+
+const updateFilters = (filter) => {
+  if (selectedFilters.value.includes(filter)) {
+    selectedFilters.value.splice(selectedFilters.value.indexOf(filter), 1);
+  } else {
+    selectedFilters.value.push(filter);
+  }
+  const SELECTED_FILTERS = selectedFilters.value;
+  emit('filtersUpdated', SELECTED_FILTERS);
+};
+
+function isInLocalStorage(ageFilter) {
+  updateFilters(ageFilter);
+}
+
+function isNotInLocalStorage(ageFilter) {
+  updateFilters(ageFilter);
+  localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters.value));
+}
 </script>
 
 <style lang="scss" scoped>

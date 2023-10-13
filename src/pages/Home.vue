@@ -125,8 +125,8 @@ const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
 
 // show every thematic & age initially
-const selectedFilters = ref(['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité']);
-const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte']);
+const selectedFilters = ref([]);
+const selectedAgeFilters = ref([]);
 // update the following arrays each time an additional filter is created
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
@@ -243,13 +243,28 @@ function filterCardsWithAge(ageFilters) {
   refreshData(current.value);
 }
 
+function isLocaleStorage() {
+  const storedFilters = localStorage.getItem('selectedFilters');
+  const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
+
+  if (storedFilters) {
+    selectedFilters.value = JSON.parse(storedFilters);
+  }
+
+  if (storedAgeFilters) {
+    selectedAgeFilters.value = JSON.parse(storedAgeFilters);
+  }
+
+  refreshData(current.value);
+}
+
 function filterInput(text) {
   textInput.value = text;
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
 onMounted(() => {
-  getData(BASE_URL.value);
+  isLocaleStorage();
 });
 </script>
 
