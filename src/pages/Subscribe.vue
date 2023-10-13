@@ -29,6 +29,9 @@
               <p class="obligatory">*</p>
             </div>
             <div class="row row-mobile">
+              <p>{{organismeField.info}}</p>
+            </div>
+            <div class="row row-mobile">
               <p>{{organismeField.description}}</p>
             </div>
             <div class="row row-mobile">
@@ -196,7 +199,7 @@ const props = defineProps({
   thematiques: String,
   age: String,
   perimetre: String,
-  postalCode: String,
+  postalCode: Number,
   municipalities: String,
 });
 
@@ -217,12 +220,12 @@ const organismeFieldsList = ref([
   {
     title: 'Nom de l\'organisme (et agence si applicable)',
     description: 'Ajoutez le nom de la commune de l\'agence à référencer'
-              + '(il faut donc faire une fiche par agence). Par exemple,'
-              + 'les Points Accueil Ecoute Jeunes sont partout en France :'
-              + 'Point Accueil Ecoute Jeunes - Antibes, puis Point Accueil'
-              + 'Ecoute Jeunes - Meudon, etc... Si l\'organisme a plusieurs'
-              + 'agences, merci de renseigner une fiche par agence avec'
-              + 'l\'url de chaque agence',
+              + ' (il faut donc faire une fiche par agence). Par exemple,'
+              + ' les Points Accueil Ecoute Jeunes sont partout en France :'
+              + ' Point Accueil Ecoute Jeunes - Antibes, puis Point Accueil'
+              + ' Ecoute Jeunes - Meudon, etc... Si l\'organisme a plusieurs'
+              + ' agences, merci de renseigner une fiche par agence avec'
+              + ' l\'url de chaque agence',
     placeholder: 'Nom de l\'organisme',
     model: props.name,
   },
@@ -236,6 +239,7 @@ const organismeFieldsList = ref([
   },
   {
     title: 'Thématiques',
+    info: 'Sélectionner une/ou plusieurs thématiques',
     placeholder: 'Thématiques de l\'organisme',
     model: props.thematiques,
     function: 'Thematiques',
@@ -281,6 +285,7 @@ const organismeFieldsList = ref([
   },
   {
     title: 'Age',
+    info: 'Sélectionner un/ou plusieurs âges',
     placeholder: 'Age de l\'organisme',
     model: props.age,
     function: 'Age',
@@ -319,6 +324,7 @@ const organismeFieldsList = ref([
   },
   {
     title: 'Périmètre d\'action',
+    info: 'Sélectionner un périmètre',
     description: 'Sélectionner la couverture territorial de l\'organisme. Par défaut le service sera présenté également aux communes limitrophes',
     placeholder: 'Périmètre de l\'organisme',
     model: props.perimetre,
