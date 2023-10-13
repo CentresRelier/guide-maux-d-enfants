@@ -1,6 +1,6 @@
 <template>
   <q-card class="card-categories q-pr-sm q-pl-sm q-hoverable">
-    <div class="row q-pt-lg">
+    <div class="row-categories row q-pt-lg">
       <FilterButton
         :buttonTexte="'Addiction'"
         :urlIcon="addictionUrl"
@@ -74,7 +74,7 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
 
 <style lang="scss" scoped>
 .card-categories {
-  height: 125px;
+  height: 135px;
   border-radius: 15px;
   border: 3px solid $secondary;
   margin-right: 16px;
@@ -90,43 +90,48 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
   color: #26256C;
 }
 
-.button-container {
-  height: 100px;
-  width: 100px;
-  text-align: center;
-}
-
-.button-container:hover {
-  opacity: 0.6;
-  transition: ease-out 300ms;
-}
-
 @media only screen and (min-device-width : 440px) and (max-device-width : 768px) {
   .img {
-    height: 35px;
-    width: 35px;
-  }
-  .button-container {
-    height: 65px;
-    width: 65px;
-    text-align: center;
+    display: none;
   }
   .row {
     padding-top: 16px;
   }
   .card-categories {
-    margin-right: 0px;
+    height: 120px;
+    max-width: 412px;
+    border-radius: 15px;
+    border: 3px solid $secondary;
+    margin-right: 0;
+  }
+  .row-categories {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
   }
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 440px) {
+@media only screen and (min-device-width : 338px) and (max-device-width : 440px) {
   .img {
     display: none;
   }
-  .button-container {
-    height: auto;
-    width: 110px;
-    text-align: center;
+  .card-categories {
+    height: 120px;
+    border-radius: 15px;
+    border: 3px solid $secondary;
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+  .row-categories {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+  }
+}
+
+@media only screen and (min-device-width : 280px) and (max-device-width : 338px) {
+  .img {
+    display: none;
   }
   .row {
     padding-top: 16px;
@@ -134,31 +139,17 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
   .card-categories {
     height: 120px;
     border-radius: 15px;
-    border: 2px solid $secondary;
-    margin-right: 0px;
+    border: 3px solid $secondary;
+    margin-right: 8px;
+    margin-left: 8px;
+    padding-right: 0;
+    padding-left: 0;
   }
-}
-
-@media only screen and (min-device-width : 280px) and (max-device-width : 320px) {
-  .img {
-    display: none;
+  .row-categories {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
   }
-
-  .button-container {
-    height: 45px;
-    width: 85px;
-    text-align: center;
-  }
-  .row {
-    padding-top: 16px;
-  }
-  .card-categories {
-    height: 120px;
-    border-radius: 15px;
-    border: 2px solid $secondary;
-    margin-right: 0px;
-  }
-
 }
 
 </style>

@@ -80,4 +80,11 @@ export default {
   justify-content: center;
 }
 
+@media only screen and (min-device-width : 280px) and (max-device-width : 344px) {
+  .texte-mobile {
+    font-size: 14px;
+    padding-top: 15px;
+  }
+}
+
 </style>

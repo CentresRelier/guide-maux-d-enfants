@@ -28,4 +28,11 @@
   background-color: rgba(38, 37, 108, 0.3);
   cursor: pointer;
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+  .container {
+    width: 46px;
+    height: 46px;
+  }
+}
 </style>

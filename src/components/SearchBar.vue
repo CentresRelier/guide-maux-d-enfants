@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  border: 4px solid $secondary;
+  border: 3px solid $secondary;
   border-radius: 35px;
 }
 
@@ -50,7 +50,7 @@ export default {
     border: 3px solid $secondary;
     border-radius: 35px;
     margin-right: 20px;
-    margin-left: 20px;
+    margin-left: 0;
   }
 }
 </style>
