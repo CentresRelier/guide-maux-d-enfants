@@ -28,7 +28,6 @@
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés,
               {{ organismesNumber.number }} affichés
-              {{ searchResults }}
             </p>
             <p v-else class="flex justify-center">
               {{ organismesTotal }} organisme trouvé,
@@ -74,13 +73,6 @@
 <script>
 export default {
   name: 'home-page',
-
-  computed: {
-    searchResults() {
-      const storedResults = window.localStorage.getItem('searchResults');
-      return storedResults ? JSON.parse(storedResults) : [];
-    },
-  },
 };
 </script>
 
@@ -124,10 +116,6 @@ const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSi
 
 // Text input from SearchBar
 const textInput = ref('');
-/* const searchResults = computed(() => {
-  const storedResults = window.localStorage.getItem('searchResults');
-  return storedResults ? JSON.parse(storedResults) : [];
-}); */
 
 const organismes = ref([]);
 // Total number of organismes
@@ -162,7 +150,6 @@ function getOrganismesImages(dataOrganismes) {
     } else {
       found.img = '/statics/CR_logo-svg.svg';
     }
-    // console.log(dataOrganismes);
   }
 }
 
@@ -228,7 +215,7 @@ function updateQueryWithFilters(baseQuery) {
   }
   if (textInput.value !== '') {
     query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
-    // window.localStorage.setItem('searchResults', query);
+    localStorage.getItem('searchResults');
   }
   return query;
 }
@@ -265,13 +252,31 @@ function filterCardsWithAge(ageFilters) {
 
 function filterInput(text) {
   textInput.value = text;
-  window.localStorage.setItem('searchResults', text);
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
-  console.log(text);
+}
+
+// Create a function that check if the local storage is empty or not
+function checkLocalStorage() {
+  if (!textInput.value) {
+    // Clear search results if input is empty
+    localStorage.removeItem('searchResults');
+  } else {
+    try {
+      // API request to fetch search results
+      const response = getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
+
+      // Store the search results in local storage
+      localStorage.setItem('searchResults', JSON.stringify(response));
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  }
 }
 
 onMounted(() => {
   getData(BASE_URL.value);
+  checkLocalStorage();
 });
 </script>
 

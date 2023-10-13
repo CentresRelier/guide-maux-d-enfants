@@ -20,18 +20,7 @@ export default {
   data() {
     return {
       text: '',
-      searchHistory: [],
     };
-  },
-  watch: {
-    text(newSearch) {
-      // localStorage.text = newSearch;
-      const txtSearch = localStorage.text;
-      if (txtSearch !== '') {
-        this.searchHistory.push(txtSearch);
-        localStorage.text = newSearch;
-      }
-    },
   },
   methods: {
     onInputChange() {
