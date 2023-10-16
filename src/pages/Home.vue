@@ -125,8 +125,8 @@ const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
 
 // show every thematic & age initially
-const selectedFilters = ref(['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité']);
-const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte']);
+const selectedFilters = ref([]);
+const selectedAgeFilters = ref([]);
 // update the following arrays each time an additional filter is created
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
@@ -182,12 +182,6 @@ const getData = async (URL) => {
   }
 };
 
-/*
-Update the baseQuery parameter with the selected filters
-Returns the URL that can be used to update the global variable organismes
-https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
-https://docs.strapi.io/dev-docs/api/rest/parameters
-*/
 function updateQueryWithFilters(baseQuery) {
   let query = baseQuery;
   if (selectedFilters.value.length === 1) {
@@ -209,7 +203,6 @@ function updateQueryWithFilters(baseQuery) {
   }
   if (textInput.value !== '') {
     query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
-    localStorage.getItem('searchResults');
   }
   return query;
 }
@@ -244,33 +237,28 @@ function filterCardsWithAge(ageFilters) {
   refreshData(current.value);
 }
 
+function isLocaleStorage() {
+  const storedFilters = localStorage.getItem('selectedFilters');
+  const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
+
+  if (storedFilters) {
+    selectedFilters.value = JSON.parse(storedFilters);
+  }
+
+  if (storedAgeFilters) {
+    selectedAgeFilters.value = JSON.parse(storedAgeFilters);
+  }
+
+  refreshData(current.value);
+}
+
 function filterInput(text) {
   textInput.value = text;
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
-// Create a function that check if the local storage is empty or not
-function checkLocalStorage() {
-  if (!textInput.value) {
-    // Clear search results if input is empty
-    localStorage.removeItem('searchResults');
-  } else {
-    try {
-      // API request to fetch search results
-      const response = getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
-
-      // Store the search results in local storage
-      localStorage.setItem('searchResults', JSON.stringify(response));
-      console.log(response);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  }
-}
-
 onMounted(() => {
-  getData(BASE_URL.value);
-  checkLocalStorage();
+  isLocaleStorage();
 });
 </script>
 
