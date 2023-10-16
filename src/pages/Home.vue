@@ -182,12 +182,6 @@ const getData = async (URL) => {
   }
 };
 
-/*
-Update the baseQuery parameter with the selected filters
-Returns the URL that can be used to update the global variable organismes
-https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
-https://docs.strapi.io/dev-docs/api/rest/parameters
-*/
 function updateQueryWithFilters(baseQuery) {
   let query = baseQuery;
   if (selectedFilters.value.length === 1) {
