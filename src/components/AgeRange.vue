@@ -6,7 +6,9 @@
                       :buttonText="button.text"
                       :tooltip="button.tooltip"
                       v-on:filterSelected="isNotInLocalStorage(button.text)"
-                      v-on:isInLocaleStorage="isInLocalStorage(button.text)"/>
+                      v-on:isInLocaleStorage="isInLocalStorage(button.text)"
+                      :category="'age'"
+        />
       </div>
     </div>
   </q-card>

@@ -237,7 +237,8 @@ function filterCardsWithAge(ageFilters) {
   refreshData(current.value);
 }
 
-function isLocaleStorage() {
+// Check if filter is set in localStorage
+function isInLocaleStorage() {
   const storedFilters = localStorage.getItem('selectedFilters');
   const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
 
@@ -258,7 +259,7 @@ function filterInput(text) {
 }
 
 onMounted(() => {
-  isLocaleStorage();
+  isInLocaleStorage();
 });
 </script>
 
