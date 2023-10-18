@@ -1,6 +1,15 @@
 <template>
   <div class="button-container">
-    <div class="button not-selected" :class="{ selected: selected }" @click="toggleFilter">
+    <div class="button not-selected"
+         :class="{ selected: selected }"
+         :style="{
+           'background-image': `url(${background})`,
+           'opacity': selected ? 1 : (hovered ? 0.75 : 0.4)
+         }"
+         @click="toggleFilter"
+         @mouseenter="hovered = true"
+         @mouseleave="hovered = false"
+    >
       <q-img class="img" :src="props.urlIcon" />
       <p class="texte q-pt-sm">{{ buttonText }}</p>
       <q-tooltip transition-show="scale"
@@ -12,17 +21,29 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import { onMounted, ref } from 'vue';
+import {
+  onMounted,
+  ref,
+  watch,
+  toRefs,
+} from 'vue';
 
 const props = defineProps({
   urlIcon: String,
   buttonText: String,
   tooltip: String,
+  category: String,
 });
 
 const selected = ref(false);
-const emit = defineEmits(['filterSelected', 'isInLocaleStorage']);
+const hovered = ref(false);
+const background = ref('statics/thematique-icons/round-blue.svg');
+
+const { category } = toRefs(props);
+
+const emit = defineEmits(['filterSelected', 'isInLocalStorage']);
 const toggleFilter = () => {
   selected.value = !selected.value;
   emit('filterSelected');
@@ -37,7 +58,7 @@ function isSelectedInLocalStorage() {
     selectedFilters.value = JSON.parse(storedFilters);
     if (selectedFilters.value.includes(props.buttonText)) {
       selected.value = true;
-      emit('isInLocaleStorage');
+      emit('isInLocalStorage');
     }
   }
 
@@ -45,13 +66,26 @@ function isSelectedInLocalStorage() {
     selectedAgeFilters.value = JSON.parse(storedAgeFilters);
     if (selectedAgeFilters.value.includes(props.buttonText)) {
       selected.value = true;
-      emit('isInLocaleStorage');
+      emit('isInLocalStorage');
     }
   }
 }
 
+function categories() {
+  if (category.value === 'age') {
+    background.value = 'statics/age-icons/round-green.svg';
+  }
+}
+
+watch(selected, (newSelected) => {
+  if (newSelected) {
+    hovered.value = false;
+  }
+});
+
 onMounted(() => {
   isSelectedInLocalStorage();
+  categories();
 });
 </script>
 
@@ -65,23 +99,20 @@ onMounted(() => {
   opacity: 0.4;
 }
 
+.not-selected:hover {
+  cursor: pointer;
+}
+
 .button-container {
   height: 100px;
   width: 100px;
   text-align: center;
 }
 
-.button-container:hover {
-  opacity: 0.6;
-  transition: ease-out 300ms;
-}
-
 .button:hover {
-  background-image:
-    url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
-  opacity: 1;
+  transition: ease-out 300ms;
 }
 
 .texte {
@@ -90,9 +121,12 @@ onMounted(() => {
   color: #26256C;
 }
 
+.button {
+  background-repeat: no-repeat;
+  background-position: center, 10%,10%;
+}
+
 .selected {
-  background-image:
-    url( 'statics/thematique-icons/round-blue.svg' );
   background-repeat: no-repeat;
   background-position: center, 10%,10%;
   opacity: 1;
