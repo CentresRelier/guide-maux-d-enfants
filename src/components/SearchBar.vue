@@ -1,6 +1,7 @@
 <template>
   <q-input  dense debounce="400" v-model="text" class="search" type="text"
             placeholder="Entrez une ville ou un code postal"
+            borderless
             @keyup.enter="onInputChange"
             @keyup.delete="onInputChange"
             @keyup.esc="resetInput">
@@ -39,6 +40,7 @@ export default {
 .search {
   border: 3px solid $secondary;
   border-radius: 35px;
+  font-size: 20px;
 }
 
 .search-button {
