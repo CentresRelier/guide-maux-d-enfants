@@ -24,7 +24,7 @@
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
           <div class="col-xs-8 col-sm-8 col-md-4 col-search">
-            <SearchBar v-on:inputSubmitted="filterInput" />
+            <SearchBarAdress v-on:inputSubmitted="filterInput" />
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés
             </p>
@@ -71,6 +71,7 @@
 <script>
 export default {
   name: 'home-page',
+  emits: ['inputSubmitted'],
 };
 </script>
 
@@ -84,7 +85,7 @@ import axios from 'axios';
 import Head from 'components/Head.vue';
 import Categories from 'components/Categories.vue';
 import AgeRange from 'components/AgeRange.vue';
-import SearchBar from 'components/SearchBar.vue';
+import SearchBarAdress from 'components/SearchBarAdress.vue';
 import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
@@ -107,11 +108,12 @@ const $q = useQuasar();
 const current = ref(1);
 // Number of organismes per page
 const pagination = ref(10);
-const SERVER_PATH = 'https://guide-maux-d-enfants.centresrelier.org';
+const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
 
 // Text input from SearchBar
 const textInput = ref('');
+// const selectedResults = ref('');
 
 const organismes = ref([]);
 // Total number of organismes
