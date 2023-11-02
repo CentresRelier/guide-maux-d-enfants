@@ -5,8 +5,7 @@
         <FilterButton :urlIcon="button.url"
                       :buttonText="button.text"
                       :tooltip="button.tooltip"
-                      v-on:filterSelected="isNotInLocalStorage(button.text)"
-                      v-on:isInLocaleStorage="isInLocalStorage(button.text)"
+                      v-on:filterSelected="updateFilters(button.text)"
                       :category="'age'"
         />
       </div>
@@ -46,7 +45,7 @@ const Buttons = ref([
 ]);
 
 const selectedAgeFilters = ref([]);
-const emit = defineEmits(['filtersUpdated']);
+const emit = defineEmits(['ageFiltersUpdated']);
 
 const updateFilters = (ageFilter) => {
   if (selectedAgeFilters.value.includes(ageFilter)) {
@@ -58,14 +57,15 @@ const updateFilters = (ageFilter) => {
   emit('ageFiltersUpdated', SELECTED_AGE_FILTERS);
 };
 
-function isInLocalStorage(ageFilter) {
-  updateFilters(ageFilter);
-}
-
-function isNotInLocalStorage(ageFilter) {
-  updateFilters(ageFilter);
-  localStorage.setItem('selectedAgeFilters', JSON.stringify(selectedAgeFilters.value));
-}
+// TODO put in localStorage
+// function isInLocalStorage(ageFilter) {
+//   updateFilters(ageFilter);
+// }
+//
+// function isNotInLocalStorage(ageFilter) {
+//   updateFilters(ageFilter);
+//   localStorage.setItem('selectedAgeFilters', JSON.stringify(selectedAgeFilters.value));
+// }
 </script>
 
 <style lang="scss" scoped>

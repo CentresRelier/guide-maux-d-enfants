@@ -26,7 +26,7 @@
 import {
   onMounted,
   ref,
-  watch,
+  // watch,
   toRefs,
 } from 'vue';
 
@@ -43,33 +43,34 @@ const background = ref('statics/thematique-icons/round-blue.svg');
 
 const { category } = toRefs(props);
 
-const emit = defineEmits(['filterSelected', 'isInLocalStorage']);
+const emit = defineEmits(['filterSelected']);
 const toggleFilter = () => {
   selected.value = !selected.value;
   emit('filterSelected');
 };
 
-function isSelectedInLocalStorage() {
-  const selectedFilters = ref([]);
-  const selectedAgeFilters = ref([]);
-  const storedFilters = localStorage.getItem('selectedFilters');
-  const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
-  if (storedFilters) {
-    selectedFilters.value = JSON.parse(storedFilters);
-    if (selectedFilters.value.includes(props.buttonText)) {
-      selected.value = true;
-      emit('isInLocalStorage');
-    }
-  }
-
-  if (storedAgeFilters) {
-    selectedAgeFilters.value = JSON.parse(storedAgeFilters);
-    if (selectedAgeFilters.value.includes(props.buttonText)) {
-      selected.value = true;
-      emit('isInLocalStorage');
-    }
-  }
-}
+// TODO update filter if is in localStorage
+// function isSelectedInLocalStorage() {
+//   const selectedFilters = ref([]);
+//   const selectedAgeFilters = ref([]);
+//   const storedFilters = localStorage.getItem('selectedFilters');
+//   const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
+//   if (storedFilters) {
+//     selectedFilters.value = JSON.parse(storedFilters);
+//     if (selectedFilters.value.includes(props.buttonText)) {
+//       selected.value = true;
+//       emit('isInLocalStorage');
+//     }
+//   }
+//
+//   if (storedAgeFilters) {
+//     selectedAgeFilters.value = JSON.parse(storedAgeFilters);
+//     if (selectedAgeFilters.value.includes(props.buttonText)) {
+//       selected.value = true;
+//       emit('isInLocalStorage');
+//     }
+//   }
+// }
 
 function categories() {
   if (category.value === 'age') {
@@ -77,14 +78,14 @@ function categories() {
   }
 }
 
-watch(selected, (newSelected) => {
-  if (newSelected) {
-    hovered.value = false;
-  }
-});
+// watch(selected, (newSelected) => {
+//   if (newSelected) {
+//     hovered.value = false;
+//   }
+// });
 
 onMounted(() => {
-  isSelectedInLocalStorage();
+  // isSelectedInLocalStorage();
   categories();
 });
 </script>
