@@ -5,7 +5,7 @@
         <div class="row row-mobile">
           <div class="col-xs-12 col-md-12 col col-mobile">
             <div class="img-container q-mt-md q-ml-md">
-              <img class="img" :src="organisme.img" />
+              <img class="img" :src="organisme.img" alt="organisme-logo"/>
             </div>
           </div>
           <div v-if="$q.screen.lt.md" class="col-xs-12 col-md-12">
@@ -17,63 +17,17 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-12">
-            <p class="title-perimeter">Périmétre :</p>
+            <p class="title-perimeter title-underline q-pt-sm">Périmètre</p>
             <br>
             <div class="col-xs-0 col-md-1">
             </div>
             <div class="col-xs-12 col-md-10">
               <div class="row row-icons" v-if="organisme.perimeter">
-                <div v-if="organisme.perimeter.includes('1-Municipal')"
-                     class="icon-container-perimeter"
-                >
-                  <q-img src="statics/perimeter-icons/municipal.png"
-                         height="55px"
-                         width="55px"/>
-                  <q-tooltip class="tooltip bg-secondary"
-                             anchor="top middle"
-                             self="bottom middle"
-                             :offset="[0, 5]">
-                    <strong>Municipal</strong>
-                  </q-tooltip>
-                </div>
-                <div v-if="organisme.perimeter.includes('2-Départemental')"
-                     class="icon-container-perimeter"
-                >
-                  <q-img src="statics/perimeter-icons/region.png"
-                         height="55px"
-                         width="55px"/>
-                  <q-tooltip class="tooltip bg-secondary"
-                             anchor="top middle"
-                             self="bottom middle"
-                             :offset="[0, 5]">
-                    <strong>Départemental</strong>
-                  </q-tooltip>
-                </div>
-                <div v-if="organisme.perimeter.includes('3-Régional')"
-                     class="icon-container-perimeter"
-                >
-                  <q-img src="statics/perimeter-icons/region.png"
-                         height="55px"
-                         width="55px"/>
-                  <q-tooltip class="tooltip bg-secondary"
-                             anchor="top middle"
-                             self="bottom middle"
-                             :offset="[0, 5]">
-                    <strong>Régional</strong>
-                  </q-tooltip>
-                </div>
-                <div v-if="organisme.perimeter.includes('4-National')"
-                     class="icon-container-perimeter"
-                >
-                  <q-img src="statics/perimeter-icons/national.png"
-                         height="55px"
-                         width="55px"/>
-                  <q-tooltip class="tooltip bg-secondary"
-                             anchor="top middle"
-                             self="bottom middle"
-                             :offset="[0, 5]">
-                    <strong>National</strong>
-                  </q-tooltip>
+                <div v-for="perimeter in perimeters" :key="perimeter.id">
+                  <OrganismeCardIcon
+                    v-if="organisme.perimeter.includes(perimeter.name)"
+                    :organisme="perimeter" :category="'perimeter'" :tooltip="true"
+                  />
                 </div>
               </div>
             </div>
@@ -81,84 +35,25 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-12">
-            <p class="title-coordinates">Coordonnées :</p>
+            <p class="title-coordinates title-underline">Coordonnées</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
+            <p class="coordinates">{{ organisme.code_postal }}</p>
+            <p class="coordinates">{{ organisme.ville }}</p>
           </div>
           <div class="col-xs-12 col-md-12 q-mb-md">
-            <p class="title-thematique">Thématiques :</p>
+            <p class="title-thematique title-underline">Thématiques</p>
             <br>
             <div v-if="organisme.thematique.length <= 3" class="row">
               <div class="col-xs-0 col-md-1">
               </div>
               <div class="col-xs-12 col-md-10">
                 <div class="row row-icons">
-                  <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
-                    <q-img src="statics/thematique-icons/addiction.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Addiction</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
-                    <q-img src="statics/thematique-icons/violence.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Violence</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Discrimination')"
-                          class="icon-container">
-                    <q-img src="statics/thematique-icons/discrimination.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Discrimination</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="statics/thematique-icons/harcelement.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Harcèlement</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="statics/thematique-icons/santementale.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Santé mentale</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="statics/thematique-icons/sexualite.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Sexualité</strong>
-                    </q-tooltip>
+                  <div v-for="thematique in thematiques" :key="thematique.id">
+                    <OrganismeCardIcon
+                      v-if="organisme.thematique.includes(thematique.name)"
+                      :organisme="thematique" :category="'thematique'" :tooltip="true"
+                    />
                   </div>
                 </div>
               </div>
@@ -171,72 +66,11 @@
               </div>
               <div class="col-xs-10 col-md-8">
                 <div class="row row-icons">
-                  <div v-if="organisme.thematique.includes('Addiction')" class="icon-container">
-                    <q-img src="statics/thematique-icons/addiction.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Addiction</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Violence')" class="icon-container">
-                    <q-img src="statics/thematique-icons/violence.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Violence</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Discrimination')"
-                          class="icon-container">
-                    <q-img src="statics/thematique-icons/discrimination.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Discrimination</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Harcèlement')" class="icon-container">
-                    <q-img src="statics/thematique-icons/harcelement.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Harcèlement</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Santé mentale')" class="icon-container">
-                    <q-img src="statics/thematique-icons/santementale.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Santé mentale</strong>
-                    </q-tooltip>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Sexualité')" class="icon-container">
-                    <q-img src="statics/thematique-icons/sexualite.png"
-                           height="55px"
-                           width="55px"/>
-                    <q-tooltip class="tooltip bg-secondary"
-                               anchor="top middle"
-                               self="bottom middle"
-                               :offset="[0, 5]">
-                      <strong>Sexualité</strong>
-                    </q-tooltip>
+                  <div v-for="thematique in thematiques" :key="thematique.id">
+                    <OrganismeCardIcon
+                      v-if="organisme.thematique.includes(thematique.name)"
+                      :organisme="thematique" :category="'thematique'" :tooltip="true"
+                    />
                   </div>
                 </div>
               </div>
@@ -257,7 +91,7 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-12 texte-container">
-            <p class="title-description">Description :</p>
+            <p class="title-description title-underline">Description</p>
             <br>
             <p class="description">{{ organisme.description }}</p>
           </div>
@@ -279,14 +113,29 @@
   </q-card>
 </template>
 
-<script>
-export default {
-  name: 'organisme-card-component',
-  props: {
-    organisme: {},
-  },
-};
+<script setup>
+import { ref } from 'vue';
+import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 
+defineProps({
+  organisme: {},
+});
+
+const thematiques = ref([
+  { name: 'Addiction', tooltip: 'Addiction', url: 'statics/thematique-icons/addiction.png' },
+  { name: 'Violence', tooltip: 'Violence', url: 'statics/thematique-icons/violence.png' },
+  { name: 'Discrimination', tooltip: 'Discrimination', url: 'statics/thematique-icons/discrimination.png' },
+  { name: 'Harcèlement', tooltip: 'Harcèlement', url: 'statics/thematique-icons/harcelement.png' },
+  { name: 'Santé mentale', tooltip: 'Santé mentale', url: 'statics/thematique-icons/santementale.png' },
+  { name: 'Sexualité', tooltip: 'Sexualité', url: 'statics/thematique-icons/sexualite.png' },
+]);
+
+const perimeters = ref([
+  { name: '1-Municipal', tooltip: 'Municipal', url: 'statics/perimeter-icons/municipal.png' },
+  { name: '2-Départemental', tooltip: 'Départemental', url: 'statics/perimeter-icons/region.png' },
+  { name: '3-Régional', tooltip: 'Régional', url: 'statics/perimeter-icons/region.png' },
+  { name: '4-National', tooltip: 'National', url: 'statics/perimeter-icons/national.png' },
+]);
 </script>
 
 <style lang="scss" scoped>
@@ -351,6 +200,12 @@ export default {
   margin: 10px 24px 0 24px;
 }
 
+.title-underline {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
 .title {
   font-size: 24px;
   font-weight: bolder;
@@ -402,22 +257,6 @@ export default {
 
 .row-icons {
   justify-content: center;
-}
-
-.icon-container {
-  background-image:
-    url( 'public/statics/thematique-icons/round-blue.svg' );
-  background-repeat: no-repeat;
-  background-position: center, 100%, 0%;
-  padding: 0 5px 10px 5px;
-}
-
-.icon-container-perimeter {
-  background-image:
-    url( 'public/statics/perimeter-icons/round-yellow.svg' );
-  background-repeat: no-repeat;
-  background-position: center, 100%, 0%;
-  padding: 0 5px 10px 5px;
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {

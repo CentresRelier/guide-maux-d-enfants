@@ -23,18 +23,16 @@
         <div class="row justify-center q-pt-lg">
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
-          <div class="col-xs-12 col-sm-8 col-md-4 col-search">
-            <SearchBar v-on:inputSubmitted="filterInput" />
+          <div class="col-xs-8 col-sm-8 col-md-4 col-search">
+            <SearchBarAdress v-on:finalSearchObject="filterInput" />
             <p v-if="organismesTotal > 1" class="flex justify-center">
-              {{ organismesTotal }} organismes trouvés,
-              {{ organismesNumber.number }} affichés
+              {{ organismesTotal }} organismes trouvés
             </p>
             <p v-else class="flex justify-center">
-              {{ organismesTotal }} organisme trouvé,
-              {{ organismesNumber.number }} affiché
+              {{ organismesTotal }} organisme trouvé
             </p>
           </div>
-          <div class="col-xs-0 col-sm-2 col-md-4">
+          <div class="col-xs-1 col-sm-2 col-md-4">
             <HelpButton />
           </div>
         </div>
@@ -73,6 +71,7 @@
 <script>
 export default {
   name: 'home-page',
+  emits: ['inputSubmitted'],
 };
 </script>
 
@@ -81,14 +80,12 @@ import { useMeta, useQuasar } from 'quasar';
 import {
   ref,
   onMounted,
-  computed,
-  reactive,
 } from 'vue';
 import axios from 'axios';
 import Head from 'components/Head.vue';
 import Categories from 'components/Categories.vue';
 import AgeRange from 'components/AgeRange.vue';
-import SearchBar from 'components/SearchBar.vue';
+import SearchBarAdress from 'components/SearchBarAdress.vue';
 import OrganismeCard from 'components/OrganismeCard.vue';
 import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
@@ -115,13 +112,13 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
 
 // Text input from SearchBar
-const textInput = ref('');
+const finalSearchObject = ref({});
+
+// const selectedResults = ref('');
 
 const organismes = ref([]);
 // Total number of organismes
 const organismesTotal = ref(0);
-// Number of organisme on this page, defined by pagination but might be less than that
-const organismesNumber = reactive({ number: computed(() => organismes.value.length) });
 
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
@@ -131,8 +128,8 @@ const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
 
 // show every thematic & age initially
-const selectedFilters = ref(['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité']);
-const selectedAgeFilters = ref(['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte']);
+const selectedFilters = ref([]);
+const selectedAgeFilters = ref([]);
 // update the following arrays each time an additional filter is created
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
@@ -188,19 +185,12 @@ const getData = async (URL) => {
   }
 };
 
-/*
-Update the baseQuery parameter with the selected filters
-Returns the URL that can be used to update the global variable organismes
-https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
-https://docs.strapi.io/dev-docs/api/rest/parameters
-*/
 function updateQueryWithFilters(baseQuery) {
   let query = baseQuery;
   if (selectedFilters.value.length === 1) {
     query = `${query}&filters[thematiques][thematiques][$contains]=${selectedFilters.value[0]}`;
   }
-  if (selectedFilters.value.length > 1
-            && selectedFilters.value.length < ALL_FILTERS.length) {
+  if (selectedFilters.value.length > 1 && selectedFilters.value.length <= ALL_FILTERS.length) {
     for (let i = 0; i < selectedFilters.value.length; i += 1) {
       query = `${query}&filters[$and][${i}][thematiques][thematiques][$contains]=${selectedFilters.value[i]}`;
     }
@@ -214,8 +204,23 @@ function updateQueryWithFilters(baseQuery) {
       query = `${query}&filters[$and][${j}][ages][age][$contains]=${selectedAgeFilters.value[j]}`;
     }
   }
-  if (textInput.value !== '') {
-    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
+  if (Object.keys(finalSearchObject.value).length !== 0) {
+    // TODO make query to have correct search
+    // query = `
+    // eslint-disable-next-line max-len
+    // ${query}filters[$or][0][$and][0][commune][$startsWith]=${finalSearchObject.value.ville}&filters[$or][0][$and][1][perimetre][id][$eq]=1&
+    // eslint-disable-next-line max-len
+    // filters[$or][1][$and][0][departement][$eq]=${finalSearchObject.value.department}&filters[$or][1][$and][1][perimetre][id][$eq]=2&
+    // eslint-disable-next-line max-len
+    // filters[$or][2][$and][0][region][$eq]=${finalSearchObject.value.region}&filters[$or][2][$and][1][perimetre][id][$eq]=3&
+    // filters[$or][3][$and][0][perimetre][id][$eq]=4}`;
+    $q.notify({
+      message: 'Fonctionnalité de recherche en cours de développement',
+      caption: 'Merci de réessayer ultérieurement',
+      color: 'red-9',
+      position: 'top',
+    });
+    finalSearchObject.value = [];
   }
   return query;
 }
@@ -233,7 +238,7 @@ function refreshData(currentTab) {
 // Filters organismes cards according to selected thematic filters
 function filterCards(filters) {
   if (filters.length === 0) {
-    selectedFilters.value = ALL_FILTERS;
+    selectedFilters.value = [];
   } else {
     selectedFilters.value = filters;
   }
@@ -243,20 +248,38 @@ function filterCards(filters) {
 // Filters organismes cards according to selected age filters
 function filterCardsWithAge(ageFilters) {
   if (ageFilters.length === 0) {
-    selectedAgeFilters.value = ALL_AGE_FILTERS;
+    selectedAgeFilters.value = [];
   } else {
     selectedAgeFilters.value = ageFilters;
   }
   refreshData(current.value);
 }
 
-function filterInput(text) {
-  textInput.value = text;
+// Check if filter is set in localStorage
+function isInLocaleStorage() {
+  // TODO check is localstorage have value;
+  // const storedFilters = localStorage.getItem('selectedFilters');
+  // const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
+
+  // if (storedFilters) {
+  //   selectedFilters.value = JSON.parse(storedFilters);
+  // }
+
+  // if (storedAgeFilters) {
+  //   selectedAgeFilters.value = JSON.parse(storedAgeFilters);
+  // }
+  // console.log('test');
+  refreshData(current.value);
+}
+
+function filterInput(object) {
+  finalSearchObject.value = object;
+  console.log(finalSearchObject.value);
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
 onMounted(() => {
-  getData(BASE_URL.value);
+  isInLocaleStorage();
 });
 </script>
 
@@ -306,7 +329,7 @@ onMounted(() => {
   }
 }
 
-@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 440px) {
   .categories-container {
     max-width: 97vw;
     align-self: center;
@@ -341,5 +364,9 @@ onMounted(() => {
 .pagination-container {
   display: flex;
   place-content: center;
+}
+
+@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
+
 }
 </style>

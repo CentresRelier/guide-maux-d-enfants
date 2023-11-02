@@ -7,36 +7,21 @@
         <div class="row row-menu">
           <div class="col-sm-2 col-md-3 col-logo">
             <q-img class="cursor-pointer" src="statics/CR_logo.svg" height="70px" width="109px"
-                      @click="GoToHomePage()"/>
+                      @click="goHome()"/>
           </div>
           <div v-if="$q.screen.gt.sm" class="col-xs-1 col-sm-2 col-md-9 col-link">
             <div class="row row-link">
               <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr">
-                <p class="link">Parents/jeunes</p>
+                <p class="link">Être accompagné</p>
               </a>
               <a href="https://centresrelier.org/formations/" class="nav-link nav-link-ltr">
-                <p class="link">Formations</p>
+                <p class="link">Comprendre le harcélement</p>
               </a>
               <a href="https://centresrelier.org/villes" class="nav-link nav-link-ltr">
-                <p class="link">Villes</p>
-              </a>
-              <a href="https://centresrelier.org/partenaires/" class="nav-link nav-link-ltr">
-                <p class="link">Partenaires</p>
+                <p class="link">Agir ensemble</p>
               </a>
               <a href="https://centresrelier.org/soutenez-nous/" class="nav-link nav-link-ltr">
-                <p class="link">Dons</p>
-              </a>
-              <a href="https://centresrelier.org/actualites/" class="nav-link nav-link-ltr">
-                <p class="link">Actualités</p>
-              </a>
-              <a href="https://centresrelier.org/rejoignez-nous/" class="nav-link nav-link-ltr">
-                <p class="link">Rejoignez-nous</p>
-              </a>
-              <a href="https://centresrelier.org/qui-sommes-nous/" class="nav-link nav-link-ltr">
-                <p class="link">A propos</p>
-              </a>
-              <a href="https://centresrelier.org/contactez-nous/" class="nav-link nav-link-ltr">
-                <p class="link">Contact</p>
+                <p class="link">Nous soutenir</p>
               </a>
             </div>
           </div>
@@ -54,31 +39,16 @@
         <div v-if="overlay" class="overlay" >
           <div class="column items-center">
             <a href="https://centresrelier.org/familles/" class="nav-link nav-link-ltr">
-              <p class="link">Parents/jeunes</p>
+              <p class="link">Être accompagné</p>
             </a>
             <a href="https://centresrelier.org/formations/" class="nav-link nav-link-ltr">
-              <p class="link">Formations</p>
+              <p class="link">Comprendre le harcélement</p>
             </a>
             <a href="https://centresrelier.org/villes" class="nav-link nav-link-ltr">
-              <p class="link">Villes</p>
+              <p class="link">Agir ensemble</p>
             </a>
             <a href="https://centresrelier.org/partenaires/" class="nav-link nav-link-ltr">
-              <p class="link">Partenaires</p>
-            </a>
-            <a href="https://centresrelier.org/soutenez-nous/" class="nav-link nav-link-ltr">
-              <p class="link">Dons</p>
-            </a>
-            <a href="https://centresrelier.org/actualites/" class="nav-link nav-link-ltr">
-              <p class="link">Actualités</p>
-            </a>
-            <a href="https://centresrelier.org/rejoignez-nous/" class="nav-link nav-link-ltr">
-              <p class="link">Rejoignez-nous</p>
-            </a>
-            <a href="https://centresrelier.org/qui-sommes-nous/" class="nav-link nav-link-ltr">
-              <p class="link">A propos</p>
-            </a>
-            <a href="https://centresrelier.org/contactez-nous/" class="nav-link nav-link-ltr">
-              <p class="link">Contact</p>
+              <p class="link">Nous soutenir</p>
             </a>
           </div>
         </div>
@@ -95,7 +65,7 @@ export default {
 <script setup>
 import { ref } from 'vue';
 
-function GoToHomePage() {
+function goHome() {
   window.location = '/';
 }
 

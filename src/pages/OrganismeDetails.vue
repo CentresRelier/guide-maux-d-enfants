@@ -10,15 +10,15 @@
       </div>
       <div class="col-xs-12 col-md-8 title">
         <div class="row">
-          <div class="col-xs-2 col-md-0 return-btn">
+          <div class="col-xs-2 col-md-1 return-btn">
             <ReturnButton />
           </div>
-          <div class="col-xs-10 col-md-12">
+          <div class="col-xs-10 col-md-10">
             <h5 class="page-title">Détails de l’organisme </h5>
           </div>
         </div>
       </div>
-      <div class="col-xs-0 col-md-2">
+      <div class="col-xs-0 col-md-1">
       </div>
     </div>
 
@@ -70,43 +70,12 @@
               <p class="block-title perimeter">Périmètre</p>
               <div class="row row-perimeter">
                 <div class="row row-perimeter">
-                  <div v-if="organisme.perimeter.includes('Municipal')" class="perimeter-container">
-                    <div class="perimeter-icon-container">
-                      <q-img src="statics/perimeter-icons/municipal.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Municipal</p>
+                  <div v-for="perimeter in perimeters" :key="perimeter.id">
+                    <OrganismeCardIcon
+                      v-if="organisme.perimeter.includes(perimeter.name)"
+                      :organisme="perimeter" :category="'perimeter'" :tooltip="false"
+                    />
                   </div>
-                </div>
-                <div class="row row-perimeter">
-                  <div v-if="organisme.perimeter.includes('National')" class="perimeter-container">
-                    <div class="perimeter-icon-container">
-                      <q-img src="statics/perimeter-icons/national.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">National</p>
-                  </div>
-                </div>
-                <div class="row row-perimeter">
-                  <div v-if="organisme.perimeter.includes('Régional')" class="perimeter-container">
-                    <div class="perimeter-icon-container">
-                      <q-img src="statics/perimeter-icons/region.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Régional</p>
-                  </div>
-                </div>
-                <div v-if="organisme.perimeter.includes('Départemental')"
-                          class="perimeter-container">
-                  <div class="perimeter-icon-container">
-                    <q-img src="statics/perimeter-icons/departemental.png"
-                           height="55px"
-                           width="55px"/>
-                  </div>
-                  <p class="thematique-texte">Départemental</p>
                 </div>
               </div>
             </div>
@@ -137,59 +106,11 @@
                 </p>
                 <p v-else class="block-title thematique">Thématiques</p>
                 <div class="row row-thematique">
-                  <div v-if="organisme.thematique.includes('Addiction')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/addiction.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Addiction</p>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Violence')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/violence.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Violence</p>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Discrimination')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/discrimination.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Discrimination</p>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Harcèlement')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/harcelement.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Harcèlement</p>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Santé mentale')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/santementale.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="headSick">Santé<br>mentale</p>
-                  </div>
-                  <div v-if="organisme.thematique.includes('Sexualité')"
-                            class="thematique-container">
-                    <div class="thematique-icon-container">
-                      <q-img src="statics/thematique-icons/sexualite.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Sexualité</p>
+                  <div v-for="thematique in thematiques" :key="thematique.id">
+                    <OrganismeCardIcon
+                      v-if="organisme.thematique.includes(thematique.name)"
+                      :organisme="thematique" :category="'thematique'" :tooltip="false"
+                    />
                   </div>
                 </div>
               </div>
@@ -199,45 +120,11 @@
                 <p v-if="organisme.age.length <= 1" class="block-title age">Tranche d'âge</p>
                 <p v-else class="block-title age">Tranches d'âge</p>
                 <div class="row row-age">
-                  <div v-if="organisme.age.includes('Petite enfance')" class="thematique-container">
-                    <div class="age-icon-container">
-                      <q-img src="statics/age-icons/petiteenfance.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Petite enfance</p>
-                  </div>
-                  <div v-if="organisme.age.includes('Primaire')" class="thematique-container">
-                    <div class="age-icon-container">
-                      <q-img src="statics/age-icons/primaire.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Primaire</p>
-                  </div>
-                  <div v-if="organisme.age.includes('Collège')" class="thematique-container">
-                    <div class="age-icon-container">
-                      <q-img src="statics/age-icons/college.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Collège</p>
-                  </div>
-                  <div v-if="organisme.age.includes('Lycée')" class="thematique-container">
-                    <div class="age-icon-container">
-                      <q-img src="statics/age-icons/ado.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Lycée</p>
-                  </div>
-                  <div v-if="organisme.age.includes('Jeune adulte')" class="thematique-container">
-                    <div class="age-icon-container">
-                      <q-img src="statics/age-icons/jeuneadulte.png"
-                             height="55px"
-                             width="55px"/>
-                    </div>
-                    <p class="thematique-texte">Jeune adulte</p>
+                  <div v-for="age in ages" :key="age.id">
+                    <OrganismeCardIcon
+                      v-if="organisme.age.includes(age.name)"
+                      :organisme="age" :category="'ages'" :tooltip="false"
+                    />
                   </div>
                 </div>
               </div>
@@ -270,6 +157,7 @@ import ReturnButton from 'components/ReturnButton.vue';
 import Head from 'components/Head.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
+import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
@@ -284,6 +172,30 @@ const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Mettre à jour l\'organisme');
 
 const route = useRoute();
+
+const thematiques = ref([
+  { name: 'Addiction', tooltip: 'Addiction', url: 'statics/thematique-icons/addiction.png' },
+  { name: 'Violence', tooltip: 'Violence', url: 'statics/thematique-icons/violence.png' },
+  { name: 'Discrimination', tooltip: 'Discrimination', url: 'statics/thematique-icons/discrimination.png' },
+  { name: 'Harcèlement', tooltip: 'Harcèlement', url: 'statics/thematique-icons/harcelement.png' },
+  { name: 'Santé mentale', tooltip: 'Santé mentale', url: 'statics/thematique-icons/santementale.png' },
+  { name: 'Sexualité', tooltip: 'Sexualité', url: 'statics/thematique-icons/sexualite.png' },
+]);
+
+const perimeters = ref([
+  { name: '1-Municipal', tooltip: 'Municipal', url: 'statics/perimeter-icons/municipal.png' },
+  { name: '2-Départemental', tooltip: 'Départemental', url: 'statics/perimeter-icons/region.png' },
+  { name: '3-Régional', tooltip: 'Régional', url: 'statics/perimeter-icons/region.png' },
+  { name: '4-National', tooltip: 'National', url: 'statics/perimeter-icons/national.png' },
+]);
+
+const ages = ref([
+  { name: 'Petite enfance', tooltip: 'Petite enfance', url: 'statics/age-icons/petiteenfance.png' },
+  { name: 'Primaire', tooltip: 'Primaire', url: 'statics/age-icons/primaire.png' },
+  { name: 'Collège', tooltip: 'Collège', url: 'statics/age-icons/college.png' },
+  { name: 'Lycée', tooltip: 'Lycée', url: 'statics/age-icons/ado.png' },
+  { name: 'Jeune adulte', tooltip: 'Jeune adulte', url: 'statics/age-icons/jeuneadulte.png' },
+]);
 
 const organisme = ref({
   title: '',
@@ -308,25 +220,7 @@ function getOrganismeImage(dataOrganisme) {
 
 const getData = async () => {
   try {
-    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`)
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
     organisme.value.title = dataOrganisme.data.data.attributes.nom;
     organisme.value.description = dataOrganisme.data.data.attributes.description;
     organisme.value.website = dataOrganisme.data.data.attributes.website;
@@ -353,7 +247,6 @@ const getData = async () => {
       color: 'red-9',
       position: 'top',
     });
-    console.log(error, error.message);
   }
 };
 
@@ -535,7 +428,8 @@ onMounted(() => {
   }
   .img-container {
     margin-bottom: 32px;
-    max-width: 450px;
+    max-width:100%;
+    max-height:100%;
   }
   .row-mobile {
     padding-right: 32px;
@@ -563,7 +457,8 @@ onMounted(() => {
   }
   .img-container {
     margin-bottom: 8px;
-    max-width: 450px;
+    max-width:100%;
+    max-height:100%;
   }
   .row-mobile {
     padding-right: 16px;
@@ -576,6 +471,11 @@ onMounted(() => {
   }
   .coordinate-container {
     margin-bottom: 8px;
+  }
+
+  .img-organisme {
+    max-width:100%;
+    max-height:100%;
   }
 }
 
