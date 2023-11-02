@@ -1,11 +1,13 @@
 <template>
-  <router-link
-    class="link"
-    :to="{ name: 'help' }">
-    <div class="container">
-      <img class="img" src="/statics/i.png" />
-    </div>
-  </router-link>
+  <div class="container">
+    <router-link
+      class="link"
+      :to="{ name: 'help' }">
+      <div>
+        <img class="img" src="/statics/i.png" />
+      </div>
+    </router-link>
+  </div>
 </template>
 <script setup>
 </script>
