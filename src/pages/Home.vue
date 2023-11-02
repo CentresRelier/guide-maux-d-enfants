@@ -24,7 +24,7 @@
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
           <div class="col-xs-8 col-sm-8 col-md-4 col-search">
-            <SearchBarAdress v-on:inputSubmitted="filterInput" />
+            <SearchBarAdress v-on:finalSearchObject="filterInput" />
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés
             </p>
@@ -112,7 +112,8 @@ const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
 
 // Text input from SearchBar
-const textInput = ref('');
+const finalSearchObject = ref({});
+
 // const selectedResults = ref('');
 
 const organismes = ref([]);
@@ -203,8 +204,23 @@ function updateQueryWithFilters(baseQuery) {
       query = `${query}&filters[$and][${j}][ages][age][$contains]=${selectedAgeFilters.value[j]}`;
     }
   }
-  if (textInput.value !== '') {
-    query = `${query}&filters[$or][0][commune][$containsi]=${textInput.value}&filters[$or][1][code_postal][$startsWith]=${textInput.value}`;
+  if (Object.keys(finalSearchObject.value).length !== 0) {
+    // TODO make query to have correct search
+    // query = `
+    // eslint-disable-next-line max-len
+    // ${query}filters[$or][0][$and][0][commune][$startsWith]=${finalSearchObject.value.ville}&filters[$or][0][$and][1][perimetre][id][$eq]=1&
+    // eslint-disable-next-line max-len
+    // filters[$or][1][$and][0][departement][$eq]=${finalSearchObject.value.department}&filters[$or][1][$and][1][perimetre][id][$eq]=2&
+    // eslint-disable-next-line max-len
+    // filters[$or][2][$and][0][region][$eq]=${finalSearchObject.value.region}&filters[$or][2][$and][1][perimetre][id][$eq]=3&
+    // filters[$or][3][$and][0][perimetre][id][$eq]=4}`;
+    $q.notify({
+      message: 'Fonctionnalité de recherche en cours de développement',
+      caption: 'Merci de réessayer ultérieurement',
+      color: 'red-9',
+      position: 'top',
+    });
+    finalSearchObject.value = [];
   }
   return query;
 }
@@ -241,22 +257,24 @@ function filterCardsWithAge(ageFilters) {
 
 // Check if filter is set in localStorage
 function isInLocaleStorage() {
-  const storedFilters = localStorage.getItem('selectedFilters');
-  const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
+  // TODO check is localstorage have value;
+  // const storedFilters = localStorage.getItem('selectedFilters');
+  // const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
 
-  if (storedFilters) {
-    selectedFilters.value = JSON.parse(storedFilters);
-  }
+  // if (storedFilters) {
+  //   selectedFilters.value = JSON.parse(storedFilters);
+  // }
 
-  if (storedAgeFilters) {
-    selectedAgeFilters.value = JSON.parse(storedAgeFilters);
-  }
-
+  // if (storedAgeFilters) {
+  //   selectedAgeFilters.value = JSON.parse(storedAgeFilters);
+  // }
+  // console.log('test');
   refreshData(current.value);
 }
 
-function filterInput(text) {
-  textInput.value = text;
+function filterInput(object) {
+  finalSearchObject.value = object;
+  console.log(finalSearchObject.value);
   getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
 }
 
