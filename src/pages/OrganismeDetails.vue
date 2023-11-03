@@ -161,7 +161,7 @@ import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
-const SERVER_PATH = 'http://guide-maux-d-enfants.centresrelier.org';
+const SERVER_PATH = 'https://guide.centresrelier.org';
 
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');

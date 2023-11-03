@@ -108,7 +108,7 @@ const $q = useQuasar();
 const current = ref(1);
 // Number of organismes per page
 const pagination = ref(10);
-const SERVER_PATH = 'https://guide-maux-d-enfants.centresrelier.org';
+const SERVER_PATH = 'https://guide.centresrelier.org';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
 
 // Text input from SearchBar
