@@ -150,6 +150,14 @@ function getOrganismesImages(dataOrganismes) {
   }
 }
 
+function setDefaultDescription() {
+  organismes.value.forEach((organisme) => {
+    if (organisme.description === null) {
+      organisme.description = organisme.defaultDescription.data.attributes.description;
+    }
+  });
+}
+
 const getData = async (URL) => {
   try {
     const dataOrganismes = await axios.get(URL);
@@ -159,6 +167,7 @@ const getData = async (URL) => {
         ...organisme,
         title: organisme.attributes.nom,
         description: organisme.attributes.description,
+        defaultDescription: organisme.attributes?.reseau,
         website: organisme.attributes.website,
         coordinate: organisme.attributes.coordonnees,
         postalCode: organisme.attributes.code_postal.substring(0, 2),
@@ -175,6 +184,7 @@ const getData = async (URL) => {
         perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
       }));
     getOrganismesImages(dataOrganismes);
+    setDefaultDescription();
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',

@@ -40,7 +40,7 @@
               <div class="website-container q-ml-sm block-container">
                 <p class="block-title">Site web</p>
                 <!-- website url is absolute -->
-                <a v-if="organisme.website.startsWith('http')" :href="`${organisme.website}`"
+                <a v-if="organisme.website" :href="`${organisme.website}`"
                           target="_blank" class="website">
                   <img class="img" src="/statics/hyperlink-logo.png"
                           height="35" width="35" />
@@ -200,6 +200,7 @@ const ages = ref([
 const organisme = ref({
   title: '',
   description: '',
+  defaultDescription: '',
   website: '',
   coordinate: '',
   contact: '',
@@ -218,11 +219,20 @@ function getOrganismeImage(dataOrganisme) {
   }
 }
 
+function setDefaultDescription() {
+  if (organisme.value.description === null) {
+    const data = organisme.value.defaultDescription.data.attributes.description;
+    organisme.value.description = data;
+  }
+}
+
 const getData = async () => {
   try {
     const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
     organisme.value.title = dataOrganisme.data.data.attributes.nom;
     organisme.value.description = dataOrganisme.data.data.attributes.description;
+    // eslint-disable-next-line max-len
+    organisme.value.defaultDescription = dataOrganisme.data.data.attributes.reseau;
     organisme.value.website = dataOrganisme.data.data.attributes.website;
     organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonnees;
     organisme.value.contact = dataOrganisme.data.data.attributes.contact;
@@ -240,6 +250,8 @@ const getData = async () => {
     organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre
       .data.attributes.perimetre;
     getOrganismeImage(dataOrganisme);
+    setDefaultDescription();
+    console.log(organisme.value);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
