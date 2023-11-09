@@ -6,7 +6,7 @@
           :buttonText="button.text"
           :urlIcon="button.url"
           :tooltip="button.tooltip"
-          v-on:filterSelected="updateFilters(button.text)"
+          :filterFunction="filterCards"
         />
       </div>
     </div>
@@ -23,6 +23,10 @@ export default {
 <script setup>
 import FilterButton from 'components/FilterButton.vue';
 import { ref } from 'vue';
+
+defineProps({
+  filterCards: Function,
+});
 
 const Buttons = ref([
   {
@@ -57,29 +61,6 @@ const Buttons = ref([
              basée sur l'orientation sexuelle, l'apparence physique, le handicap...`,
   },
 ]);
-
-const selectedFilters = ref([]);
-const emit = defineEmits(['filtersUpdated']);
-
-const updateFilters = (filter) => {
-  if (selectedFilters.value.includes(filter)) {
-    selectedFilters.value.splice(selectedFilters.value.indexOf(filter), 1);
-  } else {
-    selectedFilters.value.push(filter);
-  }
-  const SELECTED_FILTERS = selectedFilters.value;
-  emit('filtersUpdated', SELECTED_FILTERS);
-};
-
-// TODO put in localStorage
-// function isInLocalStorage(ageFilter) {
-//   updateFilters(ageFilter);
-// }
-//
-// function isNotInLocalStorage(ageFilter) {
-//   updateFilters(ageFilter);
-//   localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters.value));
-// }
 </script>
 
 <style lang="scss" scoped>

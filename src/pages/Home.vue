@@ -14,17 +14,17 @@
       <div class="col-xs-12 col-sm-10 col-md-10">
         <div class="row row-filter">
           <div class="categories-container">
-            <Categories v-on:filtersUpdated="filterCards" />
+            <Categories :filterCards="filterCards"/>
           </div>
           <div class="age-range-container">
-            <AgeRange v-on:ageFiltersUpdated="filterCardsWithAge" />
+            <AgeRange :filterCardsWithAge="filterCardsWithAge"/>
           </div>
         </div>
         <div class="row justify-center q-pt-lg">
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
           <div class="col-xs-8 col-sm-8 col-md-4 col-search">
-            <SearchBarAdress v-on:finalSearchObject="filterInput" />
+            <SearchBarAdress :filterInput="filterInput" />
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés
             </p>
@@ -91,6 +91,8 @@ import Social from 'components/Social.vue';
 import Footer from 'components/Footer.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
 import HelpButton from 'components/HelpButton.vue';
+import { useFiltersStore } from 'stores/filterButton';
+import { useSearchBarStore } from 'stores/searchBar';
 
 useMeta(() => ({
   title: "GUIDE MAUX D'ENFANTS",
@@ -109,12 +111,10 @@ const current = ref(1);
 // Number of organismes per page
 const pagination = ref(10);
 const SERVER_PATH = 'https://guide.centresrelier.org';
-const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=*&pagination[pageSize]=${pagination.value}`);
+const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=reseau.logo,thematiques,perimetre,ages,img&pagination[pageSize]=${pagination.value}`);
 
-// Text input from SearchBar
+// Text input from SearchBarStore
 const finalSearchObject = ref({});
-
-// const selectedResults = ref('');
 
 const organismes = ref([]);
 // Total number of organismes
@@ -122,7 +122,7 @@ const organismesTotal = ref(0);
 
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
 const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
-const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site </>');
+const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site');
 const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme');
 const footerUrl = ref('subscribe');
 const footerTexteButton = ref('Inscrire mon organisme');
@@ -134,6 +134,8 @@ const selectedAgeFilters = ref([]);
 const ALL_FILTERS = ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'];
 const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'];
 
+const filterStore = useFiltersStore();
+const searchStore = useSearchBarStore();
 /*
 Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
@@ -153,7 +155,8 @@ function getOrganismesImages(dataOrganismes) {
 function setDefaultDescription() {
   organismes.value.forEach((organisme) => {
     if (organisme.description === null) {
-      organisme.description = organisme.defaultDescription.data.attributes.description;
+      const reseauDescription = organisme.defaultDescription.data.attributes.description;
+      organisme.description = reseauDescription;
     }
   });
 }
@@ -167,7 +170,7 @@ const getData = async (URL) => {
         ...organisme,
         title: organisme.attributes.nom,
         description: organisme.attributes.description,
-        defaultDescription: organisme.attributes?.reseau,
+        defaultDescription: organisme.attributes.reseau,
         website: organisme.attributes.website,
         coordinate: organisme.attributes.coordonnees,
         postalCode: organisme.attributes.code_postal.substring(0, 2),
@@ -192,6 +195,7 @@ const getData = async (URL) => {
       color: 'red-9',
       position: 'top',
     });
+    console.log(error);
   }
 };
 
@@ -215,23 +219,15 @@ function updateQueryWithFilters(baseQuery) {
     }
   }
   if (Object.keys(finalSearchObject.value).length !== 0) {
-    // TODO make query to have correct search
-    // query = `
-    // eslint-disable-next-line max-len
-    // ${query}filters[$or][0][$and][0][commune][$startsWith]=${finalSearchObject.value.ville}&filters[$or][0][$and][1][perimetre][id][$eq]=1&
-    // eslint-disable-next-line max-len
-    // filters[$or][1][$and][0][departement][$eq]=${finalSearchObject.value.department}&filters[$or][1][$and][1][perimetre][id][$eq]=2&
-    // eslint-disable-next-line max-len
-    // filters[$or][2][$and][0][region][$eq]=${finalSearchObject.value.region}&filters[$or][2][$and][1][perimetre][id][$eq]=3&
-    // filters[$or][3][$and][0][perimetre][id][$eq]=4}`;
-    $q.notify({
-      message: 'Fonctionnalité de recherche en cours de développement',
-      caption: 'Merci de réessayer ultérieurement',
-      color: 'red-9',
-      position: 'top',
-    });
-    finalSearchObject.value = [];
+    query += `&filters[$or][0][$and][0][commune][$startsWith]=${finalSearchObject.value.ville}`;
+    query += `&filters[$or][0][$and][1][perimetre][id][$eq]=1&filters[$or][1][$and][0][departement][$eq]=${finalSearchObject.value.department}`;
+    query += `&filters[$or][1][$and][1][perimetre][id][$eq]=2&filters[$or][2][$and][0][region][$eq]=${finalSearchObject.value.region}`;
+    query += '&filters[$or][2][$and][1][perimetre][id][$eq]=3&filters[$or][3][$and][0][perimetre][id][$eq]=4';
+    query += '&sort=perimetre.id:ASC';
+    console.log(finalSearchObject.value);
   }
+  // TODO remove after data of backend is ready filter all organisme with no completed data
+  query += '&filters[$and][2][contact][$null]=false&[$and][2][email][$null]=false&[$and][2][coordonnees][$null]=false';
   return query;
 }
 
@@ -246,50 +242,48 @@ function refreshData(currentTab) {
 }
 
 // Filters organismes cards according to selected thematic filters
-function filterCards(filters) {
-  if (filters.length === 0) {
+function filterCards() {
+  const selectedThematiqueButtons = filterStore.getSelectedThematiqueButtons;
+  if (selectedThematiqueButtons.length === 0) {
     selectedFilters.value = [];
   } else {
-    selectedFilters.value = filters;
+    selectedFilters.value = selectedThematiqueButtons;
   }
   refreshData(current.value);
 }
 
 // Filters organismes cards according to selected age filters
-function filterCardsWithAge(ageFilters) {
-  if (ageFilters.length === 0) {
+function filterCardsWithAge() {
+  const selectedAgeButtons = filterStore.getSelectedAgeButtons;
+  if (selectedAgeButtons.length === 0) {
     selectedAgeFilters.value = [];
   } else {
-    selectedAgeFilters.value = ageFilters;
+    selectedAgeFilters.value = selectedAgeButtons;
   }
   refreshData(current.value);
 }
 
-// Check if filter is set in localStorage
-function isInLocaleStorage() {
-  // TODO check is localstorage have value;
-  // const storedFilters = localStorage.getItem('selectedFilters');
-  // const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
-
-  // if (storedFilters) {
-  //   selectedFilters.value = JSON.parse(storedFilters);
-  // }
-
-  // if (storedAgeFilters) {
-  //   selectedAgeFilters.value = JSON.parse(storedAgeFilters);
-  // }
-  // console.log('test');
+function filterInput() {
+  const selectedSearch = searchStore.getSearchResult;
+  finalSearchObject.value = selectedSearch;
   refreshData(current.value);
 }
 
-function filterInput(object) {
-  finalSearchObject.value = object;
-  console.log(finalSearchObject.value);
-  getData(updateQueryWithFilters(`${BASE_URL.value}&pagination[page]=${current.value}`));
+function checkIfFilterActive() {
+  const selectedThematiqueButtons = filterStore.getSelectedThematiqueButtons;
+  const selectedAgeButtons = filterStore.getSelectedAgeButtons;
+  const selectedSearch = searchStore.getSearchResult;
+  // eslint-disable-next-line max-len
+  if (selectedAgeButtons.length || selectedThematiqueButtons.length !== 0 || selectedSearch !== {}) {
+    filterCardsWithAge();
+    filterCards();
+    filterInput();
+  }
+  refreshData(current.value);
 }
 
 onMounted(() => {
-  isInLocaleStorage();
+  checkIfFilterActive();
 });
 </script>
 
@@ -374,9 +368,5 @@ onMounted(() => {
 .pagination-container {
   display: flex;
   place-content: center;
-}
-
-@media only screen and (min-device-width : 343px) and (max-device-width : 440px) {
-
 }
 </style>
