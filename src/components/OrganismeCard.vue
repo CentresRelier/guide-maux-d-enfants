@@ -38,8 +38,8 @@
             <p class="title-coordinates title-underline">Coordonnées</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
-            <p class="coordinates">{{ organisme.code_postal }}</p>
-            <p class="coordinates">{{ organisme.ville }}</p>
+            <p class="coordinates">{{ organisme.email }}</p>
+            <p class="coordinates">{{ organisme.contact }}</p>
           </div>
           <div class="col-xs-12 col-md-12 q-mb-md">
             <p class="title-thematique title-underline">Thématiques</p>
@@ -93,7 +93,16 @@
           <div class="col-xs-12 col-md-12 texte-container">
             <p class="title-description title-underline">Description</p>
             <br>
-            <p class="description">{{ organisme.description }}</p>
+            <p class="description">
+              {{ organisme.description.substring(0, 700) }}
+              <a
+                v-if="organisme.description.length > 700"
+                class="read-more"
+                @click="openDescription">
+                {{ text }}
+              </a>
+            </p>
+            <p v-if="showFullDescription" class="description">{{ organisme.description }}</p>
           </div>
         </div>
       </div>
@@ -121,6 +130,18 @@ defineProps({
   organisme: {},
 });
 
+const showFullDescription = ref(false);
+const text = ref('Lire plus');
+
+function openDescription() {
+  showFullDescription.value = !showFullDescription.value;
+  if (showFullDescription.value) {
+    text.value = 'Lire moins';
+  } else {
+    text.value = 'Lire plus';
+  }
+}
+
 const thematiques = ref([
   { name: 'Addiction', tooltip: 'Addiction', url: 'statics/thematique-icons/addiction.png' },
   { name: 'Violence', tooltip: 'Violence', url: 'statics/thematique-icons/violence.png' },
@@ -147,6 +168,13 @@ const perimeters = ref([
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center, 100%, 0%;
+}
+
+.read-more {
+  cursor: pointer;
+  color: $accent;
+  font-weight: bolder;
+  text-decoration: underline;
 }
 
 .img-container {

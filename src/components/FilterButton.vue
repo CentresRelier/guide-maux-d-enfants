@@ -1,12 +1,9 @@
 <template>
   <div class="button-container">
     <div class="button not-selected"
-         :class="{ selected: selected }"
-         :style="{
-           'background-image': `url(${background})`,
-           'opacity': selected ? 1 : (hovered ? 0.75 : 0.4)
-         }"
-         @click="toggleFilter"
+         :class="{ selected: buttonState }"
+         :style="buttonStyle"
+         @click="toggleFilter();filterFunction()"
          @mouseenter="hovered = true"
          @mouseleave="hovered = false"
     >
@@ -26,51 +23,36 @@
 import {
   onMounted,
   ref,
-  // watch,
   toRefs,
+  computed,
 } from 'vue';
+
+import { useFiltersStore } from 'stores/filterButton';
+
+const store = useFiltersStore();
 
 const props = defineProps({
   urlIcon: String,
   buttonText: String,
   tooltip: String,
   category: String,
+  filterFunction: Function,
 });
 
-const selected = ref(false);
 const hovered = ref(false);
 const background = ref('statics/thematique-icons/round-blue.svg');
 
 const { category } = toRefs(props);
 
-const emit = defineEmits(['filterSelected']);
-const toggleFilter = () => {
-  selected.value = !selected.value;
-  emit('filterSelected');
-};
+const buttonState = computed(() => store.getButtonState(props.buttonText));
+const buttonStyle = computed(() => ({
+  'background-image': `url(${background.value})`,
+  opacity: buttonState.value ? 1 : hovered.value ? 0.75 : 0.4,
+}));
 
-// TODO update filter if is in localStorage
-// function isSelectedInLocalStorage() {
-//   const selectedFilters = ref([]);
-//   const selectedAgeFilters = ref([]);
-//   const storedFilters = localStorage.getItem('selectedFilters');
-//   const storedAgeFilters = localStorage.getItem('selectedAgeFilters');
-//   if (storedFilters) {
-//     selectedFilters.value = JSON.parse(storedFilters);
-//     if (selectedFilters.value.includes(props.buttonText)) {
-//       selected.value = true;
-//       emit('isInLocalStorage');
-//     }
-//   }
-//
-//   if (storedAgeFilters) {
-//     selectedAgeFilters.value = JSON.parse(storedAgeFilters);
-//     if (selectedAgeFilters.value.includes(props.buttonText)) {
-//       selected.value = true;
-//       emit('isInLocalStorage');
-//     }
-//   }
-// }
+const toggleFilter = () => {
+  store.toggleButtonState(props.buttonText);
+};
 
 function categories() {
   if (category.value === 'age') {
@@ -78,14 +60,7 @@ function categories() {
   }
 }
 
-// watch(selected, (newSelected) => {
-//   if (newSelected) {
-//     hovered.value = false;
-//   }
-// });
-
 onMounted(() => {
-  // isSelectedInLocalStorage();
   categories();
 });
 </script>

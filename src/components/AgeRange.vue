@@ -2,11 +2,12 @@
   <q-card class="card-range q-pr-sm q-pl-sm">
     <div class="row row-age q-pt-lg">
       <div v-for="button in Buttons" :key="button.id">
-        <FilterButton :urlIcon="button.url"
-                      :buttonText="button.text"
-                      :tooltip="button.tooltip"
-                      v-on:filterSelected="updateFilters(button.text)"
-                      :category="'age'"
+        <FilterButton
+          :urlIcon="button.url"
+          :buttonText="button.text"
+          :tooltip="button.tooltip"
+          :category="'age'"
+          :filterFunction="filterCardsWithAge"
         />
       </div>
     </div>
@@ -15,6 +16,10 @@
 <script setup>
 import FilterButton from 'components/FilterButton.vue';
 import { ref } from 'vue';
+
+defineProps({
+  filterCardsWithAge: Function,
+});
 
 const Buttons = ref([
   {
@@ -43,29 +48,6 @@ const Buttons = ref([
     tooltip: 'Jeune adulte',
   },
 ]);
-
-const selectedAgeFilters = ref([]);
-const emit = defineEmits(['ageFiltersUpdated']);
-
-const updateFilters = (ageFilter) => {
-  if (selectedAgeFilters.value.includes(ageFilter)) {
-    selectedAgeFilters.value.splice(selectedAgeFilters.value.indexOf(ageFilter), 1);
-  } else {
-    selectedAgeFilters.value.push(ageFilter);
-  }
-  const SELECTED_AGE_FILTERS = selectedAgeFilters.value;
-  emit('ageFiltersUpdated', SELECTED_AGE_FILTERS);
-};
-
-// TODO put in localStorage
-// function isInLocalStorage(ageFilter) {
-//   updateFilters(ageFilter);
-// }
-//
-// function isNotInLocalStorage(ageFilter) {
-//   updateFilters(ageFilter);
-//   localStorage.setItem('selectedAgeFilters', JSON.stringify(selectedAgeFilters.value));
-// }
 </script>
 
 <style lang="scss" scoped>
