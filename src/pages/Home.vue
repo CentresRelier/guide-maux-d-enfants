@@ -226,7 +226,7 @@ function updateQueryWithFilters(baseQuery) {
     query += '&sort=perimetre.id:ASC';
     console.log(finalSearchObject.value);
   }
-  // TODO remove after data of backend is ready filter all organisme with no completed datas
+  // TODO remove after data of backend is ready filter all organisme with no completed data
   query += '&filters[$and][2][contact][$null]=false&[$and][2][email][$null]=false&[$and][2][coordonnees][$null]=false';
   return query;
 }
