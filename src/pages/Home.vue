@@ -140,16 +140,16 @@ const searchStore = useSearchBarStore();
 Loads the Organisme's image in the array organismes.
 If no image is found for an Organisme, an image is given by default.
 */
-function getOrganismesImages(dataOrganismes) {
-  for (let i = 0; i < dataOrganismes.data.data.length; i += 1) {
-    const found = organismes.value.find((organisme) => organisme.id === dataOrganismes
-      .data.data[i].id);
-    if (dataOrganismes.data.data[i].attributes.img.data !== null) {
-      found.img = `${SERVER_PATH}${dataOrganismes.data.data[i].attributes.img.data.attributes.url}`;
-    } else {
-      found.img = '/statics/CR_logo-svg.svg';
+function setDefaultImages() {
+  organismes.value.forEach((organisme) => {
+    const imgName = organisme.img?.data?.attributes?.name;
+    if (imgName && imgName !== 'no_image.svg') {
+      organisme.img = organisme.img.data.attributes.url;
     }
-  }
+    if (imgName === 'no_image.svg') {
+      organisme.img = organisme.defaultDescription?.data?.attributes?.logo?.data?.attributes?.url;
+    }
+  });
 }
 
 function setDefaultDescription() {
