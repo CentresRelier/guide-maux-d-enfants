@@ -186,7 +186,7 @@ const getData = async (URL) => {
         })).reduce((a, b) => ({ ...a, [b.id]: b.name }), {})),
         perimeter: organisme.attributes.perimetre.data?.attributes?.perimetre,
       }));
-    getOrganismesImages(dataOrganismes);
+    setDefaultImages();
     setDefaultDescription();
   } catch (error) {
     $q.notify({
