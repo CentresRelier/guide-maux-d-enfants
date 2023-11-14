@@ -142,13 +142,19 @@ If no image is found for an Organisme, an image is given by default.
 */
 function setDefaultImages() {
   organismes.value.forEach((organisme) => {
-    const imgName = organisme.img?.data?.attributes?.name;
-    if (imgName && imgName !== 'no_image.svg') {
-      organisme.img = organisme.img.data.attributes.url;
+    const defaultImgName = organisme.imageDefault.data.attributes.name;
+    const defaultImgUrl = organisme.imageDefault.data.attributes.url;
+    const defaultImgReseau = organisme.imageReseau;
+
+    let final = '';
+
+    if (defaultImgName !== 'no_image.svg') {
+      final = defaultImgUrl;
     }
-    if (imgName === 'no_image.svg') {
-      organisme.img = organisme.defaultDescription?.data?.attributes?.logo?.data?.attributes?.url;
+    if (defaultImgName === 'no_image.svg') {
+      final = defaultImgReseau;
     }
+    organisme.image = final;
   });
 }
 
@@ -171,6 +177,9 @@ const getData = async (URL) => {
         title: organisme.attributes.nom,
         description: organisme.attributes.description,
         defaultDescription: organisme.attributes.reseau,
+        image: '',
+        imageDefault: organisme.attributes.img,
+        imageReseau: organisme.attributes.reseau.data.attributes.logo.data.attributes.url,
         website: organisme.attributes.website,
         coordinate: organisme.attributes.coordonnees,
         postalCode: organisme.attributes.code_postal.substring(0, 2),
