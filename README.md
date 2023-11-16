@@ -1,9 +1,12 @@
-![logo](https://centresrelier.org/wp-content/uploads/2022/01/CR_logo.svg)
+
+<img src="[https://cloud.githubusercontent.com/assets/yourgif.gif](https://centresrelier.org/wp-content/uploads/2022/01/CR_logo.svg)" width="400">
 
 # Guide Maux D'enfants
 
 Le projet associatif a pour but de regrouper toutes les associations de france en rapport avec les enfants victimes
 de harcèlement ou violences sous toutes ses formes.
+
+L'application prend la forme d'un moteur de recherche avec la possibilité de filtrer les résultats par catégories âge et adresse.
 
 
 # Stack thechnique
