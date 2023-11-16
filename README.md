@@ -1,5 +1,6 @@
-
-<img src="[https://cloud.githubusercontent.com/assets/yourgif.gif](https://centresrelier.org/wp-content/uploads/2022/01/CR_logo.svg)" width="400">
+<div align="center">
+  <img src="https://centresrelier.org/wp-content/uploads/2022/01/CR_logo.svg" width="400">
+</div>
 
 # Guide Maux D'enfants
 
