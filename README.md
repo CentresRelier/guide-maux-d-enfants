@@ -44,5 +44,5 @@ quasar build
 ```
 
 ### Configuration
-Voir [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+Voir [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js)
 
