@@ -56,7 +56,7 @@ const toggleFilter = () => {
 
 function categories() {
   if (category.value === 'age') {
-    background.value = 'statics/age-icons/round-green.svg';
+    background.value = 'statics/age-icons/round-green.png';
   }
 }
 
