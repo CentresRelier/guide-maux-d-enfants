@@ -39,7 +39,20 @@
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
             <p class="coordinates">{{ organisme.email }}</p>
-            <p class="coordinates">{{ organisme.contact }}</p>
+            <p
+              class="coordinates"
+              v-for="(number, index) in formattedContacts.slice(0, numberOfPhone)"
+              :key="index"
+            >
+              <a v-if="$q.screen.lt.sm" :href="'tel:' + number">{{ number }}</a>
+              <span v-else>{{ number }}</span>
+            </p>
+            <div v-if="formattedContacts.length > 3" class="icon-container">
+              <div class="container" @click="toggleActiveState">
+                <q-icon v-if="!isActive" class="img-plus" name="add" size="25px"></q-icon>
+                <q-icon v-if="isActive" class="img-plus" name="remove" size="25px"></q-icon>
+              </div>
+            </div>
           </div>
           <div class="col-xs-12 col-md-12 q-mb-md">
             <p class="title-thematique title-underline">Thématiques</p>
@@ -123,12 +136,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 
-defineProps({
+const props = defineProps({
   organisme: {},
 });
+
+const numberOfPhone = ref(3);
+
+const isActive = ref(false);
+
+function toggleActiveState() {
+  isActive.value = !isActive.value;
+  if (isActive.value) {
+    numberOfPhone.value = 100;
+  } else {
+    numberOfPhone.value = 3;
+  }
+}
 
 const showFullDescription = ref(false);
 const text = ref('Lire plus');
@@ -141,6 +167,23 @@ function openDescription() {
     text.value = 'Lire plus';
   }
 }
+
+const formattedContacts = ref([]);
+
+function separateContactInfos(organisme) {
+  const { contact } = props.organisme;
+  if (contact.includes('----')) {
+    const modifiedContact = contact.replace(/----/g, '\n');
+    const contactsArray = modifiedContact.split('\n');
+
+    formattedContacts.value = contactsArray;
+    organisme.contact = modifiedContact;
+  }
+}
+
+watchEffect(() => {
+  separateContactInfos(props.organisme);
+});
 
 const thematiques = ref([
   { name: 'Addiction', tooltip: 'Addiction', url: 'statics/thematique-icons/addiction.png' },
@@ -185,6 +228,7 @@ const perimeters = ref([
   object-fit: contain;
   overflow: hidden;
   margin-right: 25px;
+  max-width: 282px;
 }
 
 .img {
@@ -287,6 +331,28 @@ const perimeters = ref([
   justify-content: center;
 }
 
+.img-plus {
+  border: 2px solid $accent;
+  border-radius: 200px;
+  transition: background-color 0.3s;
+}
+
+.img-plus:hover {
+  background-color: rgba(38, 37, 108, 0.3);
+  cursor: pointer;
+}
+
+.icon-container {
+  text-align: -webkit-center;
+}
+
+.container {
+  width: 25px;
+  height: 25px;
+  text-align-last: center;
+  z-index: 100;
+}
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
   .texte-container {
     padding-right: 24px;
@@ -355,6 +421,8 @@ const perimeters = ref([
   }
   .col-mobile {
     min-height: 220px;
+    text-align: -webkit-center;
+    margin-top: 20px;
   }
   .button-container {
     margin-top: 16px;

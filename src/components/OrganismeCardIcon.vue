@@ -36,10 +36,10 @@ const paddingTitle = ref('5px');
 
 function categories() {
   if (category.value === 'perimeter') {
-    background.value = 'public/statics/perimeter-icons/round-yellow.svg';
+    background.value = 'public/statics/perimeter-icons/round-yellow.png';
   }
   if (category.value === 'ages') {
-    background.value = 'public/statics/age-icons/round-green.svg';
+    background.value = 'public/statics/age-icons/round-green.png';
   }
 }
 

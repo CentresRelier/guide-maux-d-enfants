@@ -93,15 +93,45 @@ import PaginationCounter from 'src/components/PaginationCounter.vue';
 import HelpButton from 'components/HelpButton.vue';
 import { useFiltersStore } from 'stores/filterButton';
 import { useSearchBarStore } from 'stores/searchBar';
+import associationMetaTags from '../utils/associationMetaTags';
+
+// SEO //
+const associationDetails = {
+  name: 'Centres Relier',
+  description: 'Des organismes gratuits pour accompagner vos enfants',
+  imageUrl: 'https://guide-maux-d-enfants.centresrelier.org/uploads/CR_logo_6ba168299b.svg',
+};
+const generateKeywords = () => {
+  const associationKeywords = associationMetaTags.join(', ');
+  return `${associationKeywords}`;
+};
+const generateTitle = (baseTitle) => `${baseTitle} - Des organismes gratuits pour accompagner vos enfants`;
 
 useMeta(() => ({
-  title: "GUIDE MAUX D'ENFANTS",
-  titleTemplate: (title) => `${title} - Des organismes gratuits pour accompagner vos enfants`,
-  // meta tags
-  meta: {
-    keywords: { name: 'keywords', content: 'ENFANTS GUIDE MAUX HARCELEMENT' },
-    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
-  },
+  title: associationDetails.name,
+  titleTemplate: (title) => generateTitle(title),
+  meta: [
+    {
+      name: 'description',
+      content: associationDetails.description,
+    },
+    {
+      name: 'keywords',
+      content: generateKeywords(),
+    },
+    {
+      property: 'og:title',
+      content: associationDetails.name,
+    },
+    {
+      property: 'og:description',
+      content: associationDetails.description,
+    },
+    {
+      property: 'og:image',
+      content: associationDetails.imageUrl,
+    },
+  ],
 }));
 
 const $q = useQuasar();
@@ -137,8 +167,8 @@ const ALL_AGE_FILTERS = ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Je
 const filterStore = useFiltersStore();
 const searchStore = useSearchBarStore();
 /*
-Loads the Organisme's image in the array organismes.
-If no image is found for an Organisme, an image is given by default.
+Loads the Organisme's image and description in the array organismes.
+If no image or description is found for an Organisme, an image and description is given by default.
 */
 function setDefaultImages() {
   organismes.value.forEach((organisme) => {
@@ -236,7 +266,7 @@ function updateQueryWithFilters(baseQuery) {
     console.log(finalSearchObject.value);
   }
   // TODO remove after data of backend is ready filter all organisme with no completed data
-  query += '&filters[$and][2][contact][$null]=false&[$and][2][email][$null]=false&[$and][2][coordonnees][$null]=false';
+  query += '&filters[$and][2][$or][0][contact][$null]=false&filters[$and][2][$or][1][email][$null]=false&filters[$and][2][$or][2][coordonnees][$null]=false';
   return query;
 }
 
