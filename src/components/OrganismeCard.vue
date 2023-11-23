@@ -207,7 +207,7 @@ const perimeters = ref([
   border: 4px solid $accent;
   border-radius: 15px;
   width: 980px;
-  background-image: url( 'public/statics/background-card.png' );
+  background-image: url( '/statics/background-card.png' );
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center, 100%, 0%;

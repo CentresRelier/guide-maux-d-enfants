@@ -40,7 +40,7 @@ const props = defineProps({
 });
 
 const hovered = ref(false);
-const background = ref('statics/thematique-icons/round-blue.svg');
+const background = ref('statics/thematique-icons/round-blue.png');
 
 const { category } = toRefs(props);
 

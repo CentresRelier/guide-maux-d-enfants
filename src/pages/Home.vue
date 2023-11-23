@@ -213,7 +213,7 @@ const getData = async (URL) => {
         website: organisme.attributes.website,
         coordinate: organisme.attributes.coordonnees,
         postalCode: organisme.attributes.code_postal.substring(0, 2),
-        contact: organisme.attributes.contact,
+        contact: organisme.attributes.contact ? organisme.attributes.contact : '',
         email: organisme.attributes.email,
         thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
           ...thematique,
@@ -234,7 +234,6 @@ const getData = async (URL) => {
       color: 'red-9',
       position: 'top',
     });
-    console.log(error);
   }
 };
 
@@ -263,7 +262,6 @@ function updateQueryWithFilters(baseQuery) {
     query += `&filters[$or][1][$and][1][perimetre][id][$eq]=2&filters[$or][2][$and][0][region][$eq]=${finalSearchObject.value.region}`;
     query += '&filters[$or][2][$and][1][perimetre][id][$eq]=3&filters[$or][3][$and][0][perimetre][id][$eq]=4';
     query += '&sort=perimetre.id:ASC';
-    console.log(finalSearchObject.value);
   }
   // TODO remove after data of backend is ready filter all organisme with no completed data
   query += '&filters[$and][2][$or][0][contact][$null]=false&filters[$and][2][$or][1][email][$null]=false&filters[$and][2][$or][2][coordonnees][$null]=false';

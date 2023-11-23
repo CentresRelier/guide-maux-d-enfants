@@ -27,7 +27,7 @@ const props = defineProps({
   tooltip: Boolean,
 });
 
-const background = ref('public/statics/thematique-icons/round-blue.svg');
+const background = ref('public/statics/thematique-icons/round-blue.png');
 
 const { category, tooltip } = toRefs(props);
 
@@ -36,10 +36,10 @@ const paddingTitle = ref('5px');
 
 function categories() {
   if (category.value === 'perimeter') {
-    background.value = 'public/statics/perimeter-icons/round-yellow.png';
+    background.value = '/statics/perimeter-icons/round-yellow.png';
   }
   if (category.value === 'ages') {
-    background.value = 'public/statics/age-icons/round-green.png';
+    background.value = '/statics/age-icons/round-green.png';
   }
 }
 
