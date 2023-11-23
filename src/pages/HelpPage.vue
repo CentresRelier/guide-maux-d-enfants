@@ -233,8 +233,8 @@ const sexualityUrl = ref('statics/thematique-icons/sexualite.png');
   height: 128px;
   background-color: $primary;
   background-image:
-    url( 'statics/ellipse1.svg' ),
-    url( 'statics/ellipse2.svg' );
+    url( '/statics/ellipse1.svg' ),
+    url( '/statics/ellipse2.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 0%;
 }
