@@ -38,21 +38,8 @@
             <p class="title-coordinates title-underline">Coordonnées</p>
             <br>
             <p class="coordinates">{{ organisme.coordinate }}</p>
-            <p class="coordinates">{{ organisme.email }}</p>
-            <p
-              class="coordinates"
-              v-for="(number, index) in formattedContacts.slice(0, numberOfPhone)"
-              :key="index"
-            >
-              <a v-if="$q.screen.lt.sm" :href="'tel:' + number">{{ number }}</a>
-              <span v-else>{{ number }}</span>
-            </p>
-            <div v-if="formattedContacts.length > 3" class="icon-container">
-              <div class="container" @click="toggleActiveState">
-                <q-icon v-if="!isActive" class="img-plus" name="add" size="25px"></q-icon>
-                <q-icon v-if="isActive" class="img-plus" name="remove" size="25px"></q-icon>
-              </div>
-            </div>
+            <ContactPlus :formated="formattedEmails" :name="'mailto'"/>
+            <ContactPlus :formated="formattedContacts" :name="'tel'"/>
           </div>
           <div class="col-xs-12 col-md-12 q-mb-md">
             <p class="title-thematique title-underline">Thématiques</p>
@@ -138,23 +125,11 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
+import ContactPlus from 'components/ContactPlus.vue';
 
 const props = defineProps({
   organisme: {},
 });
-
-const numberOfPhone = ref(3);
-
-const isActive = ref(false);
-
-function toggleActiveState() {
-  isActive.value = !isActive.value;
-  if (isActive.value) {
-    numberOfPhone.value = 100;
-  } else {
-    numberOfPhone.value = 3;
-  }
-}
 
 const showFullDescription = ref(false);
 const text = ref('Lire plus');
@@ -169,15 +144,21 @@ function openDescription() {
 }
 
 const formattedContacts = ref([]);
+const formattedEmails = ref([]);
 
 function separateContactInfos(organisme) {
-  const { contact } = props.organisme;
+  const { contact, email } = props.organisme;
   if (contact.includes('----')) {
     const modifiedContact = contact.replace(/----/g, '\n');
     const contactsArray = modifiedContact.split('\n');
-
     formattedContacts.value = contactsArray;
     organisme.contact = modifiedContact;
+  }
+  if (email.includes('----')) {
+    const modifiedEmail = email.replace(/----/g, '\n');
+    const emailArray = modifiedEmail.split('\n');
+    formattedEmails.value = emailArray;
+    organisme.email = modifiedEmail;
   }
 }
 
@@ -329,17 +310,6 @@ const perimeters = ref([
 
 .row-icons {
   justify-content: center;
-}
-
-.img-plus {
-  border: 2px solid $accent;
-  border-radius: 200px;
-  transition: background-color 0.3s;
-}
-
-.img-plus:hover {
-  background-color: rgba(38, 37, 108, 0.3);
-  cursor: pointer;
 }
 
 .icon-container {

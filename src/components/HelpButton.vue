@@ -7,6 +7,12 @@
         <img class="img" src="/statics/i.png" />
       </div>
     </router-link>
+    <q-tooltip class="tooltip bg-secondary"
+               anchor="top middle"
+               self="bottom middle"
+               :offset="[0, 5]">
+      <strong>plus d'infos</strong>
+    </q-tooltip>
   </div>
 </template>
 <script setup>

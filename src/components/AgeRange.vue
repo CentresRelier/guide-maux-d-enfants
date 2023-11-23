@@ -8,6 +8,7 @@
           :tooltip="button.tooltip"
           :category="'age'"
           :filterFunction="filterCardsWithAge"
+          @reset="emit('reset')"
         />
       </div>
     </div>
@@ -20,6 +21,7 @@ import { ref } from 'vue';
 defineProps({
   filterCardsWithAge: Function,
 });
+const emit = defineEmits(['reset']);
 
 const Buttons = ref([
   {

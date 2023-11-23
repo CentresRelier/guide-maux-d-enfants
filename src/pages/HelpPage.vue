@@ -142,7 +142,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import Head from 'components/Head.vue';
+import Head from 'components/HeadBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
 
 const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
