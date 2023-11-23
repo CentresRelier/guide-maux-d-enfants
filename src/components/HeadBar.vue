@@ -19,14 +19,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'head-component',
-  props: {
-    title1: String,
-    title2: String,
-  },
-};
+<script setup>
+const title1 = 'Le guide Maux d\'enfants mode d\'emploi';
+const title2 = 'Des organismes gratuits pour accompagner vos enfants';
 </script>
 
 <style lang="scss" scoped>
@@ -34,8 +29,8 @@ export default {
   height: 128px;
   background-color: $primary;
   background-image:
-    url( 'statics/ellipse1.svg' ),
-    url( 'statics/ellipse2.svg' );
+    url( '/statics/ellipse1.svg' ),
+    url( '/statics/ellipse2.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 0%;
 }
@@ -44,8 +39,8 @@ export default {
   height: 100px;
   background-color: $primary;
   background-image:
-    url( 'statics/ellipse1mobile.svg' ),
-    url( 'statics/ellipse2mobile.svg' );
+    url( '/statics/ellipse1mobile.svg' ),
+    url( '/statics/ellipse2mobile.svg' );
   background-repeat: no-repeat;
   background-position: left, 100%, 100%;
 }

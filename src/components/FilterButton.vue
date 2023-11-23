@@ -3,7 +3,7 @@
     <div class="button not-selected"
          :class="{ selected: buttonState }"
          :style="buttonStyle"
-         @click="toggleFilter();filterFunction()"
+         @click="toggleFilter();filterFunction();emit('reset')"
          @mouseenter="hovered = true"
          @mouseleave="hovered = false"
     >
@@ -30,6 +30,7 @@ import {
 import { useFiltersStore } from 'stores/filterButton';
 
 const store = useFiltersStore();
+const emit = defineEmits(['reset']);
 
 const props = defineProps({
   urlIcon: String,

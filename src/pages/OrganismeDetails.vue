@@ -27,10 +27,10 @@
       </div>
       <div class="col-xs-12 col-md-8 col-lg-6">
         <div class="row row-mobile">
-          <div class="col-xs-12 col-md-4 img-container">
+          <div class="col-xs-12 col-md-5 img-container">
             <img class="img-organisme" :src="organisme.img" />
           </div>
-          <div class="col-xs-12 col-md-8">
+          <div class="col-xs-12 col-md-7">
             <div class="col-xs-12 col-md-12 q-mb-sm">
               <div class="name q-ml-sm block-container">
                 <p class="name-text">{{ organisme.title }}</p>
@@ -65,7 +65,7 @@
       </div>
       <div class="col-xs-12 col-md-8 col-lg-6">
         <div class="row row-coordinate">
-          <div class="col-xs-12 col-md-4 coordinate-container">
+          <div class="col-xs-12 col-md-5 coordinate-container">
             <div class="col-xs-12 col-md-12">
               <p class="block-title perimeter">Périmètre</p>
               <div class="row row-perimeter">
@@ -85,14 +85,14 @@
             </div>
             <div class="col-xs-12 col-md-12">
               <p class="block-title contact">Contact</p>
-              <p class="coordinate-texte">{{ organisme.contact }}</p>
+              <ContactPlus :formated="formattedContacts" :name="'tel'"/>
             </div>
             <div class="col-xs-12 col-md-12">
               <p class="block-title email">Email</p>
-              <p class="coordinate-texte">{{ organisme.email }}</p>
+              <ContactPlus :formated="formattedEmails" :name="'mailto'"/>
             </div>
           </div>
-          <div class="col-xs-12 col-md-8">
+          <div class="col-xs-12 col-md-7">
             <div class="col-md-12 q-pb-sm">
               <div class="q-ml-sm block-container">
                 <p class="block-title title-description">Description</p>
@@ -148,16 +148,17 @@ export default {
 </script>
 <script setup>
 import {
-  onMounted, ref,
+  onMounted, ref, watchEffect,
 } from 'vue';
 import { useRoute } from 'vue-router';
-import Social from 'components/Social.vue';
-import Footer from 'components/Footer.vue';
+import Social from 'components/SocialFooter.vue';
+import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
-import Head from 'components/Head.vue';
+import Head from 'components/HeadBar.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
+import ContactPlus from 'components/ContactPlus.vue';
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
@@ -235,8 +236,8 @@ const getData = async () => {
     organisme.value.defaultDescription = dataOrganisme.data.data.attributes.reseau;
     organisme.value.website = dataOrganisme.data.data.attributes.website;
     organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonnees;
-    organisme.value.contact = dataOrganisme.data.data.attributes.contact;
-    organisme.value.email = dataOrganisme.data.data.attributes.email;
+    organisme.value.contact = dataOrganisme.data.data.attributes.contact ? dataOrganisme.data.data.attributes.contact : '';
+    organisme.value.email = dataOrganisme.data.data.attributes.email ? dataOrganisme.data.data.attributes.email : '';
     organisme.value.thematique = Object.values(dataOrganisme.data.data.attributes.thematiques.data
       .map((age) => ({
         ...age,
@@ -261,10 +262,34 @@ const getData = async () => {
   }
 };
 
+const formattedContacts = ref([]);
+const formattedEmails = ref([]);
+
+function separateContactInfos(data) {
+  const { contact, email } = organisme.value;
+  if (contact.includes('----')) {
+    const modifiedContact = contact.replace(/----/g, '\n');
+    const contactsArray = modifiedContact.split('\n');
+    formattedContacts.value = contactsArray;
+    console.log(formattedContacts.value);
+    data.contact = modifiedContact;
+  }
+  if (email.includes('----')) {
+    const modifiedEmail = email.replace(/----/g, '\n');
+    const emailArray = modifiedEmail.split('\n');
+    formattedEmails.value = emailArray;
+    console.log(formattedEmails.value);
+    data.email = modifiedEmail;
+  }
+}
+
+watchEffect(() => {
+  separateContactInfos(organisme.value);
+});
+
 onMounted(() => {
   getData();
 });
-
 </script>
 
 <style lang="scss" scoped>

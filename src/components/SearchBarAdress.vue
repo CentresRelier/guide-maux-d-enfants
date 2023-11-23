@@ -121,7 +121,6 @@ watch(query, (newQuery) => {
 
 const selectAddress = (address) => {
   query.value = address.label;
-  console.log(query.value);
   searchResults.value = [];
   preventReload.value = false;
   finalSearchObject.value.ville = address.ville;

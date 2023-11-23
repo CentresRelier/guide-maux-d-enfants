@@ -7,6 +7,7 @@
           :urlIcon="button.url"
           :tooltip="button.tooltip"
           :filterFunction="filterCards"
+          @reset="$emit('reset')"
         />
       </div>
     </div>

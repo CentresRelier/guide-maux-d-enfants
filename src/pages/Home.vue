@@ -2,7 +2,7 @@
   <q-page class="">
 
     <div class="head">
-      <Head :title1="homeTitle1" :title2="homeTitle2"/>
+      <Head />
     </div>
 
     <div class="row q-pt-md row-categories">
@@ -14,10 +14,10 @@
       <div class="col-xs-12 col-sm-10 col-md-10">
         <div class="row row-filter">
           <div class="categories-container">
-            <Categories :filterCards="filterCards"/>
+            <Categories :filterCards="filterCards" @reset="refreshData(1)"/>
           </div>
           <div class="age-range-container">
-            <AgeRange :filterCardsWithAge="filterCardsWithAge"/>
+            <AgeRange :filterCardsWithAge="filterCardsWithAge" @reset="refreshData(1)"/>
           </div>
         </div>
         <div class="row justify-center q-pt-lg">
@@ -59,11 +59,11 @@
     </div>
 
     <div class="social">
-      <Social :title="socialTitle"/>
+      <Social />
     </div>
 
     <div class="footer">
-      <Footer :title="footerTitle" :url="footerUrl" :buttonText="footerTexteButton"/>
+      <Footer />
     </div>
   </q-page>
 </template>
@@ -82,13 +82,13 @@ import {
   onMounted,
 } from 'vue';
 import axios from 'axios';
-import Head from 'components/Head.vue';
+import Head from 'components/HeadBar.vue';
 import Categories from 'components/Categories.vue';
 import AgeRange from 'components/AgeRange.vue';
 import SearchBarAdress from 'components/SearchBarAdress.vue';
 import OrganismeCard from 'components/OrganismeCard.vue';
-import Social from 'components/Social.vue';
-import Footer from 'components/Footer.vue';
+import Social from 'components/SocialFooter.vue';
+import Footer from 'components/FooterBar.vue';
 import PaginationCounter from 'src/components/PaginationCounter.vue';
 import HelpButton from 'components/HelpButton.vue';
 import { useFiltersStore } from 'stores/filterButton';
@@ -150,13 +150,6 @@ const organismes = ref([]);
 // Total number of organismes
 const organismesTotal = ref(0);
 
-const homeTitle1 = ref('Le guide Maux d\'enfants mode d\'emploi');
-const homeTitle2 = ref('Des organismes gratuits pour accompagner vos enfants');
-const socialTitle = ref('Partagez ces résultats avec les réseaux ou encapsulé sur mon site');
-const footerTitle = ref('Un organisme est manquant ?\n J\'inscris un organisme');
-const footerUrl = ref('subscribe');
-const footerTexteButton = ref('Inscrire mon organisme');
-
 // show every thematic & age initially
 const selectedFilters = ref([]);
 const selectedAgeFilters = ref([]);
@@ -214,7 +207,7 @@ const getData = async (URL) => {
         coordinate: organisme.attributes.coordonnees,
         postalCode: organisme.attributes.code_postal.substring(0, 2),
         contact: organisme.attributes.contact ? organisme.attributes.contact : '',
-        email: organisme.attributes.email,
+        email: organisme.attributes.email ? organisme.attributes.email : '',
         thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({
           ...thematique,
           name: thematique.attributes.thematiques,

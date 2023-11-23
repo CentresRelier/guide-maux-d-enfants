@@ -48,13 +48,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'social-component',
-  props: {
-    title: String,
-  },
-};
+<script setup>
+const title = 'Partagez ces résultats avec les réseaux ou encapsulé sur mon site';
 </script>
 
 <style lang="scss" scoped>
