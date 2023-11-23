@@ -13,6 +13,7 @@
                 @click="searchAddress"/>
     </template>
   </q-input>
+  <UserGeolocation :filterInput="filterInput" @formattedQuery="selectAddress"/>
   <q-list
     v-if="searchResults.length > 0"
     bordered
@@ -44,6 +45,7 @@ import {
   ref,
   watch,
 } from 'vue';
+import UserGeolocation from 'components/UserGeolocation.vue';
 import axios from 'axios';
 
 const propSearch = defineProps({
@@ -119,6 +121,7 @@ watch(query, (newQuery) => {
 
 const selectAddress = (address) => {
   query.value = address.label;
+  console.log(query.value);
   searchResults.value = [];
   preventReload.value = false;
   finalSearchObject.value.ville = address.ville;

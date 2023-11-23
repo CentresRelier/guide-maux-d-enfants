@@ -251,7 +251,6 @@ const getData = async () => {
       .data.attributes.perimetre;
     getOrganismeImage(dataOrganisme);
     setDefaultDescription();
-    console.log(organisme.value);
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des organismes',
@@ -377,7 +376,7 @@ onMounted(() => {
 
 .perimeter-icon-container {
   background-image:
-    url( 'public/statics/perimeter-icons/round-yellow.svg' );
+    url( '/statics/perimeter-icons/round-yellow.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 0 20px;
@@ -386,7 +385,7 @@ onMounted(() => {
 
 .thematique-icon-container {
   background-image:
-    url( 'public/statics/thematique-icons/round-blue.svg' );
+    url( '/statics/thematique-icons/round-blue.png' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;
@@ -394,7 +393,7 @@ onMounted(() => {
 
 .age-icon-container {
   background-image:
-    url( 'public/statics/age-icons/round-green.svg' );
+    url( '/statics/age-icons/round-green.svg' );
   background-repeat: no-repeat;
   background-position: center, 100%, 0%;
   padding: 0 20px 10px 20px;
