@@ -52,6 +52,8 @@ const propSearch = defineProps({
   filterInput: Function,
 });
 
+const emit = defineEmits(['reset']);
+
 const searchResults = ref([]);
 const query = ref([]);
 
@@ -130,6 +132,7 @@ const selectAddress = (address) => {
   store.setSearchResult(finalSearchObject.value);
   store.setInputQuery(query.value);
   propSearch.filterInput();
+  emit('reset');
 };
 
 function cleanSearch() {

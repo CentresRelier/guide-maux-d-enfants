@@ -24,7 +24,7 @@
           <div class=" col-xs-0 col-sm-2 col-md-4">
           </div>
           <div class="col-xs-8 col-sm-8 col-md-4 col-search">
-            <SearchBarAdress :filterInput="filterInput" />
+            <SearchBarAdress :filterInput="filterInput" @reset="refreshData(1)"/>
             <p v-if="organismesTotal > 1" class="flex justify-center">
               {{ organismesTotal }} organismes trouvés
             </p>
@@ -205,7 +205,8 @@ const getData = async (URL) => {
         imageReseau: organisme.attributes.reseau.data.attributes.logo.data.attributes.url,
         website: organisme.attributes.website,
         coordinate: organisme.attributes.coordonnees,
-        postalCode: organisme.attributes.code_postal.substring(0, 2),
+        postalCode: organisme.attributes.code_postal,
+        commune: organisme.attributes.commune,
         contact: organisme.attributes.contact ? organisme.attributes.contact : '',
         email: organisme.attributes.email ? organisme.attributes.email : '',
         thematique: Object.values(organisme.attributes.thematiques.data.map((thematique) => ({

@@ -28,7 +28,7 @@
       <div class="col-xs-12 col-md-8 col-lg-6">
         <div class="row row-mobile">
           <div class="col-xs-12 col-md-5 img-container">
-            <img class="img-organisme" :src="organisme.img" />
+            <img class="img-organisme" :src="'https://guide.centresrelier.org' + organisme.image" />
           </div>
           <div class="col-xs-12 col-md-7">
             <div class="col-xs-12 col-md-12 q-mb-sm">
@@ -81,7 +81,9 @@
             </div>
             <div class="col-xs-12 col-md-12">
               <p class="block-title coordinate">Coordonnées</p>
-              <p class="coordinate-texte">{{ organisme.coordinate }}</p>
+              <p class="coordinate-texte">
+                {{ organisme.coordinate + ' ' + organisme.postalCode + ' ' + organisme.commune }}
+              </p>
             </div>
             <div class="col-xs-12 col-md-12">
               <p class="block-title contact">Contact</p>
@@ -212,12 +214,21 @@ const organisme = ref({
   img: '',
 });
 
-function getOrganismeImage(dataOrganisme) {
-  if (dataOrganisme.data.data.attributes.img.data !== null) {
-    organisme.value.img = `${SERVER_PATH}${dataOrganisme.data.data.attributes.img.data.attributes.url}`;
-  } else {
-    organisme.value.img = '/statics/CR_logo-svg.svg';
+function setDefaultImages() {
+  const defaultImgName = organisme.value.imageDefault.data.attributes.name;
+  const defaultImgUrl = organisme.value.imageDefault.data.attributes.url;
+  const defaultImgReseau = organisme.value.imageReseau;
+
+  let final = '';
+
+  if (defaultImgName !== 'no_image.svg') {
+    final = defaultImgUrl;
   }
+  if (defaultImgName === 'no_image.svg') {
+    final = defaultImgReseau;
+  }
+  organisme.value.image = final;
+  console.log(organisme.value.image);
 }
 
 function setDefaultDescription() {
@@ -229,28 +240,33 @@ function setDefaultDescription() {
 
 const getData = async () => {
   try {
-    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=*`);
-    organisme.value.title = dataOrganisme.data.data.attributes.nom;
-    organisme.value.description = dataOrganisme.data.data.attributes.description;
-    // eslint-disable-next-line max-len
-    organisme.value.defaultDescription = dataOrganisme.data.data.attributes.reseau;
-    organisme.value.website = dataOrganisme.data.data.attributes.website;
-    organisme.value.coordinate = dataOrganisme.data.data.attributes.coordonnees;
-    organisme.value.contact = dataOrganisme.data.data.attributes.contact ? dataOrganisme.data.data.attributes.contact : '';
-    organisme.value.email = dataOrganisme.data.data.attributes.email ? dataOrganisme.data.data.attributes.email : '';
-    organisme.value.thematique = Object.values(dataOrganisme.data.data.attributes.thematiques.data
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
+    const data = dataOrganisme.data.data.attributes;
+    organisme.value.title = data.nom;
+    organisme.value.description = data.description;
+    organisme.value.defaultDescription = data.reseau;
+    organisme.value.website = data.website;
+    organisme.value.coordinate = data.coordonnees;
+    organisme.value.contact = data.contact ? data.contact : '';
+    organisme.value.email = data.email ? data.email : '';
+    organisme.value.image = '';
+    organisme.value.imageDefault = data.img;
+    organisme.value.imageReseau = data.reseau.data.attributes.logo.data.attributes.url;
+    organisme.value.postalCode = data.code_postal;
+    organisme.value.commune = data.commune;
+    organisme.value.thematique = Object.values(data.thematiques.data
       .map((age) => ({
         ...age,
         name: age.attributes.thematiques,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
-    organisme.value.age = Object.values(dataOrganisme.data.data.attributes.ages.data
+    organisme.value.age = Object.values(data.ages.data
       .map((age) => ({
         ...age,
         name: age.attributes.age,
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
-    organisme.value.perimeter = dataOrganisme.data.data.attributes.perimetre
+    organisme.value.perimeter = data.perimetre
       .data.attributes.perimetre;
-    getOrganismeImage(dataOrganisme);
+    setDefaultImages();
     setDefaultDescription();
   } catch (error) {
     $q.notify({
@@ -271,14 +287,12 @@ function separateContactInfos(data) {
     const modifiedContact = contact.replace(/----/g, '\n');
     const contactsArray = modifiedContact.split('\n');
     formattedContacts.value = contactsArray;
-    console.log(formattedContacts.value);
     data.contact = modifiedContact;
   }
   if (email.includes('----')) {
     const modifiedEmail = email.replace(/----/g, '\n');
     const emailArray = modifiedEmail.split('\n');
     formattedEmails.value = emailArray;
-    console.log(formattedEmails.value);
     data.email = modifiedEmail;
   }
 }
