@@ -37,7 +37,9 @@
           <div class="col-xs-12 col-md-12">
             <p class="title-coordinates title-underline">Coordonnées</p>
             <br>
-            <p class="coordinates">{{ organisme.coordinate }}</p>
+            <p class="coordinates">
+              {{ organisme.coordinate + ' ' + organisme.postalCode + ' ' + organisme.commune }}
+            </p>
             <ContactPlus :formated="formattedEmails" :name="'mailto'"/>
             <ContactPlus :formated="formattedContacts" :name="'tel'"/>
           </div>
