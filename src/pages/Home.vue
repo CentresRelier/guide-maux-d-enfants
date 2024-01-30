@@ -140,7 +140,7 @@ const $q = useQuasar();
 const current = ref(1);
 // Number of organismes per page
 const pagination = ref(10);
-const SERVER_PATH = 'https://guide.centresrelier.org';
+const SERVER_PATH = 'https://guide.centresrelier.org/bd';
 const BASE_URL = ref(`${SERVER_PATH}/api/organismes?populate=reseau.logo,thematiques,perimetre,ages,img&pagination[pageSize]=${pagination.value}`);
 
 // Text input from SearchBarStore

@@ -10,15 +10,8 @@
         <q-btn
           class="button"
           rounded
-          disabled
           size="md">
           <p class="texte-button">{{ buttonText }}</p>
-          <q-tooltip transition-show="scale"
-                     anchor="bottom middle"
-                     class="bg-secondary"
-                     :offset="[100, 60]">
-            Fonctionalité en cours de développement
-          </q-tooltip>
         </q-btn>
       </router-link>
     </div>

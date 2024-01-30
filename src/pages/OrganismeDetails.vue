@@ -28,7 +28,7 @@
       <div class="col-xs-12 col-md-8 col-lg-6">
         <div class="row row-mobile">
           <div class="col-xs-12 col-md-5 img-container">
-            <img class="img-organisme" :src="'https://guide.centresrelier.org' + organisme.image" />
+            <img class="img-organisme" :src="'https://guide.centresrelier.org/bd' + organisme.image" />
           </div>
           <div class="col-xs-12 col-md-7">
             <div class="col-xs-12 col-md-12 q-mb-sm">
@@ -240,7 +240,7 @@ function setDefaultDescription() {
 
 const getData = async () => {
   try {
-    const dataOrganisme = await axios.get(`${SERVER_PATH}/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/bd/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
     const data = dataOrganisme.data.data.attributes;
     organisme.value.title = data.nom;
     organisme.value.description = data.description;

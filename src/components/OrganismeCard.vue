@@ -5,7 +5,7 @@
         <div class="row row-mobile">
           <div class="col-xs-12 col-md-12 col col-mobile">
             <div class="img-container q-mt-md q-ml-md">
-              <img class="img" :src="'https://guide.centresrelier.org' + organisme.image" alt="organisme-logo"/>
+              <img class="img" :src="'https://guide.centresrelier.org/bd' + organisme.image" alt="organisme-logo"/>
             </div>
           </div>
           <div v-if="$q.screen.lt.md" class="col-xs-12 col-md-12">
