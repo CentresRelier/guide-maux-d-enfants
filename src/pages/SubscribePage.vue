@@ -244,25 +244,25 @@ const thematiques = ref([
 const perimeters = ref([
   {
     id: 1,
-    text: '1-Municipal',
+    text: 'Municipal',
     tooltip: 'Municipal',
     url: 'statics/perimeter-icons/municipal.png',
   },
   {
     id: 2,
-    text: '2-Départemental',
+    text: 'Départemental',
     tooltip: 'Départemental',
     url: 'statics/perimeter-icons/departemental.png',
   },
   {
     id: 3,
-    text: '3-Régional',
+    text: 'Régional',
     tooltip: 'Régional',
     url: 'statics/perimeter-icons/region.png',
   },
   {
     id: 4,
-    text: '4-National',
+    text: 'National',
     tooltip: 'National',
     url: 'statics/perimeter-icons/national.png',
   },
