@@ -32,19 +32,51 @@ import {
   ref,
   watch,
   computed,
+  watchEffect,
 } from 'vue';
 import axios from 'axios';
+
+const props = defineProps({
+  reset: Boolean,
+});
 
 const searchResults = ref([]);
 const query = ref('');
 const emit = defineEmits(['name']);
 
-const isValid = computed(() => query.value.length > 3 && searchResults.value.length === 0);
-const isInvalid = computed(() => query.value.length !== 0 && searchResults.value.length > 0);
+const isInvalid = computed(() => {
+  if (query.value.length === 0 || searchResults.value.length === 0) {
+    return false;
+  }
+
+  const hasExactMatch = searchResults.value.some((organisme) => organisme.attributes.nom === query.value);
+
+  return hasExactMatch;
+});
+
+const isValid = computed(() => {
+  if (isInvalid.value) {
+    return false;
+  }
+
+  if (query.value.length > 3 && searchResults.value.length === 0) {
+    return true;
+  }
+
+  if (query.value.length > 3 && searchResults.value.length > 0) {
+    const uniqueNomValues = new Set(searchResults.value.map((organisme) => organisme.attributes.nom));
+    return uniqueNomValues.size === searchResults.value.length;
+  }
+
+  return false;
+});
 
 function checkIfContain() {
   if (isValid.value) {
     emit('name', { data: query.value, isValid: true });
+  }
+  if (isInvalid.value) {
+    emit('name', { data: query.value, isValid: false });
   }
 }
 
@@ -81,6 +113,12 @@ function cleanSearch() {
   query.value = '';
   emit('name', { value: query.value, isValid: false });
 }
+
+watchEffect(() => {
+  if (props.reset === true) {
+    cleanSearch();
+  }
+});
 </script>
 
 <style lang="scss" scoped>

@@ -21,21 +21,41 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 const text = ref('');
 const emit = defineEmits(['url']);
 
-const isUrl = computed(() => text.value.length > 0);
+const props = defineProps({
+  reset: Boolean,
+});
+
+function isValidURL(url) {
+  const urlRegex = /^(https?:\/\/)?(www\.)?([a-z0-9-]+\.)(com|fr|net|org|gov|edu|info|biz|co|uk|de|jp|ca|au)(\/[\w .-]*)*\/?$/i;
+  return urlRegex.test(url);
+}
+
+const isUrl = computed(() => isValidURL(text.value));
 
 function emitUrl() {
-  emit('url', { data: `https://${text.value}`, isValid: true });
+  if (isUrl.value) {
+    emit('url', { data: `https://${text.value}`, isValid: true });
+  }
+  if (!isUrl.value) {
+    emit('url', { data: '', isValid: false });
+  }
 }
 
 function cleanInput() {
   text.value = '';
   emit('url', { data: '', isValid: false });
 }
+
+watchEffect(() => {
+  if (props.reset === true) {
+    cleanInput();
+  }
+});
 </script>
 
 <style scoped>

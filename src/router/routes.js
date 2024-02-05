@@ -22,7 +22,7 @@ const routes = [
       {
         path: '/subscribe',
         name: 'subscribe',
-        component: () => import('pages/SubscribeS.vue'),
+        component: () => import('pages/SubscribePage.vue'),
       },
     ],
   },

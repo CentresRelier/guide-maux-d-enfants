@@ -25,7 +25,7 @@
               <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
             </div>
             <div class="col-12">
-              <SearchOrganismeForm @name="getName"/>
+              <SearchOrganismeForm @name="getName" :reset="reset" />
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@
               <p>rechercher un réseau associé à votre organisme</p>
             </div>
             <div class="col-12">
-              <SearchNetworkForm @network="getNetwork"/>
+              <SearchNetworkForm @network="getNetwork" :reset="reset"/>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
               <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
             </div>
             <div class="col-12">
-              <UrlInputForm @url="getUrl"/>
+              <UrlInputForm @url="getUrl" :reset="reset"/>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
                   <p>Entrer le code postal de votre adresse</p>
                 </div>
                 <div class="col-12">
-                  <PostalCodeForm @address="getAddress"/>
+                  <PostalCodeForm @address="getAddress" :reset="reset"/>
                 </div>
               </div>
             </div>
@@ -141,6 +141,10 @@
       </div>
     </div>
 
+    <div>
+      <ReCaptcha ref="captchaRef" @captcha="getCaptcha"/>
+    </div>
+
     <div class="absolute-bottom send-btn">
       <q-btn class="absolute-center button q-mt-xl"
              type="submit"
@@ -166,11 +170,12 @@ import {
 
 import { useQuasar } from 'quasar';
 
-import SearchOrganismeForm from 'components/SearchOrganismeForm.vue';
-import SearchNetworkForm from 'components/SearchNetworkForm.vue';
-import UrlInputForm from 'components/UrlInputForm.vue';
-import PostalCodeForm from 'components/AddressForm.vue';
+import SearchOrganismeForm from 'components/organismeForm/SearchOrganismeForm.vue';
+import SearchNetworkForm from 'components/organismeForm/SearchNetworkForm.vue';
+import UrlInputForm from 'components/organismeForm/UrlInputForm.vue';
+import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
 import FilterButton from 'components/FilterButton.vue';
+import ReCaptcha from 'components/hCaptcha.vue';
 
 import { useFiltersStore } from 'stores/filterButton';
 
@@ -186,10 +191,12 @@ const organismeValidation = ref({
   websrc: false,
   code_postal: false,
   commune: false,
+  catcha: false,
 });
 
+const reset = ref(false);
+
 function areAllValuesTrue(obj) {
-  console.log(Object.values(obj).every((value) => value === true));
   return Object.values(obj).every((value) => value === true);
 }
 
@@ -240,28 +247,24 @@ const perimeters = ref([
     text: '1-Municipal',
     tooltip: 'Municipal',
     url: 'statics/perimeter-icons/municipal.png',
-    selected: false,
   },
   {
     id: 2,
     text: '2-Départemental',
     tooltip: 'Départemental',
     url: 'statics/perimeter-icons/departemental.png',
-    selected: false,
   },
   {
     id: 3,
     text: '3-Régional',
     tooltip: 'Régional',
     url: 'statics/perimeter-icons/region.png',
-    selected: false,
   },
   {
     id: 4,
     text: '4-National',
     tooltip: 'National',
     url: 'statics/perimeter-icons/national.png',
-    selected: false,
   },
 ]);
 
@@ -300,13 +303,13 @@ const ages = ref([
 
 const organisme = ref({
   nom: '',
-  reseau: [],
+  reseau: null,
   websrc: '',
   code_postal: '',
   commune: '',
-  perimetre: [],
-  age: [],
-  thematique: [],
+  perimetre: { connect: [] },
+  ages: { connect: [] },
+  thematiques: { connect: [] },
 });
 
 function getName(data) {
@@ -333,7 +336,7 @@ function getAddress(data) {
 function getFilteredValues(selectedButtons, sourceArray, targetProperty) {
   const matchingValues = sourceArray.filter((item) => selectedButtons.includes(item.text));
   const matchingIds = matchingValues.map((item) => item.id);
-  organisme.value[targetProperty] = matchingIds;
+  organisme.value[targetProperty] = { connect: matchingIds };
 }
 
 function getPerimeters() {
@@ -343,17 +346,50 @@ function getPerimeters() {
 
 function getAges() {
   const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
-  getFilteredValues(selectedAgeButtons, ages.value, 'age');
+  getFilteredValues(selectedAgeButtons, ages.value, 'ages');
 }
 
 function getThematiques() {
   const selectedThematiqueButtons = filtersStore.getSelectedThematiqueButtons;
-  getFilteredValues(selectedThematiqueButtons, thematiques.value, 'thematique');
+  getFilteredValues(selectedThematiqueButtons, thematiques.value, 'thematiques');
 }
+
+function getCaptcha(data) {
+  if (data.isValid === true) {
+    organismeValidation.value.catcha = true;
+  }
+  if (data.isValid === false) {
+    organismeValidation.value.catcha = false;
+  }
+}
+
+function resetRef() {
+  setTimeout(() => {
+    reset.value = false;
+  }, 1000);
+}
+
 function resetForm() {
-  const formComponent = this.$refs.myForm;
-  formComponent.resetValidation();
-  formComponent.reset();
+  organisme.value = {
+    nom: '',
+    reseau: null,
+    websrc: '',
+    code_postal: '',
+    commune: '',
+    perimetre: { connect: [] },
+    ages: { connect: [] },
+    thematiques: { connect: [] },
+  };
+
+  organismeValidation.value = {
+    nom: false,
+    websrc: false,
+    code_postal: false,
+    commune: false,
+  };
+  filtersStore.clearAllButtons();
+  reset.value = true;
+  resetRef();
 }
 
 async function submit() {
@@ -364,17 +400,24 @@ async function submit() {
       Authorization: 'Bearer ae3f26a266e9c1706664308a89c59b38304dcd7032107456993136c14181b395764737e2d52acd7efe69bdf1b1f390566127e40ee356f879cb2aa35d1d1d64c84751088e7d6e26d7bec61f34c0fa34707213d2ec7c2860599e4c55713b8ead5d0f8b996d57942ed6b188f5639cd77100e9e7197d3235a86434626da98458c737',
     },
   }).then(() => {
+    resetForm();
     $q.notify({
       message: 'L\'organisme a bien été créé',
-      caption: 'Vous pouvez créé un nouvelle organisme',
+      caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
       color: 'green-9',
       position: 'top',
+      timeout: 8000,
     });
-    resetForm();
   }, (error) => {
-    console.log('Un problème est survenu. Nous vous demandons de réessayer ultérieurement', error);
+    if (error) {
+      $q.notify({
+        message: 'L\'organisme n\'a pas été créé',
+        caption: 'Un problème est survenu',
+        color: 'red-9',
+        position: 'top',
+      });
+    }
   });
-  console.log(organisme.value);
 }
 </script>
 

@@ -25,13 +25,25 @@
 <script setup>
 import {
   onMounted,
-  ref,
+  ref, watchEffect,
 } from 'vue';
 import axios from 'axios';
 
 const networks = ref([]);
 const network = ref([]);
 const label = ref('Reseau');
+
+const props = defineProps({
+  reset: Boolean,
+});
+
+watchEffect(() => {
+  if (props.reset) {
+    network.value = [];
+    label.value = 'Reseau';
+  }
+});
+
 const searchNetwork = async () => {
   const API_URL = 'https://guide.centresrelier.org/bd/api/reseaux';
   try {
@@ -53,7 +65,7 @@ const emit = defineEmits(['network']);
 function onItemClick(data) {
   network.value = data;
   label.value = network.value.attributes.nom;
-  emit('network', { data: network.value, isValid: true });
+  emit('network', { data: network.value.id, isValid: true });
 }
 
 onMounted(() => {

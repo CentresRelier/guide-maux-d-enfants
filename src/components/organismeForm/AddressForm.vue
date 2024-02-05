@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import axios from 'axios';
 
 const postalCode = ref('');
@@ -46,6 +46,10 @@ const isValidPostalcode = ref(false);
 const address = ref({
   code_postal: '',
   commune: '',
+});
+
+const props = defineProps({
+  reset: Boolean,
 });
 
 const emit = defineEmits(['address']);
@@ -89,6 +93,12 @@ function cleanSearch() {
   isValidPostalcode.value = false;
   emit('address', { data: {}, isValid: false });
 }
+
+watchEffect(() => {
+  if (props.reset === true) {
+    cleanSearch();
+  }
+});
 </script>
 
 <style scoped lang="scss">

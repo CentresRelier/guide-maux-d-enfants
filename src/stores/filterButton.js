@@ -47,13 +47,24 @@ export const useFiltersStore = defineStore({
     },
     togglePerimeterButton(buttonText) {
       const isSelected = this.selectedPerimeterButtons.includes(buttonText);
-      this.selectedPerimeterButtons = [];
+      this.perimetersArray.forEach((perimeter) => {
+        if (perimeter !== buttonText) {
+          this.buttonStates[perimeter] = false;
+        }
+      });
+
       if (isSelected) {
-        this.selectedPerimeterButtons.pop();
+        this.selectedPerimeterButtons = [];
+      } else {
+        this.selectedPerimeterButtons = [buttonText];
       }
-      if (!isSelected) {
-        this.selectedPerimeterButtons.push(buttonText);
-      }
+    },
+    clearAllButtons() {
+      this.buttonStates = {};
+
+      this.selectedAgeButtons = [];
+      this.selectedThematiqueButtons = [];
+      this.selectedPerimeterButtons = [];
     },
   },
 });

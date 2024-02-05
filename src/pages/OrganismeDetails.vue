@@ -228,7 +228,6 @@ function setDefaultImages() {
     final = defaultImgReseau;
   }
   organisme.value.image = final;
-  console.log(organisme.value.image);
 }
 
 function setDefaultDescription() {
