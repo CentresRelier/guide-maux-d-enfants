@@ -3,19 +3,12 @@
     <div class="button not-selected"
          :class="{ selected: buttonState }"
          :style="buttonStyle"
-         @click="toggleFilter();filterFunction();emit('reset')"
+         @click="emit(buttonText); handleButtonClick()"
          @mouseenter="hovered = true"
          @mouseleave="hovered = false"
     >
       <q-img class="img" :src="props.urlIcon" />
       <p class="texte q-pt-sm">{{ buttonText }}</p>
-      <q-tooltip v-if="tooltip === true"
-                 transition-show="scale"
-                 anchor="top middle"
-                 class="bg-secondary"
-                 :offset="[100, 60]">
-        {{ props.tooltip }}
-      </q-tooltip>
     </div>
   </div>
 </template>
@@ -28,10 +21,7 @@ import {
   computed,
 } from 'vue';
 
-import { useFiltersStore } from 'stores/filterButton';
-
-const store = useFiltersStore();
-const emit = defineEmits(['reset']);
+const emit = defineEmits(['buttonText']);
 
 const props = defineProps({
   urlIcon: String,
@@ -39,24 +29,19 @@ const props = defineProps({
   tooltip: String,
   tooltipActive: String,
   category: String,
-  filterFunction: Function,
 });
 
 const hovered = ref(false);
-const tooltip = ref(true);
+const buttonState = ref(false);
+
 const background = ref('statics/thematique-icons/round-blue.png');
 
 const { category } = toRefs(props);
 
-const buttonState = computed(() => store.getButtonState(props.buttonText));
 const buttonStyle = computed(() => ({
   'background-image': `url(${background.value})`,
   opacity: buttonState.value ? 1 : hovered.value ? 0.75 : 0.4,
 }));
-
-const toggleFilter = () => {
-  store.toggleButtonState(props.buttonText);
-};
 
 function categories() {
   if (category.value === 'age') {
@@ -67,15 +52,13 @@ function categories() {
   }
 }
 
-function checkTooltip() {
-  if (props.tooltipActive === 'false') {
-    tooltip.value = false;
-  }
+function handleButtonClick() {
+  emit('buttonText', props.buttonText);
+  buttonState.value = !buttonState.value;
 }
 
 onMounted(() => {
   categories();
-  checkTooltip();
 });
 </script>
 

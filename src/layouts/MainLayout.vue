@@ -5,11 +5,7 @@
 
     <q-page-container class="no-padding absolute-full">
       <router-view v-slot="{ Component }">
-        <transition
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut">
-          <component :is="Component" />
-        </transition>
+         <component :is="Component" />
       </router-view>
     </q-page-container>
   </q-layout>

@@ -27,7 +27,7 @@ const props = defineProps({
   tooltip: Boolean,
 });
 
-const background = ref('public/statics/thematique-icons/round-blue.png');
+const background = ref('/statics/thematique-icons/round-blue.png');
 
 const { category, tooltip } = toRefs(props);
 
