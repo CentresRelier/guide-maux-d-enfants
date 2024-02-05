@@ -8,14 +8,16 @@
     @challengeExpired="onChallengeExpire"
     @render="onRender"
   ></vue-hcaptcha>
-  <q-btn @click="resetHcaptcha"></q-btn>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const emit = defineEmits(['captcha']);
+const props = defineProps({
+  reset: Boolean,
+});
 
 const siteKey = ref('2d8a48f2-51ac-4c70-b3a1-b18f93810d5a');
 const verified = ref(false);
@@ -70,4 +72,10 @@ const resetHcaptcha = () => {
     hcaptchaRef.value.reset();
   }
 };
+
+watchEffect(() => {
+  if (props.reset === true) {
+    resetHcaptcha();
+  }
+});
 </script>

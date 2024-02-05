@@ -156,9 +156,9 @@ watchEffect(() => {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
   .search {
-    border: 3px solid $secondary;
+    border: 4px solid $secondary;
     border-radius: 35px;
-    margin-right: 20px;
+    margin-right: 10px;
     margin-left: 0;
   }
 }

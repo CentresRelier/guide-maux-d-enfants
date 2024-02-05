@@ -12,9 +12,9 @@
     class="q-gutter-md q-pb-xl">
 
     <div class="row">
-      <div class="col-2">
+      <div class="col-xs-1 col-sm-2 col-md-2">
       </div>
-      <div class="col-8 q-pt-md">
+      <div class="col-xs-10 col-sm-8 col-8 q-pt-md">
         <div class="block-container">
           <div class="row row-mobile">
             <div class="col-12">
@@ -70,7 +70,7 @@
                 </div>
               </div>
             </div>
-        <div class="block-container">
+        <div class="block-container-btn">
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
@@ -78,12 +78,12 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="row">
+              <div class="row row-btn q-pt-xs">
                 <div v-for="perimeter in perimeters" :key="perimeter.id">
                   <FilterButton
                     :urlIcon="perimeter.url"
-                    :buttonText="perimeter.text"
-                    :tooltip="perimeter.tooltip"
+                    :buttonText="perimeter.tooltip"
+                    :tooltipActive="'false'"
                     :category="'perimeter'"
                     :filterFunction="getPerimeters"
                   />
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div class="block-container">
+        <div class="block-container-btn">
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
@@ -100,12 +100,12 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="row">
+              <div class="row row-btn q-pt-xs">
                 <div v-for="age in ages" :key="age.id">
                   <FilterButton
                     :urlIcon="age.url"
                     :buttonText="age.text"
-                    :tooltip="age.tooltip"
+                    :tooltipActive="'false'"
                     :category="'age'"
                     :filterFunction="getAges"
                   />
@@ -114,7 +114,7 @@
             </div>
           </div>
         </div>
-        <div class="block-container">
+        <div class="block-container-btn">
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
@@ -122,12 +122,12 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="row">
+              <div class="row row-btn q-pt-xs">
                 <div v-for="thematique in thematiques" :key="thematique.id">
                   <FilterButton
                     :urlIcon="thematique.url"
                     :buttonText="thematique.text"
-                    :tooltip="thematique.tooltip"
+                    :tooltipActive="'false'"
                     :category="'thematique'"
                     :filterFunction="getThematiques"
                   />
@@ -137,12 +137,12 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-xs-1 col-sm-2 col-md-2">
       </div>
     </div>
 
-    <div>
-      <ReCaptcha ref="captchaRef" @captcha="getCaptcha"/>
+    <div class="flex justify-center">
+      <ReCaptcha ref="captchaRef" @captcha="getCaptcha" :reset="reset"/>
     </div>
 
     <div class="absolute-bottom send-btn">
@@ -467,6 +467,15 @@ async function submit() {
   margin-right: 10px;
 }
 
+.block-container-btn {
+  border: 4px solid $accent;
+  border-radius: 15px;
+  background-color: $green;
+  padding: 5px 0 0 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
 p {
   font-size: 18px;
   color: $accent;
@@ -530,5 +539,17 @@ h6 {
 
 .send-btn {
   margin-bottom: 48px;
+}
+
+@media only screen and (min-device-width : 32px) and (max-device-width : 768px) {
+  .head-text {
+    padding-top: 20px;
+  }
+  .row-btn {
+    place-content: center;
+  }
+  h6 {
+    padding-right: 5px;
+  }
 }
 </style>
