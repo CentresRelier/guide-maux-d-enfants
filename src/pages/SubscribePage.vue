@@ -397,7 +397,7 @@ async function submit() {
 
   await axios.post('https://guide.centresrelier.org/bd/api/organismes', { data }, {
     headers: {
-      Authorization: 'Bearer ae3f26a266e9c1706664308a89c59b38304dcd7032107456993136c14181b395764737e2d52acd7efe69bdf1b1f390566127e40ee356f879cb2aa35d1d1d64c84751088e7d6e26d7bec61f34c0fa34707213d2ec7c2860599e4c55713b8ead5d0f8b996d57942ed6b188f5639cd77100e9e7197d3235a86434626da98458c737',
+      Authorization: process.env.VITE_API_TOKEN,
     },
   }).then(() => {
     resetForm();
