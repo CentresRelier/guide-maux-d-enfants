@@ -13,6 +13,9 @@
 
     <div class="row">
       <div class="col-xs-1 col-sm-2 col-md-2">
+        <div class="return-btn flex justify-center q-pt-md">
+          <ReturnButton />
+        </div>
       </div>
       <div class="col-xs-10 col-sm-8 col-8 q-pt-md">
         <div class="block-container">
@@ -33,7 +36,7 @@
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
-                <h6>Trouver le reseau de l'organisme</h6>
+                <h6>Choisir le réseau dont l'organisme fait partie</h6>
               </div>
               <p>rechercher un réseau associé à votre organisme</p>
             </div>
@@ -74,7 +77,7 @@
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
-                <h6>Sélectionner un périmetre relatifs à votre organisme</h6>
+                <h6>Sélectionner le périmètre d'action de l'organisme</h6>
               </div>
             </div>
             <div class="col-12">
@@ -96,7 +99,7 @@
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
-                <h6>Sélectionner les âges relatifs à votre organisme</h6>
+                <h6>Sélectionner les âges auxquels l'organisme peut intervenir</h6>
               </div>
             </div>
             <div class="col-12">
@@ -118,7 +121,7 @@
           <div class="row row-mobile">
             <div class="col-12">
               <div class="row">
-                <h6>Sélectionner les thématiques relatifs à votre organisme</h6>
+                <h6>Sélectionner les thématiques sur lesquelles l'organisme intervient</h6>
               </div>
             </div>
             <div class="col-12">
@@ -176,6 +179,7 @@ import UrlInputForm from 'components/organismeForm/UrlInputForm.vue';
 import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
 import FilterButton from 'components/FilterButton.vue';
 import ReCaptcha from 'components/hCaptcha.vue';
+import ReturnButton from 'components/ReturnButton.vue';
 
 import { useFiltersStore } from 'stores/filterButton';
 
@@ -192,6 +196,7 @@ const organismeValidation = ref({
   code_postal: false,
   commune: false,
   catcha: false,
+  reseau: false,
 });
 
 const reset = ref(false);
@@ -386,6 +391,7 @@ function resetForm() {
     websrc: false,
     code_postal: false,
     commune: false,
+    reseau: false,
   };
   filtersStore.clearAllButtons();
   reset.value = true;
@@ -550,6 +556,9 @@ h6 {
   }
   h6 {
     padding-right: 5px;
+  }
+  .return-btn {
+    display: none;
   }
 }
 </style>
