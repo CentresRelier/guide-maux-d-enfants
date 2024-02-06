@@ -7,7 +7,7 @@ export const useFiltersStore = defineStore({
     buttonStates: {},
     ageArray: ['Petite enfance', 'Primaire', 'Collège', 'Lycée', 'Jeune adulte'],
     thematiqueArray: ['Addiction', 'Violence', 'Discrimination', 'Harcèlement', 'Santé mentale', 'Sexualité'],
-    perimetersArray: ['1-Municipal', '2-Départemental', '3-Régional', '4-National'],
+    perimetersArray: ['Municipal', 'Départemental', 'Régional', 'National'],
     selectedAgeButtons: [],
     selectedThematiqueButtons: [],
     selectedPerimeterButtons: [],
