@@ -133,6 +133,10 @@
             </div>
           </div>
         </div>
+        <div class="text-center q-mt-md">
+          <p class="block-title">Une information est incorrecte ?</p>
+          <q-btn class="button" @click="navigateToPage">contactez-nous</q-btn>
+        </div>
       </div>
       <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
@@ -152,7 +156,7 @@ export default {
 import {
   onMounted, ref, watchEffect,
 } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Social from 'components/SocialFooter.vue';
 import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
@@ -213,6 +217,11 @@ const organisme = ref({
   perimeter: '',
   img: '',
 });
+
+const navigateToPage = () => {
+  const router = useRouter();
+  router.push({ name: 'organismeEdit' });
+};
 
 function setDefaultImages() {
   const defaultImgName = organisme.value.imageDefault.data.attributes.name;
@@ -463,6 +472,26 @@ onMounted(() => {
 
 .return-btn {
   align-self: center;
+}
+
+.button {
+  text-transform: none;
+  border: 3px solid $accent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  color: $accent;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.button:hover {
+  background-color: $accent;
+  color: white;
+}
+
+.texte-button {
+  font-size: 26px;
+  margin: 5px 10px 5px 10px;
 }
 
 @media only screen and (min-device-width : 500px) and (max-device-width : 1024px) {
