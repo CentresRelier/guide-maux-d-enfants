@@ -26,6 +26,9 @@
                   <h6>Taper le nom de votre organisme</h6>
                   <p class="obligatory">*</p>
                 </div>
+                <div class="row">
+                  <h5>Actuellement : {{ organisme.title }}</h5>
+                </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
               <div class="col-12">
@@ -155,7 +158,7 @@
               rounded
               :disable="!isFormValid"
               size="md">
-          <p class="submit-text">ENVOYER</p>
+          <p class="submit-text">MODIFIER</p>
         </q-btn>
       </div>
 
@@ -189,7 +192,7 @@ const filtersStore = useFiltersStore();
 
 const $q = useQuasar();
 
-const headTitle = ref('Inscrire un organisme\n'
+const headTitle = ref('Modifier un organisme existant\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
 
 const organismeValidation = ref({
@@ -494,6 +497,14 @@ p {
 h6 {
   margin: 5px 0 5px 0;
   font-size: 22px;
+  font-weight: bold;
+  color: $accent;
+  user-select: none;
+}
+
+h5 {
+  margin: 5px 0 5px 0;
+  font-size: 20px;
   font-weight: bold;
   color: $accent;
   user-select: none;

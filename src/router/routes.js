@@ -34,6 +34,7 @@ const routes = [
         path: '/update',
         name: 'update',
         component: () => import('pages/ModifPage.vue'),
+        props: true,
       },
     ],
   },
