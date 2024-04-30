@@ -20,6 +20,12 @@ const routes = [
         props: true,
       },
       {
+        path: '/edit/:id/',
+        name: 'organismeEdit',
+        component: () => import('pages/OrganismeEdit.vue'),
+        props: true,
+      },
+      {
         path: '/subscribe',
         name: 'subscribe',
         component: () => import('pages/SubscribePage.vue'),
