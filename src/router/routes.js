@@ -24,6 +24,11 @@ const routes = [
         name: 'subscribe',
         component: () => import('pages/SubscribePage.vue'),
       },
+      {
+        path: '/update',
+        name: 'update',
+        component: () => import('pages/ModifPage.vue'),
+      },
     ],
   },
 

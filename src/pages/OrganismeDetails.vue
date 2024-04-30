@@ -21,7 +21,14 @@
       <div class="col-xs-0 col-md-1">
       </div>
     </div>
-
+    <!-- Modification de l'organisme -->
+    <button>
+      <router-link
+          class="link"
+          :to="{ name: 'update', params: { id: organisme.id } }">Modifier les informations
+      </router-link>
+    </button>
+    <!-- Détails de l'organisme -->
     <div class="row q-mb-sm row-main">
       <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
