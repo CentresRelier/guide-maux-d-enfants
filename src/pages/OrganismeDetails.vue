@@ -21,14 +21,7 @@
       <div class="col-xs-0 col-md-1">
       </div>
     </div>
-    <!-- Modification de l'organisme -->
-    <button>
-      <router-link
-          class="link"
-          :to="{ name: 'update', params: { id: organisme.id } }">Modifier les informations
-      </router-link>
-    </button>
-    <!-- Détails de l'organisme -->
+
     <div class="row q-mb-sm row-main">
       <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
@@ -142,18 +135,7 @@
         </div>
         <div class="text-center q-mt-md">
           <p class="block-title">Une information est incorrecte ?</p>
-          <!-- <q-btn class="button" @click="navigateToPage">contactez-nous</q-btn> -->
-          <!-- test 1 -->
-          <router-link class="link"
-          :to="{ name: 'organismeEdit', params: { id: organisme.id } }">
-            <q-btn
-              class="button"
-              rounded
-              size="md">
-              Modifier les informations
-            </q-btn>
-        </router-link>
-          <!-- test 2 -->
+          <q-btn class="button" @click="navigateToPage(route.params.id)">Modifier les informations</q-btn>
         </div>
       </div>
       <div class="col-xs-0 col-md-2 col-lg-3">
@@ -174,8 +156,6 @@ export default {
 import {
   onMounted, ref, watchEffect,
 } from 'vue';
-// import { useRoute, useRouter } from 'vue-router';
-import { useRoute } from 'vue-router';
 import Social from 'components/SocialFooter.vue';
 import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
@@ -184,6 +164,9 @@ import axios from 'axios';
 import { useQuasar } from 'quasar';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 import ContactPlus from 'components/ContactPlus.vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
@@ -237,10 +220,9 @@ const organisme = ref({
   img: '',
 });
 
-// const navigateToPage = () => {
-//   const router = useRouter();
-//   router.push({ name: 'organismeEdit' });
-// };
+const navigateToPage = (id) => {
+  router.push({ name: 'organismeEdit', params: { id } });
+};
 
 function setDefaultImages() {
   const defaultImgName = organisme.value.imageDefault.data.attributes.name;
