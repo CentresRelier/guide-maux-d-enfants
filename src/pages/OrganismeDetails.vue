@@ -142,7 +142,18 @@
         </div>
         <div class="text-center q-mt-md">
           <p class="block-title">Une information est incorrecte ?</p>
-          <q-btn class="button" @click="navigateToPage">contactez-nous</q-btn>
+          <!-- <q-btn class="button" @click="navigateToPage">contactez-nous</q-btn> -->
+          <!-- test 1 -->
+          <router-link class="link"
+          :to="{ name: 'organismeEdit', params: { id: organisme.id } }">
+            <q-btn
+              class="button"
+              rounded
+              size="md">
+              Modifier les informations
+            </q-btn>
+        </router-link>
+          <!-- test 2 -->
         </div>
       </div>
       <div class="col-xs-0 col-md-2 col-lg-3">
@@ -163,7 +174,8 @@ export default {
 import {
   onMounted, ref, watchEffect,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+// import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import Social from 'components/SocialFooter.vue';
 import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
@@ -225,10 +237,10 @@ const organisme = ref({
   img: '',
 });
 
-const navigateToPage = () => {
-  const router = useRouter();
-  router.push({ name: 'organismeEdit' });
-};
+// const navigateToPage = () => {
+//   const router = useRouter();
+//   router.push({ name: 'organismeEdit' });
+// };
 
 function setDefaultImages() {
   const defaultImgName = organisme.value.imageDefault.data.attributes.name;

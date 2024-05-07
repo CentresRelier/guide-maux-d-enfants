@@ -20,7 +20,8 @@ const routes = [
         props: true,
       },
       {
-        path: '/edit/:id/',
+        // Ajout"?" après id pour permettre à la page de charger puis de récup les datas.
+        path: '/edit/:id?/',
         name: 'organismeEdit',
         component: () => import('pages/OrganismeEdit.vue'),
         props: true,
@@ -31,7 +32,7 @@ const routes = [
         component: () => import('pages/SubscribePage.vue'),
       },
       {
-        path: '/update',
+        path: '/update/',
         name: 'update',
         component: () => import('pages/ModifPage.vue'),
         props: true,
