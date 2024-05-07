@@ -135,7 +135,7 @@
         </div>
         <div class="text-center q-mt-md">
           <p class="block-title">Une information est incorrecte ?</p>
-          <q-btn class="button" @click="navigateToPage">contactez-nous</q-btn>
+          <q-btn class="button" @click="navigateToPage(route.params.id)">contactez-nous</q-btn>
         </div>
       </div>
       <div class="col-xs-0 col-md-2 col-lg-3">
@@ -156,7 +156,6 @@ export default {
 import {
   onMounted, ref, watchEffect,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import Social from 'components/SocialFooter.vue';
 import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
@@ -165,6 +164,9 @@ import axios from 'axios';
 import { useQuasar } from 'quasar';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 import ContactPlus from 'components/ContactPlus.vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
@@ -218,9 +220,8 @@ const organisme = ref({
   img: '',
 });
 
-const navigateToPage = () => {
-  const router = useRouter();
-  router.push({ name: 'organismeEdit' });
+const navigateToPage = (id) => {
+  router.push({ name: 'organismeEdit', params: { id } });
 };
 
 function setDefaultImages() {
