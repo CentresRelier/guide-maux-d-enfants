@@ -1,10 +1,5 @@
 <template>
-  <!-- <div>
-    <h1>Target Page</h1>
-    <p>Received data: {{ receivedData }}</p>
-  </div> -->
   <div class='main'>
-
     <div class="head">
       <div class="row-head">
         <p class="head-text">{{ headTitle }}</p>
@@ -31,7 +26,7 @@
                   <p class="obligatory">*</p>
                 </div>
                 <div class="row">
-                  <h5>Actuellement : {{ organisme.id }}</h5>
+                  <h5>Actuellement : {{ organisme.name }}</h5>
                 </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
@@ -173,14 +168,10 @@
 </template>
 
 <script setup>
-// TEST Jeremy:
-// import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-// const receivedData = ref(route.params.id);
-// FIN test
 import axios from 'axios';
 import {
   computed,
@@ -413,10 +404,10 @@ function resetForm() {
   reset.value = true;
   resetRef();
 }
+
 // PUT pour modifs
 async function submit() {
   const data = organisme.value;
-  // test PUT Jeremy:
   await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
     headers: {
       // Authorization: process.env.VITE_API_TOKEN,
@@ -442,6 +433,10 @@ async function submit() {
     }
   });
 }
+
+// Test Jeremy
+
+// Fin test
 </script>
 <style lang="scss" scoped>
 .head {

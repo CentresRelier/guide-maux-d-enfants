@@ -10,8 +10,8 @@
                :offset="[0, 5]">
       <strong>{{ organisme.tooltip }}</strong>
     </q-tooltip>
+    <p v-if="title" class="text">{{ organisme.tooltip }}</p>
   </div>
-  <p v-if="title" class="text">{{ organisme.tooltip }}</p>
 </template>
 
 <script setup>
