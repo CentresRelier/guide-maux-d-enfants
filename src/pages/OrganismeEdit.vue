@@ -26,10 +26,10 @@
                   <p class="obligatory">*</p>
                 </div>
                 <div class="row">
-                  <h5>Actuellement : {{ organisme.name }}</h5>
                 </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
+              <h5>Actuellement : {{ organisme.title }}</h5>
               <div class="col-12">
                 <SearchOrganismeForm @name="getName" :reset="reset" />
               </div>
@@ -43,6 +43,7 @@
                 </div>
                 <p>rechercher un réseau associé à votre organisme</p>
               </div>
+              <h5>Actuellement : {{ organisme.defaultDescription.data.attributes.nom }}</h5>
               <div class="col-12">
                 <SearchNetworkForm @network="getNetwork" :reset="reset"/>
               </div>
@@ -57,6 +58,7 @@
                 </div>
                 <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
               </div>
+              <h5>Actuellement : {{ organisme.website }}</h5>
               <div class="col-12">
                 <UrlInputForm @url="getUrl" :reset="reset"/>
               </div>
@@ -71,6 +73,7 @@
                     </div>
                     <p>Entrer le code postal de votre adresse</p>
                   </div>
+                  <h5>Actuellement : {{ organisme.postalCode }}</h5>
                   <div class="col-12">
                     <PostalCodeForm @address="getAddress" :reset="reset"/>
                   </div>
@@ -83,6 +86,7 @@
                   <h6>Sélectionner le périmètre d'action de l'organisme</h6>
                 </div>
               </div>
+              <h5>Actuellement : {{ organisme.perimeter }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="perimeter in perimeters" :key="perimeter.id">
@@ -105,6 +109,7 @@
                   <h6>Sélectionner les âges auxquels l'organisme peut intervenir</h6>
                 </div>
               </div>
+              <h5>Actuellement : {{ organisme.age.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="age in ages" :key="age.id">
@@ -127,6 +132,7 @@
                   <h6>Sélectionner les thématiques sur lesquelles l'organisme intervient</h6>
                 </div>
               </div>
+              <h5>Actuellement : {{ organisme.thematique.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="thematique in thematiques" :key="thematique.id">
@@ -176,6 +182,7 @@ import axios from 'axios';
 import {
   computed,
   ref,
+  onMounted,
 } from 'vue';
 
 import { useQuasar } from 'quasar';
@@ -189,6 +196,9 @@ import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
 
 import { useFiltersStore } from 'stores/filterButton';
+// TEST JEREMY
+const SERVER_PATH = 'https://guide.centresrelier.org';
+// Fin Test
 
 const filtersStore = useFiltersStore();
 
@@ -435,7 +445,39 @@ async function submit() {
 }
 
 // Test Jeremy
-
+const getDataById = async () => {
+  try {
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/bd/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
+    const data = dataOrganisme.data.data.attributes;
+    organisme.value.title = data.nom;
+    organisme.value.defaultDescription = data.reseau;
+    organisme.value.website = data.website;
+    organisme.value.imageDefault = data.img;
+    organisme.value.postalCode = data.code_postal;
+    organisme.value.thematique = Object.values(data.thematiques.data
+      .map((age) => ({
+        ...age,
+        name: age.attributes.thematiques,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.age = Object.values(data.ages.data
+      .map((age) => ({
+        ...age,
+        name: age.attributes.age,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.perimeter = data.perimetre
+      .data.attributes.perimetre;
+  } catch (error) {
+    $q.notify({
+      message: 'Erreur lors du chargement des organismes',
+      caption: 'Merci de réesayer ultérieurement',
+      color: 'red-9',
+      position: 'top',
+    });
+  }
+};
+onMounted(() => {
+  getDataById();
+});
 // Fin test
 </script>
 <style lang="scss" scoped>
@@ -510,7 +552,7 @@ h6 {
 
 h5 {
   margin: 5px 0 5px 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: $accent;
   user-select: none;
