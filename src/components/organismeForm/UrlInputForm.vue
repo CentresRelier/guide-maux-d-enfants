@@ -4,12 +4,13 @@
     borderless
     rounded
     dense
-    prefix="https://"
     standout="none"
     class="input shadow-3"
     v-model="text"
+    :placeholder="inputMess ? 'Actuellement : ' + inputMess : prefix='https://'"
     @update:model-value="emitUrl()"
   >
+  <!-- prefix="https://" -->
     <template v-slot:prepend>
       <q-icon v-if="isUrl" color="positive" name="check" class="q-pl-sm"/>
     </template>
@@ -28,6 +29,7 @@ const emit = defineEmits(['url']);
 
 const props = defineProps({
   reset: Boolean,
+  inputMess: {},
 });
 
 function isValidURL(url) {

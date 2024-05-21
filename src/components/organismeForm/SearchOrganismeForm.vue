@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <q-input dense debounce="400" v-model="query" class="search q-mr-sm" type="text"
-            placeholder="Entrez le nom de votre organisme"
+            :placeholder="inputMess ? 'Actuellement : ' + inputMess : 'Entrez le nom de votre organisme'"
             borderless
             @update:model-value="searchOrganismes"
     >
+    <!-- Entrez le nom de votre organisme -->
       <template v-slot:prepend>
         <q-icon v-if="isValid" color="positive" name="check" class="q-pr-sm"/>
         <q-icon v-if="isInvalid" color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
@@ -40,6 +41,7 @@ import axios from 'axios';
 
 const props = defineProps({
   reset: Boolean,
+  inputMess: {},
 });
 
 const searchResults = ref([]);

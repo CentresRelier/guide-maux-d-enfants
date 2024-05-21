@@ -1,38 +1,40 @@
 <template>
-  <q-input
-    hide-bottom-space
-    borderless
-    rounded
-    dense
-    standout="none"
-    placeholder="code postal"
-    class="input shadow-3"
-    v-model="postalCode"
-    @update:model-value="searchCity"
-  >
-  <template v-slot:prepend>
-    <q-icon v-if="isValidPostalcode" color="positive" name="check" class="q-pl-sm"/>
-    <q-icon v-if="postalCode.length >= 5 && !isValidPostalcode" color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
-  </template>
-  <template v-slot:append>
-    <q-icon v-if="postalCode.length > 1" name="close" class="search-button q-pr-sm cursor-pointer"
-            @click="cleanSearch"/>
-  </template>
-  </q-input>
-  <q-list
-    v-if="searchResults.length > 0"
-    bordered
-    class="list q-mr-sm"
-  >
-    <q-item
-      v-for="postalCode in searchResults"
-      :key="postalCode.id"
-      clickable
-      @click="selectPostalCode"
+  <div>
+    <q-input
+      hide-bottom-space
+      borderless
+      rounded
+      dense
+      standout="none"
+      :placeholder="inputMess ? inputMess : 'Code Postal'"
+      class="input shadow-3"
+      v-model="postalCode"
+      @update:model-value="searchCity"
     >
-      {{ postalCode.codePostal }} - {{ postalCode.nomCommune }}
-    </q-item>
-  </q-list>
+    <template v-slot:prepend>
+      <q-icon v-if="isValidPostalcode" color="positive" name="check" class="q-pl-sm"/>
+      <q-icon v-if="postalCode.length >= 5 && !isValidPostalcode" color="negative" name="fa-solid fa-xmark" class="q-pr-sm" />
+    </template>
+    <template v-slot:append>
+      <q-icon v-if="postalCode.length > 1" name="close" class="search-button q-pr-sm cursor-pointer"
+              @click="cleanSearch"/>
+    </template>
+    </q-input>
+    <q-list
+      v-if="searchResults.length > 0"
+      bordered
+      class="list q-mr-sm"
+    >
+      <q-item
+        v-for="postalCode in searchResults"
+        :key="postalCode.id"
+        clickable
+        @click="selectPostalCode"
+      >
+        {{ postalCode.codePostal }} - {{ postalCode.nomCommune }}
+      </q-item>
+    </q-list>
+  </div>
 </template>
 
 <script setup>
@@ -50,6 +52,7 @@ const address = ref({
 
 const props = defineProps({
   reset: Boolean,
+  inputMess: {},
 });
 
 const emit = defineEmits(['address']);

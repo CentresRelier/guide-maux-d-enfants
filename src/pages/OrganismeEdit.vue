@@ -29,9 +29,9 @@
                 </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
-              <h5>Actuellement : {{ organisme.title }}</h5>
+              <!-- <h5>Actuellement : {{ organisme.title }}</h5> -->
               <div class="col-12">
-                <SearchOrganismeForm @name="getName" :reset="reset" />
+                <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title"/>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
                 </div>
                 <p>rechercher un réseau associé à votre organisme</p>
               </div>
-              <h5>Actuellement : {{ organisme.defaultDescription.data.attributes.nom }}</h5>
+              <h5>Actuellement : {{ organisme.defaultDescription?.data?.attributes?.nom }}</h5>
               <div class="col-12">
                 <SearchNetworkForm @network="getNetwork" :reset="reset"/>
               </div>
@@ -58,9 +58,9 @@
                 </div>
                 <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
               </div>
-              <h5>Actuellement : {{ organisme.website }}</h5>
+              <!-- <h5>Actuellement : {{ organisme.website }}</h5> -->
               <div class="col-12">
-                <UrlInputForm @url="getUrl" :reset="reset"/>
+                <UrlInputForm @url="getUrl" :reset="reset" :inputMess="organisme.website"/>
               </div>
             </div>
           </div>
@@ -73,9 +73,9 @@
                     </div>
                     <p>Entrer le code postal de votre adresse</p>
                   </div>
-                  <h5>Actuellement : {{ organisme.postalCode }}</h5>
+                  <!-- <h5>Actuellement : {{ organisme.postalCode }}</h5> -->
                   <div class="col-12">
-                    <PostalCodeForm @address="getAddress" :reset="reset"/>
+                    <PostalCodeForm @address="getAddress" :reset="reset" :inputMess="organisme.postalCode"/>
                   </div>
                 </div>
               </div>
@@ -109,7 +109,7 @@
                   <h6>Sélectionner les âges auxquels l'organisme peut intervenir</h6>
                 </div>
               </div>
-              <h5>Actuellement : {{ organisme.age.join(', ') }}</h5>
+              <h5>Actuellement : {{ organisme.age?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="age in ages" :key="age.id">
@@ -132,7 +132,7 @@
                   <h6>Sélectionner les thématiques sur lesquelles l'organisme intervient</h6>
                 </div>
               </div>
-              <h5>Actuellement : {{ organisme.thematique.join(', ') }}</h5>
+              <h5>Actuellement : {{ organisme.thematique?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="thematique in thematiques" :key="thematique.id">
@@ -196,9 +196,8 @@ import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
 
 import { useFiltersStore } from 'stores/filterButton';
-// TEST JEREMY
+
 const SERVER_PATH = 'https://guide.centresrelier.org';
-// Fin Test
 
 const filtersStore = useFiltersStore();
 
@@ -444,7 +443,13 @@ async function submit() {
   });
 }
 
-// Test Jeremy
+// Affichage des infos déjà en place:
+function setDefaultDescription() {
+  if (organisme.value.description === null) {
+    const data = organisme.value.defaultDescription.data.attributes.description;
+    organisme.value.description = data;
+  }
+}
 const getDataById = async () => {
   try {
     const dataOrganisme = await axios.get(`${SERVER_PATH}/bd/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
@@ -466,9 +471,10 @@ const getDataById = async () => {
       })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
     organisme.value.perimeter = data.perimetre
       .data.attributes.perimetre;
+    setDefaultDescription();
   } catch (error) {
     $q.notify({
-      message: 'Erreur lors du chargement des organismes',
+      message: 'Erreur lors du chargement des données',
       caption: 'Merci de réesayer ultérieurement',
       color: 'red-9',
       position: 'top',
@@ -478,7 +484,7 @@ const getDataById = async () => {
 onMounted(() => {
   getDataById();
 });
-// Fin test
+
 </script>
 <style lang="scss" scoped>
 .head {
@@ -573,7 +579,9 @@ h5 {
   max-width: 500px;
   font-size: 18px;
   padding-left: 10px;
+  padding-right: 10px;
   margin-right: 10px;
+  overflow: hidden;
 }
 
 .card-organism {
