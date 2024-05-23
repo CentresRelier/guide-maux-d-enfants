@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <q-input dense debounce="400" v-model="query" class="search q-mr-sm" type="text"
-            :placeholder="inputMess ? 'Actuellement : ' + inputMess : 'Entrez le nom de votre organisme'"
+            :placeholder="inputMess ? 'Actuellement: ' + inputMess : 'Entrez le nom de votre organisme'"
             borderless
             @update:model-value="searchOrganismes"
     >

@@ -112,14 +112,17 @@
               <h5>Actuellement : {{ organisme.age?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
+                  <!-- TEST JEREMY -->
                   <div v-for="age in ages" :key="age.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="age.url"
                       :buttonText="age.text"
                       :tooltipActive="'false'"
                       :category="'age'"
-                      :filterFunction="getAges"
+                      :inputMess="organisme.age"
                     />
+                    <!--:filterFunction="getAges" -->
+                      <!-- FIN TEST -->
                   </div>
                 </div>
               </div>
@@ -194,6 +197,9 @@ import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
 import FilterButton from 'components/FilterButton.vue';
 import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
+// Test JEREMY
+import EditOrganismeFilterButton from 'components/EditOrganismeFilterButton.vue';
+// Fin test
 
 import { useFiltersStore } from 'stores/filterButton';
 
@@ -365,10 +371,10 @@ function getPerimeters() {
   getFilteredValues(selectedPerimetersButtons, perimeters.value, 'perimetre');
 }
 
-function getAges() {
-  const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
-  getFilteredValues(selectedAgeButtons, ages.value, 'ages');
-}
+// function getAges() {
+//   const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
+//   getFilteredValues(selectedAgeButtons, ages.value, 'ages');
+// }
 
 function getThematiques() {
   const selectedThematiqueButtons = filtersStore.getSelectedThematiqueButtons;

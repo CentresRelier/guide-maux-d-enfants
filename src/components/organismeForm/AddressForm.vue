@@ -6,7 +6,7 @@
       rounded
       dense
       standout="none"
-      :placeholder="inputMess ? inputMess : 'Code Postal'"
+      :placeholder="inputMess ? 'Actuellement: ' + inputMess : 'Code Postal'"
       class="input shadow-3"
       v-model="postalCode"
       @update:model-value="searchCity"
