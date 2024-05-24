@@ -7,7 +7,7 @@
     standout="none"
     class="input shadow-3"
     v-model="text"
-    :placeholder="inputMess ? 'Actuellement: ' + inputMess : prefix='https://'"
+    :placeholder="inputMess"
     @update:model-value="emitUrl()"
   >
   <!-- prefix="https://" -->
