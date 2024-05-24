@@ -1,7 +1,6 @@
 <template>
   <div class="button-container">
     <div class="button not-selected"
-        :class= "{selected: inputMess.includes(buttonText) ? 'selected' : buttonState}"
         :style="buttonStyle"
         @click="toggleFilter();filterFunction();emit('reset')"
         @mouseenter="hovered = true"
@@ -52,7 +51,10 @@ const background = ref('statics/thematique-icons/round-blue.png');
 
 const { category } = toRefs(props);
 
-const buttonState = computed(() => store.getButtonState(props.buttonText));
+const buttonState = computed(() => (
+  props.inputMess?.includes(props.buttonText)
+));
+
 const buttonStyle = computed(() => ({
   'background-image': `url(${background.value})`,
   opacity: buttonState.value ? 1 : hovered.value ? 0.75 : 0.4,
@@ -76,6 +78,8 @@ function checkTooltip() {
     tooltip.value = false;
   }
 }
+
+console.log(props.inputMess);
 
 onMounted(() => {
   categories();
