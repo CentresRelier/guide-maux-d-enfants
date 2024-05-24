@@ -29,7 +29,6 @@
                 </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
-              <!-- <h5>Actuellement : {{ organisme.title }}</h5> -->
               <div class="col-12">
                 <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title"/>
               </div>
@@ -58,7 +57,6 @@
                 </div>
                 <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
               </div>
-              <!-- <h5>Actuellement : {{ organisme.website }}</h5> -->
               <div class="col-12">
                 <UrlInputForm @url="getUrl" :reset="reset" :inputMess="organisme.website"/>
               </div>
@@ -73,7 +71,6 @@
                     </div>
                     <p>Entrer le code postal de votre adresse</p>
                   </div>
-                  <!-- <h5>Actuellement : {{ organisme.postalCode }}</h5> -->
                   <div class="col-12">
                     <PostalCodeForm @address="getAddress" :reset="reset" :inputMess="organisme.postalCode"/>
                   </div>
@@ -86,16 +83,15 @@
                   <h6>Sélectionner le périmètre d'action de l'organisme</h6>
                 </div>
               </div>
-              <h5>Actuellement : {{ organisme.perimeter }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="perimeter in perimeters" :key="perimeter.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="perimeter.url"
                       :buttonText="perimeter.tooltip"
                       :tooltipActive="'false'"
                       :category="'perimeter'"
-                      :filterFunction="getPerimeters"
+                      :inputMess="organisme.perimeter"
                     />
                   </div>
                 </div>
@@ -109,7 +105,6 @@
                   <h6>Sélectionner les âges auxquels l'organisme peut intervenir</h6>
                 </div>
               </div>
-              <h5>Actuellement : {{ organisme.age?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <!-- TEST JEREMY -->
@@ -121,8 +116,6 @@
                       :category="'age'"
                       :inputMess="organisme.age"
                     />
-                    <!--:filterFunction="getAges" -->
-                      <!-- FIN TEST -->
                   </div>
                 </div>
               </div>
@@ -135,16 +128,15 @@
                   <h6>Sélectionner les thématiques sur lesquelles l'organisme intervient</h6>
                 </div>
               </div>
-              <h5>Actuellement : {{ organisme.thematique?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="thematique in thematiques" :key="thematique.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="thematique.url"
                       :buttonText="thematique.text"
                       :tooltipActive="'false'"
                       :category="'thematique'"
-                      :filterFunction="getThematiques"
+                      :inputMess="organisme.thematique"
                     />
                   </div>
                 </div>
@@ -194,18 +186,11 @@ import SearchOrganismeForm from 'components/organismeForm/SearchOrganismeForm.vu
 import SearchNetworkForm from 'components/organismeForm/SearchNetworkForm.vue';
 import UrlInputForm from 'components/organismeForm/UrlInputForm.vue';
 import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
-import FilterButton from 'components/FilterButton.vue';
 import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
-// Test JEREMY
 import EditOrganismeFilterButton from 'components/EditOrganismeFilterButton.vue';
-// Fin test
-
-import { useFiltersStore } from 'stores/filterButton';
 
 const SERVER_PATH = 'https://guide.centresrelier.org';
-
-const filtersStore = useFiltersStore();
 
 const $q = useQuasar();
 
@@ -360,27 +345,6 @@ function getAddress(data) {
   organismeValidation.value.commune = data.isValid === true;
 }
 
-function getFilteredValues(selectedButtons, sourceArray, targetProperty) {
-  const matchingValues = sourceArray.filter((item) => selectedButtons.includes(item.text));
-  const matchingIds = matchingValues.map((item) => item.id);
-  organisme.value[targetProperty] = { connect: matchingIds };
-}
-
-function getPerimeters() {
-  const selectedPerimetersButtons = filtersStore.getSelectedPerimeterButtons;
-  getFilteredValues(selectedPerimetersButtons, perimeters.value, 'perimetre');
-}
-
-// function getAges() {
-//   const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
-//   getFilteredValues(selectedAgeButtons, ages.value, 'ages');
-// }
-
-function getThematiques() {
-  const selectedThematiqueButtons = filtersStore.getSelectedThematiqueButtons;
-  getFilteredValues(selectedThematiqueButtons, thematiques.value, 'thematiques');
-}
-
 function getCaptcha(data) {
   if (data.isValid === true) {
     organismeValidation.value.catcha = true;
@@ -406,6 +370,7 @@ function resetForm() {
     perimetre: { connect: [] },
     ages: { connect: [] },
     thematiques: { connect: [] },
+    publishedAt: null,
   };
 
   organismeValidation.value = {
@@ -415,7 +380,6 @@ function resetForm() {
     commune: false,
     reseau: false,
   };
-  filtersStore.clearAllButtons();
   reset.value = true;
   resetRef();
 }
@@ -449,7 +413,6 @@ async function submit() {
   });
 }
 
-// Affichage des infos déjà en place:
 function setDefaultDescription() {
   if (organisme.value.description === null) {
     const data = organisme.value.defaultDescription.data.attributes.description;
