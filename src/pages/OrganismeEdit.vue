@@ -119,9 +119,10 @@
                       :buttonText="age.text"
                       :tooltipActive="'false'"
                       :category="'age'"
-                      :inputMess="organisme.age"
+                      :filterFunction="getAges"
                     />
-                    <!--:filterFunction="getAges" -->
+                    <!--
+                      :inputMess="organisme.age" -->
                       <!-- FIN TEST -->
                   </div>
                 </div>
@@ -337,6 +338,7 @@ const organisme = ref({
   perimetre: { connect: [] },
   ages: { connect: [] },
   thematiques: { connect: [] },
+  publishedAt: null,
 });
 
 function getName(data) {
@@ -371,10 +373,10 @@ function getPerimeters() {
   getFilteredValues(selectedPerimetersButtons, perimeters.value, 'perimetre');
 }
 
-// function getAges() {
-//   const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
-//   getFilteredValues(selectedAgeButtons, ages.value, 'ages');
-// }
+function getAges() {
+  const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
+  getFilteredValues(selectedAgeButtons, ages.value, 'ages');
+}
 
 function getThematiques() {
   const selectedThematiqueButtons = filtersStore.getSelectedThematiqueButtons;

@@ -1,15 +1,14 @@
 <template>
   <div class="button-container">
     <div class="button not-selected"
-        :class= "{selected: inputMess.includes(buttonText) ? 'selected' : buttonState}"
+        :class= "{selected: buttonState}"
         :style="buttonStyle"
         @click="toggleFilter();filterFunction();emit('reset')"
         @mouseenter="hovered = true"
         @mouseleave="hovered = false"
     >
-    <!-- :class="{ selected: inputMess === true ? 'selected' : buttonState }" -->
-    <!-- { selected: inputMess.includes(buttonText) ? 'test' : buttonState } -->
-    <!-- { selected : inputMess.includes(buttonText) ? buttonText : buttonState } -->
+    <!-- Pour le test: { selected : inputMess.includes(buttonText) ? buttonText : buttonState } -->
+    <!-- {selected: inputMess.includes(buttonText) ? 'selected' : buttonState} -->
       <q-img class="img" :src="props.urlIcon" />
       <p class="texte q-pt-sm">{{ buttonText }}</p>
       <q-tooltip v-if="tooltip === true"
