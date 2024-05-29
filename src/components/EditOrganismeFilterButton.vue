@@ -7,8 +7,6 @@
         @mouseenter="hovered = true"
         @mouseleave="hovered = false"
     >
-    <!-- Pour le test: { selected : inputMess.includes(buttonText) ? buttonText : buttonState } -->
-    <!-- {selected: inputMess.includes(buttonText) ? 'selected' : buttonState} -->
       <q-img class="img" :src="props.urlIcon" />
       <p class="texte q-pt-sm">{{ buttonText }}</p>
       <q-tooltip v-if="tooltip === true"

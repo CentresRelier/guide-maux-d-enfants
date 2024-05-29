@@ -29,7 +29,6 @@
                 </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
-              <!-- <h5>Actuellement : {{ organisme.title }}</h5> -->
               <div class="col-12">
                 <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title"/>
               </div>
@@ -58,7 +57,6 @@
                 </div>
                 <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
               </div>
-              <!-- <h5>Actuellement : {{ organisme.website }}</h5> -->
               <div class="col-12">
                 <UrlInputForm @url="getUrl" :reset="reset" :inputMess="organisme.website"/>
               </div>
@@ -73,7 +71,6 @@
                     </div>
                     <p>Entrer le code postal de votre adresse</p>
                   </div>
-                  <!-- <h5>Actuellement : {{ organisme.postalCode }}</h5> -->
                   <div class="col-12">
                     <PostalCodeForm @address="getAddress" :reset="reset" :inputMess="organisme.postalCode"/>
                   </div>
@@ -112,7 +109,6 @@
               <h5>Actuellement : {{ organisme.age?.join(', ') }}</h5>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
-                  <!-- TEST JEREMY -->
                   <div v-for="age in ages" :key="age.id">
                     <EditOrganismeFilterButton
                       :urlIcon="age.url"
@@ -121,9 +117,6 @@
                       :category="'age'"
                       :filterFunction="getAges"
                     />
-                    <!--
-                      :inputMess="organisme.age" -->
-                      <!-- FIN TEST -->
                   </div>
                 </div>
               </div>
@@ -341,6 +334,18 @@ const organisme = ref({
   publishedAt: null,
 });
 
+const logs = ref({
+  nom: '',
+  reseau: null,
+  websrc: '',
+  code_postal: '',
+  commune: '',
+  perimetre: { connect: [] },
+  ages: { connect: [] },
+  thematiques: { connect: [] },
+  publishedAt: null,
+});
+
 function getName(data) {
   organisme.value.nom = data.data;
   organismeValidation.value.nom = data.isValid === true;
@@ -422,33 +427,48 @@ function resetForm() {
   resetRef();
 }
 
+function checkNewDataLogs() {
+
+}
+
+// TEST JS:
 // PUT pour modifs
 async function submit() {
   const data = organisme.value;
-  await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
-    headers: {
-      // Authorization: process.env.VITE_API_TOKEN,
-      Authorization: import.meta.env.VITE_PUT_KEY,
-    },
-  }).then(() => {
-    resetForm();
-    $q.notify({
-      message: 'L\'organisme a bien été modifié',
-      caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
-      color: 'green-9',
-      position: 'top',
-      timeout: 8000,
-    });
-  }, (error) => {
-    if (error) {
+  // const logs = data.attributes;
+  axios.all([
+    await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
+      headers: {
+        // Authorization: process.env.VITE_API_TOKEN,
+        Authorization: import.meta.env.VITE_PUT_KEY,
+      },
+    }),
+    // Ecriture des logs:
+    await axios.post(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { logs }, {
+      headers: {
+        Authorization: process.env.VITE_API_TOKEN,
+      },
+    }),
+  ])
+    .then(() => {
+      resetForm();
       $q.notify({
-        message: 'L\'organisme n\'a pas été modifié',
-        caption: 'Un problème est survenu',
-        color: 'red-9',
+        message: 'L\'organisme a bien été modifié',
+        caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
+        color: 'green-9',
         position: 'top',
+        timeout: 8000,
       });
-    }
-  });
+    }, (error) => {
+      if (error) {
+        $q.notify({
+          message: 'L\'organisme n\'a pas été modifié',
+          caption: 'Un problème est survenu',
+          color: 'red-9',
+          position: 'top',
+        });
+      }
+    });
 }
 
 // Affichage des infos déjà en place:
