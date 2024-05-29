@@ -37,7 +37,6 @@ export const useFiltersStore = defineStore({
       } else {
         this.selectedAgeButtons.push(buttonText);
       }
-      console.log(this.selectedAgeButtons);
     },
     toggleThematiqueButton(buttonText) {
       if (this.selectedThematiqueButtons.includes(buttonText)) {
@@ -46,7 +45,6 @@ export const useFiltersStore = defineStore({
       } else {
         this.selectedThematiqueButtons.push(buttonText);
       }
-      console.log(this.selectedThematiqueButtons);
     },
     togglePerimeterButton(buttonText) {
       const isSelected = this.selectedPerimeterButtons.includes(buttonText);
@@ -61,7 +59,6 @@ export const useFiltersStore = defineStore({
       } else {
         this.selectedPerimeterButtons = [buttonText];
       }
-      console.log(this.selectedPerimeterButtons);
     },
     clearAllButtons() {
       this.buttonStates = {};
