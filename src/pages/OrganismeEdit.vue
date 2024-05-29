@@ -89,9 +89,9 @@
                     <EditOrganismeFilterButton
                       :urlIcon="perimeter.url"
                       :buttonText="perimeter.tooltip"
-                      :tooltipActive="'false'"
                       :category="'perimeter'"
                       :inputMess="organisme.perimeter"
+                      @update="updatePerimeter"
                     />
                   </div>
                 </div>
@@ -107,14 +107,13 @@
               </div>
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
-                  <!-- TEST JEREMY -->
                   <div v-for="age in ages" :key="age.id">
                     <EditOrganismeFilterButton
                       :urlIcon="age.url"
                       :buttonText="age.text"
-                      :tooltipActive="'false'"
                       :category="'age'"
                       :inputMess="organisme.age"
+                      @update="updateAge"
                     />
                   </div>
                 </div>
@@ -134,9 +133,9 @@
                     <EditOrganismeFilterButton
                       :urlIcon="thematique.url"
                       :buttonText="thematique.text"
-                      :tooltipActive="'false'"
                       :category="'thematique'"
                       :inputMess="organisme.thematique"
+                      @update="updateThematique"
                     />
                   </div>
                 </div>
@@ -189,6 +188,9 @@ import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
 import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
 import EditOrganismeFilterButton from 'components/EditOrganismeFilterButton.vue';
+import { useFiltersStore } from 'stores/filterButtonEditPage';
+
+const store = useFiltersStore();
 
 const SERVER_PATH = 'https://guide.centresrelier.org';
 
@@ -324,6 +326,30 @@ const organisme = ref({
   thematiques: { connect: [] },
 });
 
+function updateArray(array, item, selected) {
+  const index = array.indexOf(item);
+  if (selected && index === -1) {
+    array.push(item);
+  } else if (!selected && index !== -1) {
+    array.splice(index, 1);
+  }
+}
+
+const selectedPerimeter = ref('');
+
+function updatePerimeter(buttonText) {
+  selectedPerimeter.value = buttonText;
+  organisme.value.perimetre = { connect: [buttonText] };
+}
+
+function updateAge({ text, selected }) {
+  updateArray(organisme.value.age, text, selected);
+}
+
+function updateThematique({ text, selected }) {
+  updateArray(organisme.value.thematique, text, selected);
+}
+
 function getName(data) {
   organisme.value.nom = data.data;
   organismeValidation.value.nom = data.isValid === true;
@@ -419,6 +445,16 @@ function setDefaultDescription() {
     organisme.value.description = data;
   }
 }
+
+function setButtonsStates() {
+  const initialData = {
+    ages: organisme.value.age,
+    thematiques: organisme.value.thematique,
+    perimetre: organisme.value.perimeter,
+  };
+  store.setInitialSelectedButtons(initialData);
+}
+
 const getDataById = async () => {
   try {
     const dataOrganisme = await axios.get(`${SERVER_PATH}/bd/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
@@ -441,6 +477,7 @@ const getDataById = async () => {
     organisme.value.perimeter = data.perimetre
       .data.attributes.perimetre;
     setDefaultDescription();
+    setButtonsStates();
   } catch (error) {
     $q.notify({
       message: 'Erreur lors du chargement des données',
