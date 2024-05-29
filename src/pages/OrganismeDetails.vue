@@ -341,8 +341,10 @@ onMounted(() => {
 
 .img-organisme {
   height: 100%;
-  min-height: 197px;
-  max-height: 197px;
+  //min-height: 197px;
+  // max-height: 197px;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
   border-radius: 10px;
 }

@@ -327,6 +327,18 @@ const organisme = ref({
   publishedAt: null,
 });
 
+const logs = ref({
+  nom: '',
+  reseau: null,
+  websrc: '',
+  code_postal: '',
+  commune: '',
+  perimetre: { connect: [] },
+  ages: { connect: [] },
+  thematiques: { connect: [] },
+  publishedAt: null,
+});
+
 function updateArray(array, item, selected) {
   const index = array.indexOf(item);
   if (selected && index === -1) {
@@ -381,32 +393,47 @@ function getCaptcha(data) {
   }
 }
 
+/* function checkNewDataLogs() {
+
+} */
+
+// TEST JS:
 // PUT pour modifs
 async function submit() {
   const data = organisme.value;
-  await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
-    headers: {
-      // Authorization: process.env.VITE_API_TOKEN,
-      Authorization: import.meta.env.VITE_PUT_KEY,
-    },
-  }).then(() => {
-    $q.notify({
-      message: 'L\'organisme a bien été modifié',
-      caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
-      color: 'green-9',
-      position: 'top',
-      timeout: 8000,
-    });
-  }, (error) => {
-    if (error) {
+  // const logs = data.attributes;
+  axios.all([
+    await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
+      headers: {
+        // Authorization: process.env.VITE_API_TOKEN,
+        Authorization: import.meta.env.VITE_PUT_KEY,
+      },
+    }),
+    // Ecriture des logs:
+    await axios.post(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { logs }, {
+      headers: {
+        Authorization: process.env.VITE_API_TOKEN,
+      },
+    }),
+  ])
+    .then(() => {
       $q.notify({
-        message: 'L\'organisme n\'a pas été modifié',
-        caption: 'Un problème est survenu',
-        color: 'red-9',
+        message: 'L\'organisme a bien été modifié',
+        caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
+        color: 'green-9',
         position: 'top',
+        timeout: 8000,
       });
-    }
-  });
+    }, (error) => {
+      if (error) {
+        $q.notify({
+          message: 'L\'organisme n\'a pas été modifié',
+          caption: 'Un problème est survenu',
+          color: 'red-9',
+          position: 'top',
+        });
+      }
+    });
 }
 
 function setDefaultDescription() {
