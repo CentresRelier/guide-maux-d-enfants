@@ -324,6 +324,7 @@ const organisme = ref({
   perimetre: { connect: [] },
   ages: { connect: [] },
   thematiques: { connect: [] },
+  publishedAt: null,
 });
 
 function updateArray(array, item, selected) {
