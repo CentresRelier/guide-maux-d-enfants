@@ -380,36 +380,6 @@ function getCaptcha(data) {
   }
 }
 
-function resetRef() {
-  setTimeout(() => {
-    reset.value = false;
-  }, 1000);
-}
-
-function resetForm() {
-  organisme.value = {
-    nom: '',
-    reseau: null,
-    websrc: '',
-    code_postal: '',
-    commune: '',
-    perimetre: { connect: [] },
-    ages: { connect: [] },
-    thematiques: { connect: [] },
-    publishedAt: null,
-  };
-
-  organismeValidation.value = {
-    nom: false,
-    websrc: false,
-    code_postal: false,
-    commune: false,
-    reseau: false,
-  };
-  reset.value = true;
-  resetRef();
-}
-
 // PUT pour modifs
 async function submit() {
   const data = organisme.value;
@@ -419,7 +389,6 @@ async function submit() {
       Authorization: import.meta.env.VITE_PUT_KEY,
     },
   }).then(() => {
-    resetForm();
     $q.notify({
       message: 'L\'organisme a bien été modifié',
       caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
