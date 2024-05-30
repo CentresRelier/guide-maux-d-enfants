@@ -57,7 +57,7 @@ export const useFiltersStore = defineStore({
       if (isSelected) {
         this.selectedPerimeterButtons = [];
       } else {
-        this.selectedPerimeterButtons = [buttonText];
+        this.selectedPerimeterButtons = buttonText;
       }
     },
     clearAllButtons() {
@@ -69,10 +69,14 @@ export const useFiltersStore = defineStore({
     setInitialSelectedButtons({ ages, thematiques, perimetre }) {
       this.selectedAgeButtons = ages;
       this.selectedThematiqueButtons = thematiques;
-      this.selectedPerimeterButtons = [perimetre];
+      this.selectedPerimeterButtons.push(perimetre);
+      perimetre = this.selectedPerimeterButtons;
       ages.forEach((age) => { this.buttonStates[age] = true; });
       thematiques.forEach((thematique) => { this.buttonStates[thematique] = true; });
-      this.buttonStates[perimetre] = true;
+      perimetre.forEach((perim) => {
+        const perimArr = perim.split('-');
+        this.buttonStates[perimArr[1]] = true;
+      });
     },
   },
 });
