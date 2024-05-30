@@ -327,17 +327,17 @@ const organisme = ref({
   publishedAt: null,
 });
 
-const logs = ref({
-  nom: '',
-  reseau: null,
-  websrc: '',
-  code_postal: '',
-  commune: '',
-  perimetre: { connect: [] },
-  ages: { connect: [] },
-  thematiques: { connect: [] },
-  publishedAt: null,
-});
+// const logs = ref({
+//   nom: '',
+//   reseau: null,
+//   websrc: '',
+//   code_postal: '',
+//   commune: '',
+//   perimetre: { connect: [] },
+//   ages: { connect: [] },
+//   thematiques: { connect: [] },
+//   publishedAt: null,
+// });
 
 function updateArray(array, item, selected) {
   const index = array.indexOf(item);
@@ -409,12 +409,12 @@ async function submit() {
         Authorization: import.meta.env.VITE_PUT_KEY,
       },
     }),
-    // Ecriture des logs:
-    await axios.post(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { logs }, {
-      headers: {
-        Authorization: process.env.VITE_API_TOKEN,
-      },
-    }),
+    // // Ecriture des logs:
+    // await axios.post(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { logs }, {
+    //   headers: {
+    //     Authorization: process.env.VITE_API_TOKEN,
+    //   },
+    // }),
   ])
     .then(() => {
       $q.notify({
