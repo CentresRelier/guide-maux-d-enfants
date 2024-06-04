@@ -32,7 +32,6 @@ export const useFiltersStore = defineStore({
     },
     toggleAgeButton(buttonText) {
       if (this.selectedAgeButtons.includes(buttonText)) {
-      // if (organisme.ages === true || this.selectedAgeButtons.includes(buttonText)) {
         this.selectedAgeButtons.splice(this.selectedAgeButtons.indexOf(buttonText), 1);
       } else {
         this.selectedAgeButtons.push(buttonText);
