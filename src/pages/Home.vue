@@ -305,7 +305,9 @@ function checkIfFilterActive() {
   const selectedAgeButtons = filterStore.getSelectedAgeButtons;
   const selectedSearch = searchStore.getSearchResult;
   // eslint-disable-next-line max-len
-  if (selectedAgeButtons.length || selectedThematiqueButtons.length !== 0 || selectedSearch !== {}) {
+  // Correction ligne ci-dessous sinon retourne une erreur
+  // if (selectedAgeButtons.length || selectedThematiqueButtons.length !== 0 || selectedSearch !== {}) {
+  if (selectedAgeButtons.length || selectedThematiqueButtons.length !== 0 || selectedSearch) {
     filterCardsWithAge();
     filterCards();
     filterInput();

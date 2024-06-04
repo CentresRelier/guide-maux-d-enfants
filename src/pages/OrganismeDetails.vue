@@ -133,6 +133,10 @@
             </div>
           </div>
         </div>
+        <div class="text-center q-mt-md">
+          <p class="block-title">Une information est incorrecte ?</p>
+          <q-btn class="button" @click="navigateToPage(route.params.id)">Modifier les informations</q-btn>
+        </div>
       </div>
       <div class="col-xs-0 col-md-2 col-lg-3">
       </div>
@@ -152,7 +156,6 @@ export default {
 import {
   onMounted, ref, watchEffect,
 } from 'vue';
-import { useRoute } from 'vue-router';
 import Social from 'components/SocialFooter.vue';
 import Footer from 'components/FooterBar.vue';
 import ReturnButton from 'components/ReturnButton.vue';
@@ -161,6 +164,9 @@ import axios from 'axios';
 import { useQuasar } from 'quasar';
 import OrganismeCardIcon from 'components/OrganismeCardIcon.vue';
 import ContactPlus from 'components/ContactPlus.vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const $q = useQuasar();
 // const $BASEPATH = `http://${window.location.hostname}:1337`;
@@ -213,6 +219,10 @@ const organisme = ref({
   perimeter: '',
   img: '',
 });
+
+const navigateToPage = (id) => {
+  router.push({ name: 'organismeEdit', params: { id } });
+};
 
 function setDefaultImages() {
   const defaultImgName = organisme.value.imageDefault.data.attributes.name;
@@ -331,8 +341,10 @@ onMounted(() => {
 
 .img-organisme {
   height: 100%;
-  min-height: 197px;
-  max-height: 197px;
+  //min-height: 197px;
+  // max-height: 197px;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
   border-radius: 10px;
 }
@@ -463,6 +475,26 @@ onMounted(() => {
 
 .return-btn {
   align-self: center;
+}
+
+.button {
+  text-transform: none;
+  border: 3px solid $accent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  color: $accent;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.button:hover {
+  background-color: $accent;
+  color: white;
+}
+
+.texte-button {
+  font-size: 26px;
+  margin: 5px 10px 5px 10px;
 }
 
 @media only screen and (min-device-width : 500px) and (max-device-width : 1024px) {

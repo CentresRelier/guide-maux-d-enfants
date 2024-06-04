@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 export const useFiltersStore = defineStore({
-  id: 'filterButton',
+  id: 'EditfilterButton',
   state: () => ({
     buttonTextArray: [],
     buttonStates: {},
@@ -32,6 +32,7 @@ export const useFiltersStore = defineStore({
     },
     toggleAgeButton(buttonText) {
       if (this.selectedAgeButtons.includes(buttonText)) {
+        // if (organisme.ages === true || this.selectedAgeButtons.includes(buttonText)) {
         this.selectedAgeButtons.splice(this.selectedAgeButtons.indexOf(buttonText), 1);
       } else {
         this.selectedAgeButtons.push(buttonText);
@@ -56,7 +57,7 @@ export const useFiltersStore = defineStore({
       if (isSelected) {
         this.selectedPerimeterButtons = [];
       } else {
-        this.selectedPerimeterButtons = [buttonText];
+        this.selectedPerimeterButtons = buttonText;
       }
     },
     clearAllButtons() {
@@ -64,6 +65,18 @@ export const useFiltersStore = defineStore({
       this.selectedAgeButtons = [];
       this.selectedThematiqueButtons = [];
       this.selectedPerimeterButtons = [];
+    },
+    setInitialSelectedButtons({ ages, thematiques, perimetre }) {
+      this.selectedAgeButtons = ages;
+      this.selectedThematiqueButtons = thematiques;
+      this.selectedPerimeterButtons.push(perimetre);
+      perimetre = this.selectedPerimeterButtons;
+      ages.forEach((age) => { this.buttonStates[age] = true; });
+      thematiques.forEach((thematique) => { this.buttonStates[thematique] = true; });
+      perimetre.forEach((perim) => {
+        const perimArr = perim.split('-');
+        this.buttonStates[perimArr[1]] = true;
+      });
     },
   },
 });

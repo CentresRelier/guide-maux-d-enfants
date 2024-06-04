@@ -10,8 +10,8 @@
                :offset="[0, 5]">
       <strong>{{ organisme.tooltip }}</strong>
     </q-tooltip>
+    <p v-if="title" class="text">{{ organisme.tooltip }}</p>
   </div>
-  <p v-if="title" class="text">{{ organisme.tooltip }}</p>
 </template>
 
 <script setup>
@@ -62,6 +62,7 @@ onMounted(() => {
   background-position: center, 100%, 0%;
   padding: 0 v-bind(paddingTitle) 10px v-bind(paddingTitle);
   display: flex;
+  flex-direction: column;
 }
 
 .text {

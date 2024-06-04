@@ -1,6 +1,5 @@
 <template>
   <div class='main'>
-
     <div class="head">
       <div class="row-head">
         <p class="head-text">{{ headTitle }}</p>
@@ -26,10 +25,12 @@
                   <h6>Taper le nom de votre organisme</h6>
                   <p class="obligatory">*</p>
                 </div>
+                <div class="row">
+                </div>
                 <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
               </div>
               <div class="col-12">
-                <SearchOrganismeForm @name="getName" :reset="reset" />
+                <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title"/>
               </div>
             </div>
           </div>
@@ -41,6 +42,7 @@
                 </div>
                 <p>rechercher un réseau associé à votre organisme</p>
               </div>
+              <h5>Actuellement : {{ organisme.defaultDescription?.data?.attributes?.nom }}</h5>
               <div class="col-12">
                 <SearchNetworkForm @network="getNetwork" :reset="reset"/>
               </div>
@@ -56,7 +58,7 @@
                 <p>Site de référence (pour nous aider à récupérer le plus d'informations possibles sur l'organisme proposé)</p>
               </div>
               <div class="col-12">
-                <UrlInputForm @url="getUrl" :reset="reset"/>
+                <UrlInputForm @url="getUrl" :reset="reset" :inputMess="organisme.website"/>
               </div>
             </div>
           </div>
@@ -70,7 +72,7 @@
                     <p>Entrer le code postal de votre adresse</p>
                   </div>
                   <div class="col-12">
-                    <PostalCodeForm @address="getAddress" :reset="reset"/>
+                    <PostalCodeForm @address="getAddress" :reset="reset" :inputMess="organisme.postalCode"/>
                   </div>
                 </div>
               </div>
@@ -84,12 +86,12 @@
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="perimeter in perimeters" :key="perimeter.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="perimeter.url"
                       :buttonText="perimeter.tooltip"
-                      :tooltipActive="'false'"
                       :category="'perimeter'"
-                      :filterFunction="getPerimeters"
+                      :inputMess="organisme.perimeter"
+                      @update="updatePerimeter"
                     />
                   </div>
                 </div>
@@ -106,12 +108,12 @@
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="age in ages" :key="age.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="age.url"
                       :buttonText="age.text"
-                      :tooltipActive="'false'"
                       :category="'age'"
-                      :filterFunction="getAges"
+                      :inputMess="organisme.age"
+                      @update="updateAge"
                     />
                   </div>
                 </div>
@@ -128,12 +130,12 @@
               <div class="col-12">
                 <div class="row row-btn q-pt-xs">
                   <div v-for="thematique in thematiques" :key="thematique.id">
-                    <FilterButton
+                    <EditOrganismeFilterButton
                       :urlIcon="thematique.url"
                       :buttonText="thematique.text"
-                      :tooltipActive="'false'"
                       :category="'thematique'"
-                      :filterFunction="getThematiques"
+                      :inputMess="organisme.thematique"
+                      @update="updateThematique"
                     />
                   </div>
                 </div>
@@ -155,22 +157,26 @@
               rounded
               :disable="!isFormValid"
               size="md">
-          <p class="submit-text">ENVOYER</p>
+          <p class="submit-text">MODIFIER</p>
         </q-btn>
       </div>
 
     </q-form>
 
-    <div class="footer q-mt-xl">
-    </div>
+    <div class="footer q-mt-xl"></div>
   </div>
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
 import axios from 'axios';
 import {
   computed,
   ref,
+  onMounted,
 } from 'vue';
 
 import { useQuasar } from 'quasar';
@@ -179,17 +185,18 @@ import SearchOrganismeForm from 'components/organismeForm/SearchOrganismeForm.vu
 import SearchNetworkForm from 'components/organismeForm/SearchNetworkForm.vue';
 import UrlInputForm from 'components/organismeForm/UrlInputForm.vue';
 import PostalCodeForm from 'components/organismeForm/AddressForm.vue';
-import FilterButton from 'components/FilterButton.vue';
 import ReCaptcha from 'components/hCaptcha.vue';
 import ReturnButton from 'components/ReturnButton.vue';
+import EditOrganismeFilterButton from 'components/EditOrganismeFilterButton.vue';
+import { useFiltersStore } from 'stores/filterButtonEditPage';
 
-import { useFiltersStore } from 'stores/filterButton';
+const store = useFiltersStore();
 
-const filtersStore = useFiltersStore();
+const SERVER_PATH = 'https://guide.centresrelier.org';
 
 const $q = useQuasar();
 
-const headTitle = ref('Inscrire un organisme\n'
+const headTitle = ref('Modifier un organisme existant\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
 
 const organismeValidation = ref({
@@ -317,7 +324,44 @@ const organisme = ref({
   perimetre: { connect: [] },
   ages: { connect: [] },
   thematiques: { connect: [] },
+  publishedAt: null,
 });
+
+// const logs = ref({
+//   nom: '',
+//   reseau: null,
+//   websrc: '',
+//   code_postal: '',
+//   commune: '',
+//   perimetre: { connect: [] },
+//   ages: { connect: [] },
+//   thematiques: { connect: [] },
+//   publishedAt: null,
+// });
+
+function updateArray(array, item, selected) {
+  const index = array.indexOf(item);
+  if (selected && index === -1) {
+    array.push(item);
+  } else if (!selected && index !== -1) {
+    array.splice(index, 1);
+  }
+}
+
+const selectedPerimeter = ref('');
+
+function updatePerimeter(buttonText) {
+  selectedPerimeter.value = buttonText;
+  organisme.value.perimetre = { connect: [buttonText] };
+}
+
+function updateAge({ text, selected }) {
+  updateArray(organisme.value.age, text, selected);
+}
+
+function updateThematique({ text, selected }) {
+  updateArray(organisme.value.thematique, text, selected);
+}
 
 function getName(data) {
   organisme.value.nom = data.data;
@@ -340,27 +384,6 @@ function getAddress(data) {
   organismeValidation.value.commune = data.isValid === true;
 }
 
-function getFilteredValues(selectedButtons, sourceArray, targetProperty) {
-  const matchingValues = sourceArray.filter((item) => selectedButtons.includes(item.text));
-  const matchingIds = matchingValues.map((item) => item.id);
-  organisme.value[targetProperty] = { connect: matchingIds };
-}
-
-function getPerimeters() {
-  const selectedPerimetersButtons = filtersStore.getSelectedPerimeterButtons;
-  getFilteredValues(selectedPerimetersButtons, perimeters.value, 'perimetre');
-}
-
-function getAges() {
-  const selectedAgeButtons = filtersStore.getSelectedAgeButtons;
-  getFilteredValues(selectedAgeButtons, ages.value, 'ages');
-}
-
-function getThematiques() {
-  const selectedThematiqueButtons = filtersStore.getSelectedThematiqueButtons;
-  getFilteredValues(selectedThematiqueButtons, thematiques.value, 'thematiques');
-}
-
 function getCaptcha(data) {
   if (data.isValid === true) {
     organismeValidation.value.catcha = true;
@@ -370,65 +393,102 @@ function getCaptcha(data) {
   }
 }
 
-function resetRef() {
-  setTimeout(() => {
-    reset.value = false;
-  }, 1000);
-}
+/* function checkNewDataLogs() {
 
-function resetForm() {
-  organisme.value = {
-    nom: '',
-    reseau: null,
-    websrc: '',
-    code_postal: '',
-    commune: '',
-    perimetre: { connect: [] },
-    ages: { connect: [] },
-    thematiques: { connect: [] },
-  };
+} */
 
-  organismeValidation.value = {
-    nom: false,
-    websrc: false,
-    code_postal: false,
-    commune: false,
-    reseau: false,
-  };
-  filtersStore.clearAllButtons();
-  reset.value = true;
-  resetRef();
-}
-
+// TEST JS:
+// PUT pour modifs
 async function submit() {
   const data = organisme.value;
-
-  await axios.post('https://guide.centresrelier.org/bd/api/organismes', { data }, {
-    headers: {
-      Authorization: process.env.VITE_API_TOKEN,
-    },
-  }).then(() => {
-    resetForm();
-    $q.notify({
-      message: 'L\'organisme a bien été créé',
-      caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
-      color: 'green-9',
-      position: 'top',
-      timeout: 8000,
-    });
-  }, (error) => {
-    if (error) {
+  // const logs = data.attributes;
+  axios.all([
+    await axios.put(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { data }, {
+      headers: {
+        // Authorization: process.env.VITE_API_TOKEN,
+        Authorization: import.meta.env.VITE_PUT_KEY,
+      },
+    }),
+    // // Ecriture des logs:
+    // await axios.post(`https://guide.centresrelier.org/bd/api/organismes/${route.params.id}`, { logs }, {
+    //   headers: {
+    //     Authorization: process.env.VITE_API_TOKEN,
+    //   },
+    // }),
+  ])
+    .then(() => {
       $q.notify({
-        message: 'L\'organisme n\'a pas été créé',
-        caption: 'Un problème est survenu',
-        color: 'red-9',
+        message: 'L\'organisme a bien été modifié',
+        caption: 'Votre organisme est soumis à la validation et sera en ligne rapidement',
+        color: 'green-9',
         position: 'top',
+        timeout: 8000,
       });
-    }
-  });
+    }, (error) => {
+      if (error) {
+        $q.notify({
+          message: 'L\'organisme n\'a pas été modifié',
+          caption: 'Un problème est survenu',
+          color: 'red-9',
+          position: 'top',
+        });
+      }
+    });
 }
-</script>
 
+function setDefaultDescription() {
+  if (organisme.value.description === null) {
+    const data = organisme.value.defaultDescription.data.attributes.description;
+    organisme.value.description = data;
+  }
+}
+
+function setButtonsStates() {
+  const initialData = {
+    ages: organisme.value.age,
+    thematiques: organisme.value.thematique,
+    perimetre: organisme.value.perimeter,
+  };
+  store.setInitialSelectedButtons(initialData);
+}
+
+const getDataById = async () => {
+  try {
+    const dataOrganisme = await axios.get(`${SERVER_PATH}/bd/api/organismes/${route.params.id}?populate=reseau.logo,thematiques,perimetre,ages,img`);
+    const data = dataOrganisme.data.data.attributes;
+    organisme.value.title = data.nom;
+    organisme.value.defaultDescription = data.reseau;
+    organisme.value.website = data.website;
+    organisme.value.imageDefault = data.img;
+    organisme.value.postalCode = data.code_postal;
+    organisme.value.thematique = Object.values(data.thematiques.data
+      .map((age) => ({
+        ...age,
+        name: age.attributes.thematiques,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.age = Object.values(data.ages.data
+      .map((age) => ({
+        ...age,
+        name: age.attributes.age,
+      })).reduce((a, b) => ({ ...a, [b.id]: b.name }), []));
+    organisme.value.perimeter = data.perimetre
+      .data.attributes.perimetre;
+    setDefaultDescription();
+    setButtonsStates();
+  } catch (error) {
+    $q.notify({
+      message: 'Erreur lors du chargement des données',
+      caption: 'Merci de réesayer ultérieurement',
+      color: 'red-9',
+      position: 'top',
+    });
+  }
+};
+onMounted(() => {
+  getDataById();
+});
+
+</script>
 <style lang="scss" scoped>
 .head {
   height: 128px;
@@ -499,6 +559,14 @@ h6 {
   user-select: none;
 }
 
+h5 {
+  margin: 5px 0 5px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: $accent;
+  user-select: none;
+}
+
 .obligatory {
   color: red;
   font-size: 24px;
@@ -514,7 +582,9 @@ h6 {
   max-width: 500px;
   font-size: 18px;
   padding-left: 10px;
+  padding-right: 10px;
   margin-right: 10px;
+  overflow: hidden;
 }
 
 .card-organism {

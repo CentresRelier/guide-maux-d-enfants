@@ -1,16 +1,18 @@
 <template>
-  <p
-    class="coordinates"
-    v-for="(item, index) in formated.slice(0, numbers)"
-    :key="index"
-  >
-    <a v-if="$q.screen.lt.sm" :href="`${name}:` + item">{{ item }}</a>
-    <span v-else>{{ item }}</span>
-  </p>
-  <div v-if="formated.length > 3" class="icon-container">
-    <div class="container" @click="toggleActiveState(props.name)">
-      <q-icon v-if="!isActive" class="img-plus" name="add" size="25px"></q-icon>
-      <q-icon v-if="isActive" class="img-plus" name="remove" size="25px"></q-icon>
+  <div>
+    <p
+      class="coordinates"
+      v-for="(item, index) in formated.slice(0, numbers)"
+      :key="index"
+    >
+      <a v-if="$q.screen.lt.sm" :href="`${name}:` + item">{{ item }}</a>
+      <span v-else>{{ item }}</span>
+    </p>
+    <div v-if="formated.length > 3" class="icon-container">
+      <div class="container" @click="toggleActiveState(props.name)">
+        <q-icon v-if="!isActive" class="img-plus" name="add" size="25px"></q-icon>
+        <q-icon v-if="isActive" class="img-plus" name="remove" size="25px"></q-icon>
+      </div>
     </div>
   </div>
 </template>

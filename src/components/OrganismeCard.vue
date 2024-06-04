@@ -216,6 +216,8 @@ const perimeters = ref([
 
 .img {
   height: 100%;
+  max-height: 100%;
+  max-width: 100%;
   max-height: 172px;
   min-height: 172px;
   object-fit: contain;
