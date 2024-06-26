@@ -4,6 +4,7 @@
             :placeholder="inputMess ? inputMess : 'Entrez le nom de votre organisme'"
             borderless
             @update:model-value="searchOrganismes"
+            :disable="editing"
     >
     <!-- Entrez le nom de votre organisme -->
       <template v-slot:prepend>
@@ -42,6 +43,7 @@ import axios from 'axios';
 const props = defineProps({
   reset: Boolean,
   inputMess: {},
+  editing: Boolean,
 });
 
 const searchResults = ref([]);
@@ -121,6 +123,10 @@ function cleanSearch() {
 watchEffect(() => {
   if (props.reset === true) {
     cleanSearch();
+  }
+  if (props.editing) {
+    isValid.value = true;
+    isInvalid.value = false;
   }
 });
 </script>

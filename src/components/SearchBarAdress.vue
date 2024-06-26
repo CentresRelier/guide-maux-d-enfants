@@ -7,7 +7,7 @@
       <q-icon name="room" class="search-button icon-search q-pl-sm"/>
     </template>
     <template v-slot:append>
-      <q-icon v-if="query.length > 1" name="close" class="search-button q-pr-sm cursor-pointer"
+      <q-icon v-if="query.length >= 1" name="close" class="search-button q-pr-sm cursor-pointer"
               @click="cleanSearch"/>
       <q-icon name="search" class="search-button q-pr-sm cursor-pointer"
                 @click="searchAddress"/>

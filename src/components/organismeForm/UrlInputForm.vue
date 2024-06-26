@@ -57,6 +57,9 @@ watchEffect(() => {
   if (props.reset === true) {
     cleanInput();
   }
+  if (props.inputMess) {
+    text.value = props.inputMess;
+  }
 });
 </script>
 

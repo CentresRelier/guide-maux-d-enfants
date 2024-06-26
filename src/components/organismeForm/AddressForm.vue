@@ -38,7 +38,9 @@
 </template>
 
 <script setup>
-import { ref, watch, watchEffect } from 'vue';
+import {
+  ref, watch, watchEffect,
+} from 'vue';
 import axios from 'axios';
 
 const postalCode = ref('');
@@ -57,13 +59,15 @@ const props = defineProps({
 
 const emit = defineEmits(['address']);
 
-function selectPostalCode() {
+function selectPostalCode(noemit = false) {
   address.value.code_postal = searchResults.value[0].codePostal;
   address.value.commune = searchResults.value[0].nomCommune;
   postalCode.value = `${searchResults.value[0].codePostal} - ${searchResults.value[0].nomCommune}`;
   searchResults.value = [];
   isValidPostalcode.value = true;
-  emit('address', { data: address.value, isValid: true });
+  if (!(noemit === true)) {
+    emit('address', { data: address.value, isValid: true });
+  }
 }
 
 const searchCity = async () => {
@@ -97,11 +101,23 @@ function cleanSearch() {
   emit('address', { data: {}, isValid: false });
 }
 
+const hasRan = ref(false);
+
 watchEffect(() => {
   if (props.reset === true) {
     cleanSearch();
   }
+  if (props.inputMess && !hasRan.value) {
+    postalCode.value = props.inputMess;
+    searchCity().then(
+      () => {
+        selectPostalCode(true);
+        hasRan.value = true;
+      },
+    );
+  }
 });
+
 </script>
 
 <style scoped lang="scss">
