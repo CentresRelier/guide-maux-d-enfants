@@ -22,15 +22,15 @@
             <div class="row row-mobile">
               <div class="col-12">
                 <div class="row">
-                  <h6>Taper le nom de votre organisme</h6>
-                  <p class="obligatory">*</p>
+                  <h6>Organisme:</h6>
+                  <!-- <p class="obligatory">*</p> -->
                 </div>
                 <div class="row">
                 </div>
-                <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p>
+                <!-- <p>si votre organisme est présent dans la liste il est déjà enregistré sur le guide</p> -->
               </div>
               <div class="col-12">
-                <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title"/>
+                <SearchOrganismeForm @name="getName" :reset="reset" :inputMess="organisme.title" :editing="true"/>
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@
         <q-btn class="absolute-center button q-mt-xl"
               type="submit"
               rounded
-              :disable="!isFormValid"
+              :disable="!isFormValid || !isDirty"
               size="md">
           <p class="submit-text">MODIFIER</p>
         </q-btn>
@@ -200,12 +200,11 @@ const headTitle = ref('Modifier un organisme existant\n'
   + 'Le guide maux d\'enfants mode d\'emploi est réservé aux services gratuits');
 
 const organismeValidation = ref({
-  nom: false,
-  websrc: false,
-  code_postal: false,
-  commune: false,
+  websrc: true,
+  code_postal: true,
+  commune: true,
+  reseau: true,
   catcha: false,
-  reseau: false,
 });
 
 const reset = ref(false);
@@ -339,6 +338,8 @@ const organisme = ref({
 //   publishedAt: null,
 // });
 
+const isDirty = ref(false);
+
 function updateArray(array, item, selected) {
   const index = array.indexOf(item);
   if (selected && index === -1) {
@@ -346,6 +347,7 @@ function updateArray(array, item, selected) {
   } else if (!selected && index !== -1) {
     array.splice(index, 1);
   }
+  isDirty.value = true;
 }
 
 const selectedPerimeter = ref('');
@@ -353,6 +355,7 @@ const selectedPerimeter = ref('');
 function updatePerimeter(buttonText) {
   selectedPerimeter.value = buttonText;
   organisme.value.perimetre = { connect: [buttonText] };
+  isDirty.value = true;
 }
 
 function updateAge({ text, selected }) {
@@ -365,16 +368,18 @@ function updateThematique({ text, selected }) {
 
 function getName(data) {
   organisme.value.nom = data.data;
-  organismeValidation.value.nom = data.isValid === true;
+  // organismeValidation.value.nom = data.isValid === true;
 }
 
 function getNetwork(data) {
   organisme.value.reseau = data.data;
   organismeValidation.value.reseau = data.isValid === true;
+  isDirty.value = true;
 }
 function getUrl(data) {
   organisme.value.websrc = data.data;
   organismeValidation.value.websrc = data.isValid === true;
+  isDirty.value = true;
 }
 
 function getAddress(data) {
@@ -382,6 +387,7 @@ function getAddress(data) {
   organisme.value.commune = data.data.commune;
   organismeValidation.value.code_postal = data.isValid === true;
   organismeValidation.value.commune = data.isValid === true;
+  isDirty.value = true;
 }
 
 function getCaptcha(data) {
